@@ -1,19 +1,153 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
-<title>sappt</title>
-<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
-<link rel="stylesheet" type="text/css" href="/templates/css/css.css">
-<meta name="description" content="gabia,가비아,도메인,domain,도메인등록">
-<meta name="keywords" content="gabia,가비아,도메인,domain,도메인등록">
-<script language="javascript" src="/templates/Javascript/Move.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135186223-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-135186223-1');
+</script>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>sappt</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+
+
 </head>
-<body leftmargin="0" topmargin="0">
-<div style="text-align:center; background:#ececec;">
-<img src="images/img_top_04.gif" style="vertical-align:top;" alt=""><br>
-</div>
+
+<body>
+
+	<header>
+		<h2><a href="#">sappt</a></h2>
+		<nav>
+			<li><a href="#">Home</a></li>
+			<!--
+			<li><a href="#">Products</a></li>
+			<li><a href="#">About</a></li>
+			-->
+			<li><a href="#">Contacts</a></li>
+		</nav>
+	</header>
+
+
+	<section class="hero">
+		<div class="background-image" style="background-image: url(assets/img/hero.jpg);"></div>
+		<!--
+		<h1>Responsive Flexbox Template</h1>
+		<h3>A freebie by Tutorialzine.</h3>
+		-->
+	</section>
+
+<!--
+	<section class="our-work">
+		<h3 class="title">Some of our work</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
+		<hr>
+
+		<ul class="grid">
+			<li class="small" style="background-image: url(assets/img/coast.jpg);"></li>
+			<li class="large" style="background-image: url(assets/img/island.jpg);"></li>
+			<li class="large" style="background-image: url(assets/img/balloon.jpg);"></li>
+			<li class="small" style="background-image: url(assets/img/mountain.jpg);"></li>
+		</div>
+	</section>
+	
+
+	<section class="features">
+		<h3 class="title">Features and services</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
+		<hr>
+
+		<ul class="grid">
+			<li>
+				<i class="fa fa-camera-retro"></i>
+				<h4>Photography</h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
+			</li>
+			<li>
+				<i class="fa fa-cubes"></i>
+				<h4>Web Development</h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
+			</li>
+			<li>
+				<i class="fa fa-newspaper-o"></i>
+				<h4>Content Editing</h4>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices vitae pulvinar velit.</p>
+			</li>
+		</div>
+	</section>
+
+
+	<section class="reviews">
+		<h3 class="title">What others say:</h3>
+
+		<p class="quote">Mauris sit amet mauris a arcu eleifend ultricies eget ut dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+		<p class="author">— Patrick Farrell</p>
+
+		<p class="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id felis et ipsum bibendum ultrices. Morbi vitae pulvinar velit. Sed aliquam dictum sapien, id sagittis augue malesuada eu.</p>
+		<p class="author">— George Smith</p>
+
+		<p class="quote">Donec commodo dolor augue, vitae faucibus tortor tincidunt in. Aliquam vitae leo quis mi pulvinar ornare. Integer eu iaculis metus.</p>
+		<p class="author">— Kevin Blake</p>
+
+		
+	</section>
+-->
+
+	<section class="contact">
+		<h3 class="title">Contact Us</h3>	
+		<p>경기 용인시 처인구 백암면 백원로 491 (17177)</p>
+		<hr>
+
+ 
+<div class="mobile_map">
+
+<!-- * 카카오맵 - 지도퍼가기 -->
+<!-- 1. 지도 노드 -->
+<div id="daumRoughmapContainer1551194028954" class="root_daum_roughmap root_daum_roughmap_landing" ></div>
+
+<!--
+	2. 설치 스크립트
+	* 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+-->
+<script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+<!-- 3. 실행 스크립트 -->
+<script charset="UTF-8">
+	new daum.roughmap.Lander({
+		"timestamp" : "1551194028954",
+		"key" : "se9u",
+		"mapWidth" : "640",
+		"mapHeight" : "360"
+	}).render();
+</script>
+
+
+</div><!--.mobile_map -->
+
+
+	</section>
+
+	<footer>
+		<ul>
+			<li>sappt</li>
+		</ul>
+		<p>샤프트리서치 | 김대호</p>
+		<p>경기 용인시 처인구 백암면 백원로 491 (17177)</p>
+		<p>tel : 031-336-3973  |  fax : 031-336-3972  |  sappt@sappt.co.kr</p>
+	</footer>
+
 </body>
+
 </html>
-
-
-
