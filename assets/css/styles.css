@@ -320,7 +320,7 @@ header nav li:last-child{
 --------------------*/
 
 .reviews{
-	background-color: #fff;
+	background-color: #f7f7f7;
 }
 
 .reviews .quote{
@@ -359,9 +359,13 @@ header nav li:last-child{
 /*--------------------
  	board Section
 --------------------*/
+.container1 {
+	display: flex;
+	justify-content: center;
+}
 
 .board{
-	background-color: #F5FFE7;
+	background-color: #fff;
 }
 
 .board .grid li{

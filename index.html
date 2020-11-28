@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<!-- Global site tag (gtag.js) - Google Analytics  --  START -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135186223-1"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
@@ -10,6 +10,7 @@
 
 	  gtag('config', 'UA-135186223-1');
 	</script>
+	<!-- Global site tag (gtag.js) - Google Analytics  --  END -->
 
 
     <meta charset="utf-8">
@@ -23,10 +24,63 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 	<!-- favicon추가 -->
     <link rel="shortcut icon" href="assets/ico/sappt.ico" type="image/x-icon">
-    <link rel="icon"          href="assets/ico/sappt.ico" type="image/x-icon">
+	<link rel="icon"          href="assets/ico/sappt.ico" type="image/x-icon">
+
+	<!-- jqgrid  --  START -->
+    <!-- The jQuery library is a prerequisite for all jqSuite products -->
+    <script type="text/ecmascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <!-- This is the Javascript file of jqGrid -->   
+    <script type="text/ecmascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/5.5.1/js/jquery.jqGrid.min.js"></script>
+    <!-- This is the localization file of the grid controlling messages, labels, etc. -->
+    <!-- We support more than 40 localizations --> 
+    <script type="text/ecmascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/5.4.0/js/i18n/grid.locale-kr.js"></script>
+    <!-- A link to a jQuery UI ThemeRoller theme, more than 22 built-in and many more custom -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <!-- The link to the CSS that the grid needs -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/5.5.1/css/ui.jqgrid.min.css" />
+
+ 	<!-- http://www.guriddo.net/demo/guriddojs/  -->  
+	<!-- jqgrid  --  END -->
+
+
+
 </head>
 
 <body>
+	<script type="text/javascript"> 
+	
+		$(document).ready(function () {
+	
+				$("#jqGrid").jqGrid({
+				url: 'https://www.sappt.co.kr/assets/json/sapptSicknessDic.json',
+				datatype: "json"
+				,colNames00000 : ['제목','Contents','File','FileUrl' ]
+				,colModel: [
+					{ label: '제목', name: 'TitleName', width: 200 }
+					,{ label: '파일', name: 'FileUrl', width: 20,align : 'center',formatter: pdfFormatImage }
+				]
+				,viewrecords: false 
+				,width: 800
+				,height: 200
+				,rowNum: 999999
+				,loadonce: true // this is just for the demo
+				,rownumbers : true
+				,rownumWidth : 25
+				,pager: "#jqGridPager"
+			
+			});
+	
+	
+			function pdfFormatImage(cellValue, options, rowObject) {
+			 var imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='https://icons.iconarchive.com/icons/hopstarter/soft-scraps/16/Adobe-PDF-Document-icon.png' /></a>";
+			 return imageHtml;
+			}
+	
+	
+		});
+	
+	
+	 </script>
     <!-- 참고  -->
     <!-- https://demo.tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox   -->
 	<!-- https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_carousel&stacked=h -->
@@ -86,6 +140,10 @@
     <!-- 게시판 -->	
 	<section class="board">
 		<h3 class="title">식물 병충해 도감</h3>
+		<div class="container1"> 
+			<table id="jqGrid"  ></table>
+			<div id="jqGridPager"></div>
+		</div>
 	</section>
 	
 
