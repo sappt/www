@@ -359,7 +359,7 @@ header nav li:last-child{
 /*--------------------
  	board Section
 --------------------*/
-.container1 {
+.gridContainer {
 	display: flex;
 	justify-content: center;
 }

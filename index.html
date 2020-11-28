@@ -42,40 +42,67 @@
  	<!-- http://www.guriddo.net/demo/guriddojs/  -->  
 	<!-- jqgrid  --  END -->
 
-
-
 </head>
 
 <body>
 	<script type="text/javascript"> 
 	
+
+
 		$(document).ready(function () {
-	
+
 				$("#jqGrid").jqGrid({
 				url: 'https://www.sappt.co.kr/assets/json/sapptSicknessDic.json',
 				datatype: "json"
 				,colNames00000 : ['제목','Contents','File','FileUrl' ]
 				,colModel: [
-					{ label: '제목', name: 'TitleName', width: 200 }
+				     { label: '제목', name: 'TitleName' }
 					,{ label: '파일', name: 'FileUrl', width: 20,align : 'center',formatter: pdfFormatImage }
 				]
 				,viewrecords: false 
-				,width: 800
+				//,autowidth: true
+				//,width : 500
 				,height: 200
 				,rowNum: 999999
-				,loadonce: true // this is just for the demo
+				//,loadonce: true // this is just for the demo
 				,rownumbers : true
 				,rownumWidth : 25
 				,pager: "#jqGridPager"
 			
 			});
 	
+	        resizeJqGridWidth('jqGrid', 'gridContainer', $('#gridContainer').width(), true); //사이즈 조정 함수 . 아래 첨부
+ 
 	
 			function pdfFormatImage(cellValue, options, rowObject) {
 			 var imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='https://icons.iconarchive.com/icons/hopstarter/soft-scraps/16/Adobe-PDF-Document-icon.png' /></a>";
 			 return imageHtml;
 			}
+
+
+			/*
+			* @param string grid_id 사이즈를 변경할 그리드의 아이디
+			* @param string div_id 그리드의 사이즈의 기준을 제시할 div 의 아이디
+			* @param string width 그리드의 초기화 width 사이즈
+			* @param boolean tf 그리드의 리사이즈 여부(true/false)
+			*/
+			function resizeJqGridWidth(grid_id, div_id, width, tf){
+				//alert('1/'+width+"/"+ $('#gridContainer').width() );
+				// window에 resize 이벤트를 바인딩 한다. 
+				$(window).bind('resize', function() {
+				var resizeWidth = $('#gridContainer').width()-33; //jQuery-ui의 padding 설정 및 border-width값때문에 넘치는 걸 빼줌.
+					// 그리드의 width 초기화
+					$('#' + grid_id).setGridWidth( resizeWidth, tf);
+					// 그리드의 width를 div 에 맞춰서 적용
+					$('#' + grid_id).setGridWidth( resizeWidth , tf); //Resized to new width as per window. 
+				}).trigger('resize');
+			}
+
+			
 	
+			//$(window).resize(function(){
+               //$("#jqGrid").setGridWidth($(this).width() * .90);//grid는 창 전체크기의 %
+            //});
 	
 		});
 	
@@ -140,9 +167,9 @@
     <!-- 게시판 -->	
 	<section class="board">
 		<h3 class="title">식물 병충해 도감</h3>
-		<div class="container1"> 
-			<table id="jqGrid"  ></table>
-			<div id="jqGridPager"></div>
+		<div class="gridContainer"  id="gridContainer"  style="width:100%;"> 
+			<table id="jqGrid"      style="width:100%;" ></table>
+			<div   id="jqGridPager" style="width:100%;" ></div>
 		</div>
 	</section>
 	
