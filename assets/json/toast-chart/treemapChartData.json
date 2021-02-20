@@ -1,28 +1,58 @@
 {
-        series: [
-        {
-            label: '살균제',
-            children: [
-              { label: '균-준비' , data: 5, },
-              { label: '균-진행'   , data: 10,  },
-              { label: '균-완료'   , data: 8, },
-            ],
-          },
-          {
-            label: '살충제',
-            children: [
-              { label: '충-준비' , data: 0, },
-              { label: '충-진행'   , data: 0,  },
-              { label: '충-완료'   , data: 2, },
-            ],
-          },
-          {
-            label: '제초제',
-            children: [
-              { label: '초-준비' , data: 0, colorValue: 0},
-              { label: '초-진행'   , data: 5,  colorValue: 50},
-              { label: '초-완료'   , data: 1,  colorValue: 100},
-            ],
-          },
-        ],
+   "series":[
+      {
+         "label":"살균제",
+         "children":[
+            {
+               "label":"균-준비",
+               "data":5
+            },
+            {
+               "label":"균-진행",
+               "data":10
+            },
+            {
+               "label":"균-완료",
+               "data":8
+            }
+         ]
+      },
+      {
+         "label":"살충제",
+         "children":[
+            {
+               "label":"충-준비",
+               "data":0
+            },
+            {
+               "label":"충-진행",
+               "data":0
+            },
+            {
+               "label":"충-완료",
+               "data":2
+            }
+         ]
+      },
+      {
+         "label":"제초제",
+         "children":[
+            {
+               "label":"초-준비",
+               "data":0,
+               "colorValue":0
+            },
+            {
+               "label":"초-진행",
+               "data":5,
+               "colorValue":50
+            },
+            {
+               "label":"초-완료",
+               "data":1,
+               "colorValue":100
+            }
+         ]
       }
+   ]
+}
