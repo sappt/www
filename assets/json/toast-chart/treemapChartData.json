@@ -22,11 +22,11 @@
          "children":[
             {
                "label":"충-준비",
-               "data":0
+               "data":8
             },
             {
                "label":"충-진행",
-               "data":0
+               "data":3
             },
             {
                "label":"충-완료",
@@ -39,7 +39,7 @@
          "children":[
             {
                "label":"초-준비",
-               "data":0,
+               "data":10,
                "colorValue":0
             },
             {
@@ -49,7 +49,7 @@
             },
             {
                "label":"초-완료",
-               "data":1,
+               "data":9,
                "colorValue":100
             }
          ]
