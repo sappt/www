@@ -1,0 +1,30 @@
+{
+  "cols" : [
+              {"id":""   ,"label":"ID"      ,"pattern":""   ,"type":"string"}    
+             ,{"id":""   ,"label":"Parent"  ,"pattern":""   ,"type":"string"}
+             ,{"id":""   ,"label":"CNT"     ,"pattern":""   ,"type":"number"}
+            ]
+ ,"rows":[
+              {"c":[{"v":"ALL"     ,"f":null}   ,{"v":null   ,"f":null}    ,{"v":0   ,"f":null}]}
+              
+             ,{"c":[{"v":"살균제"     ,"f":null}   ,{"v":"ALL"   ,"f":null}    ,{"v":null   ,"f":null}]}              
+             ,{"c":[{"v":"살충제"     ,"f":null}   ,{"v":"ALL"   ,"f":null}    ,{"v":null   ,"f":null}]}             
+             ,{"c":[{"v":"제초제"     ,"f":null}   ,{"v":"ALL"   ,"f":null}   ,{"v":null   ,"f":null}]}   
+             
+              
+             ,{"c":[{"v":"1_준비"     ,"f":null}   ,{"v":"살균제"   ,"f":null}    ,{"v":9   ,"f":null}]}              
+             ,{"c":[{"v":"1_진행"     ,"f":null}   ,{"v":"살균제"   ,"f":null}    ,{"v":20   ,"f":null}]}             
+             ,{"c":[{"v":"1_완료"     ,"f":null}   ,{"v":"살균제"   ,"f":null}   ,{"v":5   ,"f":null}]}   
+             
+              
+             ,{"c":[{"v":"2_준비"     ,"f":null}   ,{"v":"살충제"   ,"f":null}    ,{"v":19   ,"f":null}]}              
+             ,{"c":[{"v":"2_진행"     ,"f":null}   ,{"v":"살충제"   ,"f":null}    ,{"v":10   ,"f":null}]}             
+             ,{"c":[{"v":"2_완료"     ,"f":null}   ,{"v":"살충제"   ,"f":null}   ,{"v":3   ,"f":null}]}   
+ 
+               
+             ,{"c":[{"v":"3_준비"     ,"f":null}   ,{"v":"제초제"   ,"f":null}    ,{"v":22   ,"f":null}]}              
+             ,{"c":[{"v":"3_진행"     ,"f":null}   ,{"v":"제초제"   ,"f":null}    ,{"v":1   ,"f":null}]}             
+             ,{"c":[{"v":"3_완료"     ,"f":null}   ,{"v":"제초제"   ,"f":null}   ,{"v":7   ,"f":null}]}   
+ 
+          ]
+}
