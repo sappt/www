@@ -84,6 +84,8 @@
 			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ pdfIconPath +"' /></a>";
 			} else if ( cellValue.slice(-4, cellValue.length).toUpperCase() == ".JPG"  ) {
 			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' /></a>";
+			} else {
+			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' /></a>";
 			}
 				
 			 return imageHtml;
