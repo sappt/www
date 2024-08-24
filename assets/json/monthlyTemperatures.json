@@ -25,7 +25,7 @@
     { "region": "Daegu", "month": "Nov", "temperature": 9 },
     { "region": "Daegu", "month": "Dec", "temperature": 2 },
 
-    { "region": "Busan", "month": "Jan", "temperature": 4 },
+    { "region": "Busan", "month": "Jan", "temperature": 9 },
     { "region": "Busan", "month": "Feb", "temperature": 6 },
     { "region": "Busan", "month": "Mar", "temperature": 10 },
     { "region": "Busan", "month": "Apr", "temperature": 15 },
