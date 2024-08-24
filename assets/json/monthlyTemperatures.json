@@ -36,5 +36,18 @@
     { "region": "Busan", "month": "Sep", "temperature": 23 },
     { "region": "Busan", "month": "Oct", "temperature": 18 },
     { "region": "Busan", "month": "Nov", "temperature": 12 },
-    { "region": "Busan", "month": "Dec", "temperature": 6 }
+    { "region": "Busan", "month": "Dec", "temperature": 6 },
+    
+    { "region": "Daegu", "month": "Jan", "temperature": 11 },
+    { "region": "Daegu", "month": "Feb", "temperature": 16 },
+    { "region": "Daegu", "month": "Mar", "temperature": 20 },
+    { "region": "Daegu", "month": "Apr", "temperature": 25 },
+    { "region": "Daegu", "month": "May", "temperature": 19 },
+    { "region": "Daegu", "month": "Jun", "temperature": 22 },
+    { "region": "Daegu", "month": "Jul", "temperature": 28 },
+    { "region": "Daegu", "month": "Aug", "temperature": 30 },
+    { "region": "Daegu", "month": "Sep", "temperature": 33 },
+    { "region": "Daegu", "month": "Oct", "temperature": 34 },
+    { "region": "Daegu", "month": "Nov", "temperature": 35 },
+    { "region": "Daegu", "month": "Dec", "temperature": 33 }
 ]
