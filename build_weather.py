@@ -2,7 +2,7 @@ import requests
 import json
 import datetime
 
-# 1. 설정: 지역 정보 (이름, 위도, 경도) + w3.html의 지도상 위치 (top, left)
+# 1. 설정: 지역 정보
 LOCATIONS = [
     {"name": "서울", "lat": 37.5665, "lon": 126.9780, "top": 15, "left": 28},
     {"name": "춘천", "lat": 37.8813, "lon": 127.7298, "top": 10, "left": 45},
@@ -23,20 +23,23 @@ def get_weather_type(code):
     return "rainy"
 
 def fetch_weather_data():
-    """API 데이터 수집"""
     print(">>> 날씨 데이터 수집 시작")
     final_data = []
 
     for loc in LOCATIONS:
+        # daily API 호출 (최저/최고 기온 포함)
         url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7"
         
         try:
             res = requests.get(url).json()
             daily = res['daily']
             
+            # 1. 오늘 날씨 (지도 마커용) - 최저/최고 기온 분리
             today_code = daily['weathercode'][0]
-            today_temp = round((daily['temperature_2m_max'][0] + daily['temperature_2m_min'][0]) / 2)
+            today_max = round(daily['temperature_2m_max'][0])
+            today_min = round(daily['temperature_2m_min'][0])
             
+            # 2. 주간 예보 (테이블용)
             weekly_forecast = []
             for i in range(7):
                 d_date = daily['time'][i]
@@ -51,15 +54,15 @@ def fetch_weather_data():
                     "date": fmt_date,
                     "type": get_weather_type(w_code),
                     "temp_max": w_max,
-                    "temp_min": w_min,
-                    "avg": round((w_max + w_min) / 2)
+                    "temp_min": w_min
                 })
 
             city_data = {
                 "name": loc['name'],
                 "top": loc['top'],
                 "left": loc['left'],
-                "current_temp": today_temp,
+                "today_max": today_max,  # 최고기온 추가
+                "today_min": today_min,  # 최저기온 추가
                 "current_type": get_weather_type(today_code),
                 "weekly": weekly_forecast
             }
@@ -70,20 +73,19 @@ def fetch_weather_data():
             print(f"{loc['name']} 에러: {e}")
             final_data.append({
                 "name": loc['name'], "top": loc['top'], "left": loc['left'],
-                "current_temp": 0, "current_type": "cloudy", "weekly": []
+                "today_max": 0, "today_min": 0, "current_type": "cloudy", "weekly": []
             })
 
     return final_data
 
 def generate_html(weather_data):
-    # 1. 한국 시간(KST) 계산: UTC + 9시간
+    # 한국 시간 계산
     utc_now = datetime.datetime.utcnow()
     kst_now = utc_now + datetime.timedelta(hours=9)
     server_time_str = kst_now.strftime("%Y-%m-%d %H:%M:%S")
 
     json_data = json.dumps(weather_data, ensure_ascii=False)
 
-    # 2. HTML 템플릿
     html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
@@ -100,7 +102,7 @@ def generate_html(weather_data):
             display: flex;
             flex-direction: column;
             height: 100vh;
-            position: relative; /* 우측 하단 배치를 위해 필요 */
+            position: relative; 
         }}
 
         header {{
@@ -162,21 +164,40 @@ def generate_html(weather_data):
         
         .forecast-cell {{ display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }}
         .mini-icon svg {{ width: 24px; height: 24px; }}
-        .mini-temp {{ font-size: 0.75rem; color: #555; font-weight: 600; }}
-        .forecast-table-container::-webkit-scrollbar {{ width: 6px; height: 6px; }}
-        .forecast-table-container::-webkit-scrollbar-track {{ background: transparent; }}
-        .forecast-table-container::-webkit-scrollbar-thumb {{ background: #dcdcdc; border-radius: 3px; }}
+        
+        /* 최저/최고 기온 스타일 (테이블용) */
+        .mini-temp {{ font-size: 0.75rem; color: #555; font-weight: 600; white-space: nowrap; }}
+        .t-min {{ color: #3498db; }}
+        .t-max {{ color: #e74c3c; }}
 
         .marker {{ position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10; }}
         .weather-svg {{ width: 45px; height: 45px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15)); }}
-        .info-box {{ background: rgba(255, 255, 255, 0.95); border: 2px solid #dde1e6; padding: 3px 12px; border-radius: 20px; margin-top: -2px; font-size: 1.1rem; font-weight: 900; color: #333; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap; }}
-        .temp {{ color: #e67e22; margin-left: 4px; }}
-
-        /* --- 추가된 CSS: 우측 하단 업데이트 시간 --- */
+        
+        /* 마커 정보창 스타일 수정 (내용이 길어져서 자동 너비 조정) */
+        .info-box {{ 
+            background: rgba(255, 255, 255, 0.95); 
+            border: 2px solid #dde1e6; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            margin-top: -2px; 
+            font-size: 1.0rem; /* 글씨 크기 약간 축소 */
+            font-weight: 800; 
+            color: #333; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            white-space: nowrap;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }}
+        
+        /* 마커 내 온도 색상 */
+        .marker-temps {{ font-size: 0.95rem; }}
+        
+        /* --- [변경] 업데이트 시간 위치: 우측 하단 -> 좌측 하단 --- */
         .server-time {{
             position: absolute;
-            bottom: 10px;
-            right: 20px;
+            bottom: 20px;       /* 하단 여백 */
+            left: 20px;         /* 좌측 여백 (기존 right에서 변경) */
             color: #95a5a6;
             font-size: 0.8rem;
             font-weight: 600;
@@ -185,6 +206,7 @@ def generate_html(weather_data):
             border-radius: 15px;
             z-index: 999;
             pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }}
 
         @keyframes float {{
@@ -226,7 +248,7 @@ def generate_html(weather_data):
         </div>
     </div>
 
-    <div class="server-time">Data Updated: {server_time_str}</div>
+    <div class="server-time">Last Update: {server_time_str}</div>
 
     <script>
         const weatherData = {json_data}; 
@@ -261,12 +283,16 @@ def generate_html(weather_data):
                 el.style.left = city.left + '%';
                 const delay = (Math.random() * 2).toFixed(2);
 
+                // [변경] 표시 내용: 최저/최고 기온 표시 (파란색/빨간색)
                 el.innerHTML = `
                     <div class="weather-svg" style="animation-delay: -${{delay}}s">
                         ${{getIconSvg(city.current_type)}}
                     </div>
                     <div class="info-box">
-                        ${{city.name}} <span class="temp">${{city.current_temp}}°</span>
+                        <span>${{city.name}}</span>
+                        <span class="marker-temps">
+                            <span class="t-min">${{city.today_min}}°</span>/<span class="t-max">${{city.today_max}}°</span>
+                        </span>
                     </div>
                 `;
                 container.appendChild(el);
@@ -294,10 +320,13 @@ def generate_html(weather_data):
 
                 city.weekly.forEach(day => {{
                     const td = document.createElement('td');
+                    // [변경] 주간 예보에도 최저/최고 모두 표시
                     td.innerHTML = `
                         <div class="forecast-cell">
                             <div class="mini-icon">${{getIconSvg(day.type)}}</div>
-                            <div class="mini-temp">${{day.avg}}°</div>
+                            <div class="mini-temp">
+                                <span class="t-min">${{day.temp_min}}°</span>/<span class="t-max">${{day.temp_max}}°</span>
+                            </div>
                         </div>
                     `;
                     tr.appendChild(td);
