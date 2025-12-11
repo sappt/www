@@ -1,0 +1,36 @@
+name: Daily Weather Update
+
+on:
+  schedule:
+    # 매일 한국 시간 아침 6시 실행 (UTC 21:00)
+    - cron: '0 21 * * *'
+  workflow_dispatch: # 수동 실행 버튼 추가
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v3
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 라이브러리 설치
+        run: pip install requests
+
+      - name: 날씨 HTML 생성
+        run: python build_weather.py
+
+      - name: 결과 커밋 및 푸시
+        run: |
+          git config --global user.name 'WeatherBot'
+          git config --global user.email 'bot@noreply.github.com'
+          git add daily_weather.html
+          git commit -m "Update weather: $(date)" || exit 0
+          git push
