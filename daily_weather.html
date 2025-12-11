@@ -14,7 +14,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            position: relative; /* 우측 하단 배치를 위해 필요 */
+            position: relative; 
         }
 
         header {
@@ -76,21 +76,40 @@
         
         .forecast-cell { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
         .mini-icon svg { width: 24px; height: 24px; }
-        .mini-temp { font-size: 0.75rem; color: #555; font-weight: 600; }
-        .forecast-table-container::-webkit-scrollbar { width: 6px; height: 6px; }
-        .forecast-table-container::-webkit-scrollbar-track { background: transparent; }
-        .forecast-table-container::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 3px; }
+        
+        /* 최저/최고 기온 스타일 (테이블용) */
+        .mini-temp { font-size: 0.75rem; color: #555; font-weight: 600; white-space: nowrap; }
+        .t-min { color: #3498db; }
+        .t-max { color: #e74c3c; }
 
         .marker { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10; }
         .weather-svg { width: 45px; height: 45px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15)); }
-        .info-box { background: rgba(255, 255, 255, 0.95); border: 2px solid #dde1e6; padding: 3px 12px; border-radius: 20px; margin-top: -2px; font-size: 1.1rem; font-weight: 900; color: #333; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap; }
-        .temp { color: #e67e22; margin-left: 4px; }
-
-        /* --- 추가된 CSS: 우측 하단 업데이트 시간 --- */
+        
+        /* 마커 정보창 스타일 수정 (내용이 길어져서 자동 너비 조정) */
+        .info-box { 
+            background: rgba(255, 255, 255, 0.95); 
+            border: 2px solid #dde1e6; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            margin-top: -2px; 
+            font-size: 1.0rem; /* 글씨 크기 약간 축소 */
+            font-weight: 800; 
+            color: #333; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            white-space: nowrap;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        /* 마커 내 온도 색상 */
+        .marker-temps { font-size: 0.95rem; }
+        
+        /* --- [변경] 업데이트 시간 위치: 우측 하단 -> 좌측 하단 --- */
         .server-time {
             position: absolute;
-            bottom: 10px;
-            right: 20px;
+            bottom: 20px;       /* 하단 여백 */
+            left: 20px;         /* 좌측 여백 (기존 right에서 변경) */
             color: #95a5a6;
             font-size: 0.8rem;
             font-weight: 600;
@@ -99,6 +118,7 @@
             border-radius: 15px;
             z-index: 999;
             pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         @keyframes float {
@@ -140,10 +160,10 @@
         </div>
     </div>
 
-    <div class="server-time">Data Updated: 2025-12-11 21:35:54</div>
+    <div class="server-time">Last Update: 2025-12-11 21:39:28</div>
 
     <script>
-        const weatherData = [{"name": "서울", "top": 15, "left": 28, "current_temp": 2, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 7, "temp_min": -4, "avg": 2}, {"date": "12.12", "type": "cloudy", "temp_max": 4, "temp_min": -5, "avg": 0}, {"date": "12.13", "type": "rainy", "temp_max": 2, "temp_min": -1, "avg": 0}, {"date": "12.14", "type": "snowy", "temp_max": 1, "temp_min": -3, "avg": -1}, {"date": "12.15", "type": "cloudy", "temp_max": 3, "temp_min": -4, "avg": 0}, {"date": "12.16", "type": "rainy", "temp_max": 9, "temp_min": 1, "avg": 5}, {"date": "12.17", "type": "rainy", "temp_max": 7, "temp_min": 0, "avg": 4}]}, {"name": "춘천", "top": 10, "left": 45, "current_temp": 3, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 9, "temp_min": -3, "avg": 3}, {"date": "12.12", "type": "cloudy", "temp_max": 4, "temp_min": -5, "avg": 0}, {"date": "12.13", "type": "snowy", "temp_max": 1, "temp_min": -3, "avg": -1}, {"date": "12.14", "type": "cloudy", "temp_max": 0, "temp_min": -6, "avg": -3}, {"date": "12.15", "type": "cloudy", "temp_max": 1, "temp_min": -7, "avg": -3}, {"date": "12.16", "type": "rainy", "temp_max": 4, "temp_min": -2, "avg": 1}, {"date": "12.17", "type": "rainy", "temp_max": 6, "temp_min": -3, "avg": 2}]}, {"name": "강릉", "top": 15, "left": 65, "current_temp": 6, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 12, "temp_min": 0, "avg": 6}, {"date": "12.12", "type": "rainy", "temp_max": 4, "temp_min": 0, "avg": 2}, {"date": "12.13", "type": "rainy", "temp_max": 7, "temp_min": 1, "avg": 4}, {"date": "12.14", "type": "cloudy", "temp_max": 5, "temp_min": -7, "avg": -1}, {"date": "12.15", "type": "cloudy", "temp_max": -1, "temp_min": -7, "avg": -4}, {"date": "12.16", "type": "cloudy", "temp_max": 3, "temp_min": -2, "avg": 0}, {"date": "12.17", "type": "rainy", "temp_max": 3, "temp_min": -2, "avg": 0}]}, {"name": "대전", "top": 35, "left": 38, "current_temp": 4, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 11, "temp_min": -2, "avg": 4}, {"date": "12.12", "type": "cloudy", "temp_max": 7, "temp_min": -7, "avg": 0}, {"date": "12.13", "type": "rainy", "temp_max": 4, "temp_min": -1, "avg": 2}, {"date": "12.14", "type": "cloudy", "temp_max": 3, "temp_min": -1, "avg": 1}, {"date": "12.15", "type": "cloudy", "temp_max": 6, "temp_min": -2, "avg": 2}, {"date": "12.16", "type": "cloudy", "temp_max": 10, "temp_min": 1, "avg": 6}, {"date": "12.17", "type": "cloudy", "temp_max": 9, "temp_min": 2, "avg": 6}]}, {"name": "대구", "top": 48, "left": 60, "current_temp": 7, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 2, "avg": 8}, {"date": "12.12", "type": "cloudy", "temp_max": 7, "temp_min": -2, "avg": 2}, {"date": "12.13", "type": "rainy", "temp_max": 7, "temp_min": 0, "avg": 4}, {"date": "12.14", "type": "cloudy", "temp_max": 4, "temp_min": -1, "avg": 2}, {"date": "12.15", "type": "cloudy", "temp_max": 8, "temp_min": -2, "avg": 3}, {"date": "12.16", "type": "cloudy", "temp_max": 10, "temp_min": -4, "avg": 3}, {"date": "12.17", "type": "cloudy", "temp_max": 11, "temp_min": 0, "avg": 6}]}, {"name": "전주", "top": 48, "left": 28, "current_temp": 6, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 0, "avg": 6}, {"date": "12.12", "type": "cloudy", "temp_max": 8, "temp_min": -5, "avg": 2}, {"date": "12.13", "type": "rainy", "temp_max": 5, "temp_min": 1, "avg": 3}, {"date": "12.14", "type": "rainy", "temp_max": 5, "temp_min": 1, "avg": 3}, {"date": "12.15", "type": "cloudy", "temp_max": 9, "temp_min": 0, "avg": 4}, {"date": "12.16", "type": "cloudy", "temp_max": 12, "temp_min": 3, "avg": 8}, {"date": "12.17", "type": "cloudy", "temp_max": 11, "temp_min": 3, "avg": 7}]}, {"name": "광주", "top": 60, "left": 25, "current_temp": 7, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 1, "avg": 7}, {"date": "12.12", "type": "cloudy", "temp_max": 10, "temp_min": -3, "avg": 4}, {"date": "12.13", "type": "rainy", "temp_max": 8, "temp_min": 3, "avg": 6}, {"date": "12.14", "type": "cloudy", "temp_max": 5, "temp_min": 2, "avg": 4}, {"date": "12.15", "type": "cloudy", "temp_max": 8, "temp_min": -1, "avg": 4}, {"date": "12.16", "type": "cloudy", "temp_max": 13, "temp_min": 0, "avg": 6}, {"date": "12.17", "type": "rainy", "temp_max": 11, "temp_min": 0, "avg": 6}]}, {"name": "부산", "top": 62, "left": 68, "current_temp": 9, "current_type": "cloudy", "weekly": [{"date": "12.11", "type": "cloudy", "temp_max": 15, "temp_min": 4, "avg": 10}, {"date": "12.12", "type": "cloudy", "temp_max": 8, "temp_min": 2, "avg": 5}, {"date": "12.13", "type": "rainy", "temp_max": 10, "temp_min": 3, "avg": 6}, {"date": "12.14", "type": "cloudy", "temp_max": 7, "temp_min": 2, "avg": 4}, {"date": "12.15", "type": "sunny", "temp_max": 9, "temp_min": 2, "avg": 6}, {"date": "12.16", "type": "cloudy", "temp_max": 11, "temp_min": 5, "avg": 8}, {"date": "12.17", "type": "cloudy", "temp_max": 14, "temp_min": 7, "avg": 10}]}, {"name": "제주", "top": 88, "left": 83, "current_temp": 11, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 15, "temp_min": 8, "avg": 12}, {"date": "12.12", "type": "cloudy", "temp_max": 12, "temp_min": 4, "avg": 8}, {"date": "12.13", "type": "rainy", "temp_max": 15, "temp_min": 8, "avg": 12}, {"date": "12.14", "type": "rainy", "temp_max": 11, "temp_min": 7, "avg": 9}, {"date": "12.15", "type": "cloudy", "temp_max": 12, "temp_min": 11, "avg": 12}, {"date": "12.16", "type": "cloudy", "temp_max": 19, "temp_min": 12, "avg": 16}, {"date": "12.17", "type": "cloudy", "temp_max": 19, "temp_min": 13, "avg": 16}]}]; 
+        const weatherData = [{"name": "서울", "top": 15, "left": 28, "today_max": 7, "today_min": -3, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 7, "temp_min": -3}, {"date": "12.12", "type": "cloudy", "temp_max": 5, "temp_min": -4}, {"date": "12.13", "type": "rainy", "temp_max": 2, "temp_min": -1}, {"date": "12.14", "type": "snowy", "temp_max": 1, "temp_min": -3}, {"date": "12.15", "type": "cloudy", "temp_max": 3, "temp_min": -4}, {"date": "12.16", "type": "rainy", "temp_max": 9, "temp_min": 1}, {"date": "12.17", "type": "rainy", "temp_max": 7, "temp_min": 0}]}, {"name": "춘천", "top": 10, "left": 45, "today_max": 9, "today_min": -3, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 9, "temp_min": -3}, {"date": "12.12", "type": "cloudy", "temp_max": 4, "temp_min": -5}, {"date": "12.13", "type": "snowy", "temp_max": 1, "temp_min": -3}, {"date": "12.14", "type": "cloudy", "temp_max": 0, "temp_min": -6}, {"date": "12.15", "type": "cloudy", "temp_max": 1, "temp_min": -7}, {"date": "12.16", "type": "rainy", "temp_max": 4, "temp_min": -2}, {"date": "12.17", "type": "rainy", "temp_max": 6, "temp_min": -3}]}, {"name": "강릉", "top": 15, "left": 65, "today_max": 12, "today_min": 0, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 12, "temp_min": 0}, {"date": "12.12", "type": "rainy", "temp_max": 4, "temp_min": 0}, {"date": "12.13", "type": "rainy", "temp_max": 7, "temp_min": 1}, {"date": "12.14", "type": "cloudy", "temp_max": 5, "temp_min": -7}, {"date": "12.15", "type": "cloudy", "temp_max": -1, "temp_min": -7}, {"date": "12.16", "type": "cloudy", "temp_max": 3, "temp_min": -2}, {"date": "12.17", "type": "rainy", "temp_max": 3, "temp_min": -2}]}, {"name": "대전", "top": 35, "left": 38, "today_max": 11, "today_min": -2, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 11, "temp_min": -2}, {"date": "12.12", "type": "cloudy", "temp_max": 7, "temp_min": -6}, {"date": "12.13", "type": "rainy", "temp_max": 4, "temp_min": -1}, {"date": "12.14", "type": "cloudy", "temp_max": 3, "temp_min": -1}, {"date": "12.15", "type": "cloudy", "temp_max": 6, "temp_min": -2}, {"date": "12.16", "type": "cloudy", "temp_max": 10, "temp_min": 1}, {"date": "12.17", "type": "cloudy", "temp_max": 9, "temp_min": 2}]}, {"name": "대구", "top": 48, "left": 60, "today_max": 13, "today_min": 2, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 2}, {"date": "12.12", "type": "cloudy", "temp_max": 7, "temp_min": -1}, {"date": "12.13", "type": "rainy", "temp_max": 7, "temp_min": 0}, {"date": "12.14", "type": "cloudy", "temp_max": 4, "temp_min": -1}, {"date": "12.15", "type": "cloudy", "temp_max": 8, "temp_min": -2}, {"date": "12.16", "type": "cloudy", "temp_max": 10, "temp_min": -4}, {"date": "12.17", "type": "cloudy", "temp_max": 11, "temp_min": 0}]}, {"name": "전주", "top": 48, "left": 28, "today_max": 13, "today_min": 0, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 0}, {"date": "12.12", "type": "cloudy", "temp_max": 9, "temp_min": -5}, {"date": "12.13", "type": "rainy", "temp_max": 6, "temp_min": 1}, {"date": "12.14", "type": "rainy", "temp_max": 5, "temp_min": 1}, {"date": "12.15", "type": "cloudy", "temp_max": 9, "temp_min": 0}, {"date": "12.16", "type": "cloudy", "temp_max": 12, "temp_min": 3}, {"date": "12.17", "type": "cloudy", "temp_max": 11, "temp_min": 3}]}, {"name": "광주", "top": 60, "left": 25, "today_max": 13, "today_min": 1, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 13, "temp_min": 1}, {"date": "12.12", "type": "cloudy", "temp_max": 10, "temp_min": -3}, {"date": "12.13", "type": "rainy", "temp_max": 8, "temp_min": 3}, {"date": "12.14", "type": "cloudy", "temp_max": 5, "temp_min": 2}, {"date": "12.15", "type": "cloudy", "temp_max": 8, "temp_min": -1}, {"date": "12.16", "type": "cloudy", "temp_max": 13, "temp_min": 0}, {"date": "12.17", "type": "rainy", "temp_max": 11, "temp_min": 0}]}, {"name": "부산", "top": 62, "left": 68, "today_max": 15, "today_min": 4, "current_type": "cloudy", "weekly": [{"date": "12.11", "type": "cloudy", "temp_max": 15, "temp_min": 4}, {"date": "12.12", "type": "cloudy", "temp_max": 8, "temp_min": 2}, {"date": "12.13", "type": "rainy", "temp_max": 10, "temp_min": 3}, {"date": "12.14", "type": "cloudy", "temp_max": 7, "temp_min": 2}, {"date": "12.15", "type": "sunny", "temp_max": 9, "temp_min": 2}, {"date": "12.16", "type": "cloudy", "temp_max": 11, "temp_min": 5}, {"date": "12.17", "type": "cloudy", "temp_max": 14, "temp_min": 7}]}, {"name": "제주", "top": 88, "left": 83, "today_max": 15, "today_min": 8, "current_type": "rainy", "weekly": [{"date": "12.11", "type": "rainy", "temp_max": 15, "temp_min": 8}, {"date": "12.12", "type": "cloudy", "temp_max": 12, "temp_min": 4}, {"date": "12.13", "type": "rainy", "temp_max": 15, "temp_min": 8}, {"date": "12.14", "type": "rainy", "temp_max": 11, "temp_min": 7}, {"date": "12.15", "type": "cloudy", "temp_max": 12, "temp_min": 11}, {"date": "12.16", "type": "cloudy", "temp_max": 19, "temp_min": 12}, {"date": "12.17", "type": "cloudy", "temp_max": 19, "temp_min": 13}]}]; 
 
         function updateClock() {
             const now = new Date();
@@ -175,12 +195,16 @@
                 el.style.left = city.left + '%';
                 const delay = (Math.random() * 2).toFixed(2);
 
+                // [변경] 표시 내용: 최저/최고 기온 표시 (파란색/빨간색)
                 el.innerHTML = `
                     <div class="weather-svg" style="animation-delay: -${delay}s">
                         ${getIconSvg(city.current_type)}
                     </div>
                     <div class="info-box">
-                        ${city.name} <span class="temp">${city.current_temp}°</span>
+                        <span>${city.name}</span>
+                        <span class="marker-temps">
+                            <span class="t-min">${city.today_min}°</span>/<span class="t-max">${city.today_max}°</span>
+                        </span>
                     </div>
                 `;
                 container.appendChild(el);
@@ -208,10 +232,13 @@
 
                 city.weekly.forEach(day => {
                     const td = document.createElement('td');
+                    // [변경] 주간 예보에도 최저/최고 모두 표시
                     td.innerHTML = `
                         <div class="forecast-cell">
                             <div class="mini-icon">${getIconSvg(day.type)}</div>
-                            <div class="mini-temp">${day.avg}°</div>
+                            <div class="mini-temp">
+                                <span class="t-min">${day.temp_min}°</span>/<span class="t-max">${day.temp_max}°</span>
+                            </div>
                         </div>
                     `;
                     tr.appendChild(td);
