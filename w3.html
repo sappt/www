@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>KOREA WEATHER DASHBOARD (Jeju Inset)</title>
+    <title>KOREA WEATHER DASHBOARD (Jeju Centered)</title>
     <style>
         /* 1. 기본 환경 설정 */
         body {
@@ -10,7 +10,6 @@
             margin: 0;
             overflow: hidden; 
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
-            cursor: none; 
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -26,6 +25,7 @@
             padding: 0 50px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             z-index: 100;
+            flex-shrink: 0;
         }
         
         .title { font-size: 2rem; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }
@@ -33,21 +33,32 @@
         #currentDate { font-size: 1.2rem; font-weight: bold; color: #7f8c8d; }
         #currentTime { font-size: 2.5rem; font-weight: 900; color: #2c3e50; line-height: 1; }
 
-        /* 3. 메인 컨텐츠 영역 */
+        /* 3. 메인 컨텐츠 영역 (좌우 분할) */
         .main-content {
             flex: 1;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
             padding: 20px;
+            gap: 20px;
+            overflow: hidden;
         }
 
-        /* 지도 비율 조정 (높이를 줄여서 본토 확대 효과) */
+        /* 좌측: 지도 영역 */
+        .left-panel {
+            flex: 1.4; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
         .map-wrapper {
             position: relative;
-            height: 92%; 
-            aspect-ratio: 420 / 460; /* 세로 비율을 줄임 (Zoom 효과) */
+            height: 95%; 
+            aspect-ratio: 420 / 460;
         }
 
         svg.map-svg {
@@ -58,27 +69,94 @@
         }
 
         .land {
-            fill: #ffffff;
+            fill: #f8f9fa;
             stroke: #cbd5e0;
             stroke-width: 2;
             transition: fill 0.3s;
         }
 
-        /* 제주도 인셋 박스 스타일 */
         .inset-box {
-            fill: rgba(255, 255, 255, 0.5);
+            fill: rgba(255, 255, 255, 0.8);
             stroke: #cbd5e0;
             stroke-width: 2;
-            stroke-dasharray: 5, 5; /* 점선 테두리 */
+            stroke-dasharray: 5, 5;
         }
         
-        .inset-label {
-            font-size: 14px;
-            fill: #7f8c8d;
-            font-weight: bold;
+        /* 우측: 주간 예보 영역 */
+        .right-panel {
+            flex: 1;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
         }
 
-        /* 4. 마커 및 아이콘 */
+        .panel-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f2f6;
+        }
+
+        .forecast-table-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 12px 5px;
+            color: #7f8c8d;
+            font-weight: 700;
+            border-bottom: 2px solid #eef2f5;
+            z-index: 10;
+        }
+
+        td {
+            padding: 10px 5px;
+            border-bottom: 1px solid #f1f2f6;
+            vertical-align: middle;
+        }
+
+        .region-name {
+            font-weight: 800;
+            color: #2c3e50;
+            text-align: left;
+            padding-left: 10px;
+            white-space: nowrap;
+        }
+
+        .forecast-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        .mini-icon svg { width: 24px; height: 24px; }
+        .mini-temp { font-size: 0.75rem; color: #555; font-weight: 600; }
+
+        .forecast-table-container::-webkit-scrollbar { width: 6px; height: 6px; }
+        .forecast-table-container::-webkit-scrollbar-track { background: transparent; }
+        .forecast-table-container::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 3px; }
+
+        /* 4. 마커 및 아이콘 (지도용) */
         .marker {
             position: absolute;
             transform: translate(-50%, -50%);
@@ -127,35 +205,47 @@
     </header>
 
     <div class="main-content">
-        <div class="map-wrapper" id="mapContainer">
-            <svg class="map-svg" viewBox="0 0 420 460">
-                
-                <path class="land" d="
-                    M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230 
-                    L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390 
-                    L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300 
-                    L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150 
-                    L 60,130 L 90,120 L 80,90 L 110,80 Z
-                " />
+        <div class="left-panel">
+            <div class="map-wrapper" id="mapContainer">
+                <svg class="map-svg" viewBox="0 0 420 460">
+                    <path class="land" d="
+                        M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230 
+                        L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390 
+                        L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300 
+                        L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150 
+                        L 60,130 L 90,120 L 80,90 L 110,80 Z
+                    " />
+                    <circle class="land" cx="350" cy="180" r="8" />
+                    
+                    <rect class="inset-box" x="290" y="360" width="120" height="90" rx="10" />
+                    
+                    <path class="land" d="
+                        M 320,405 
+                        C 320,385 380,385 380,405 
+                        C 380,425 320,425 320,405 Z
+                    " />
+                </svg>
+            </div>
+        </div>
 
-                <circle class="land" cx="350" cy="180" r="8" />
-                <circle class="land" cx="375" cy="180" r="4" />
-
-                <rect class="inset-box" x="290" y="360" width="120" height="90" rx="10" />
-                <text class="inset-label" x="300" y="380">JEJU</text>
-                
-                <path class="land" d="
-                    M 350,400 
-                    C 350,380 410,380 410,400 
-                    C 410,420 350,420 350,400 Z
-                " />
-                
-            </svg>
+        <div class="right-panel">
+            <div class="panel-header">WEEKLY FORECAST</div>
+            <div class="forecast-table-container">
+                <table id="forecastTable">
+                    <thead>
+                        <tr id="tableHeaderRow">
+                            <th>지역</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
-        // 시계
+        // --- 1. 시계 기능 ---
         function updateClock() {
             const now = new Date();
             const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -167,7 +257,7 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 아이콘 SVG
+        // --- 2. 아이콘 SVG ---
         const getIconSvg = (type) => {
             const icons = {
                 sunny: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="14" fill="#ffb900" /><g stroke="#ffb900" stroke-width="5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="9" /><line x1="32" y1="55" x2="32" y2="60" /><line x1="4" y1="32" x2="9" y2="32" /><line x1="55" y1="32" x2="60" y2="32" /><line x1="12" y1="12" x2="16" y2="16" /><line x1="48" y1="48" x2="52" y2="52" /><line x1="12" y1="52" x2="16" y2="48" /><line x1="48" y1="16" x2="52" y2="12" /></g></svg>`,
@@ -178,9 +268,9 @@
             return icons[type] || icons.sunny;
         };
 
-        // 데이터 및 좌표 재설정 (ViewBox 변경에 맞춰 재조정됨)
+        // --- 3. 데이터 설정 ---
+        const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy'];
         const weatherData = [
-            // 본토
             { name: '서울', top: 15, left: 28, temp: 24, type: 'sunny' },
             { name: '춘천', top: 10, left: 45, temp: 21, type: 'cloudy' },
             { name: '강릉', top: 15, left: 65, temp: 26, type: 'sunny' },
@@ -189,13 +279,13 @@
             { name: '전주', top: 48, left: 28, temp: 26, type: 'cloudy' },
             { name: '광주', top: 60, left: 25, temp: 27, type: 'rainy' },
             { name: '부산', top: 62, left: 68, temp: 23, type: 'rainy' },
-            { name: '독도', top: 25, left: 88, temp: 20, type: 'snowy' },
-            
-            // 제주 (인셋 박스 위치로 이동)
-            { name: '제주', top: 80, left: 85, temp: 28, type: 'sunny' } 
+            // 제주 마커: 박스(x=290~410, y=360~450)의 중앙으로 좌표 수정
+            // ViewBox 420x460 기준: 중앙 x=350(약 83%), 중앙 y=405(약 88%)
+            { name: '제주', top: 88, left: 83, temp: 28, type: 'sunny' } 
         ];
 
-        function drawWeather() {
+        // --- 4. 지도 마커 그리기 ---
+        function drawMapMarkers() {
             const container = document.getElementById('mapContainer');
             weatherData.forEach(city => {
                 const el = document.createElement('div');
@@ -215,7 +305,60 @@
                 container.appendChild(el);
             });
         }
-        drawWeather();
+
+        // --- 5. 주간 예보 테이블 그리기 ---
+        function generateNext7Days() {
+            const dates = [];
+            const today = new Date();
+            for (let i = 1; i <= 7; i++) {
+                const nextDate = new Date(today);
+                nextDate.setDate(today.getDate() + i);
+                const mon = String(nextDate.getMonth() + 1).padStart(2, '0');
+                const day = String(nextDate.getDate()).padStart(2, '0');
+                dates.push(`${mon}.${day}`);
+            }
+            return dates;
+        }
+
+        function drawForecastTable() {
+            const tableHeaderRow = document.getElementById('tableHeaderRow');
+            const tableBody = document.getElementById('tableBody');
+            
+            const futureDates = generateNext7Days();
+            futureDates.forEach(date => {
+                const th = document.createElement('th');
+                th.innerText = date;
+                tableHeaderRow.appendChild(th);
+            });
+
+            weatherData.forEach(city => {
+                const tr = document.createElement('tr');
+                
+                const tdName = document.createElement('td');
+                tdName.className = 'region-name';
+                tdName.innerText = city.name;
+                tr.appendChild(tdName);
+
+                for (let i = 0; i < 7; i++) {
+                    const td = document.createElement('td');
+                    const randType = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+                    const randTemp = city.temp + Math.floor(Math.random() * 11) - 5; 
+
+                    td.innerHTML = `
+                        <div class="forecast-cell">
+                            <div class="mini-icon">${getIconSvg(randType)}</div>
+                            <div class="mini-temp">${randTemp}°</div>
+                        </div>
+                    `;
+                    tr.appendChild(td);
+                }
+                tableBody.appendChild(tr);
+            });
+        }
+
+        drawMapMarkers();
+        drawForecastTable();
+
     </script>
 </body>
 </html>
