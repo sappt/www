@@ -4,7 +4,8 @@ on:
   schedule:
     # 매일 한국 시간 아침 6시 실행 (UTC 21:00) 0 21 * * *
     # 5분마다 실행 (GitHub Actions 최소 간격)   */5 * * * *
-    - cron: '*/5 * * * *'
+    # 매시 정각(0분)마다 실행 (예: 1시 00분, 2시 00분...)
+    - cron: '0 * * * *'
   workflow_dispatch: # 수동 실행 버튼 추가
 
 permissions:
