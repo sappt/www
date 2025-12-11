@@ -1,0 +1,132 @@
+
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="refresh" content="3600"> 
+        <title>전국 날씨 대시보드</title>
+        <style>
+            body {
+                background-color: #121212; 
+                color: white; 
+                font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+                margin: 0; padding: 40px;
+                height: 100vh; box-sizing: border-box;
+                display: flex; flex-direction: column;
+            }
+            header { 
+                text-align: center; margin-bottom: 30px; 
+                font-size: 2.5rem; font-weight: bold; color: #ffd700; 
+            }
+            .grid {
+                display: grid; 
+                grid-template-columns: repeat(5, 1fr); /* 가로 5개씩 2줄 */
+                gap: 20px; 
+                flex-grow: 1;
+            }
+            .card {
+                background: #1e1e1e; 
+                border-radius: 20px; 
+                display: flex; flex-direction: column; 
+                justify-content: center; align-items: center;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            }
+            .loc-name { font-size: 1.8rem; margin-bottom: 10px; color: #aaaaaa; }
+            .icon { font-size: 5rem; margin: 10px 0; }
+            .temps { font-size: 2rem; font-weight: bold; }
+            .max { color: #ff6b6b; } .min { color: #4facfe; }
+            footer { 
+                text-align: right; color: #555; margin-top: 20px; font-size: 1rem; 
+            }
+        </style>
+    </head>
+    <body>
+        <header>KR Weather Dashboard</header>
+        <div class="grid">
+            
+            <div class="card">
+                <div class="loc-name">서울</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">7°</span> / <span class="min">-4°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">부산</div>
+                <div class="icon">⛅</div>
+                <div class="temps">
+                    <span class="max">15°</span> / <span class="min">4°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">인천</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">8°</span> / <span class="min">-4°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">대구</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">13°</span> / <span class="min">2°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">대전</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">11°</span> / <span class="min">-2°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">광주</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">13°</span> / <span class="min">1°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">울산</div>
+                <div class="icon">⛅</div>
+                <div class="temps">
+                    <span class="max">16°</span> / <span class="min">4°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">세종</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">10°</span> / <span class="min">-2°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">강릉</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">12°</span> / <span class="min">0°</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="loc-name">제주</div>
+                <div class="icon">🌧️</div>
+                <div class="temps">
+                    <span class="max">15°</span> / <span class="min">8°</span>
+                </div>
+            </div>
+            
+        </div>
+        <footer>Last Update: 2025-12-11 12:09</footer>
+    </body>
+    </html>
+    
