@@ -16,38 +16,30 @@ LOCATIONS = [
 ]
 
 def get_weather_type(code):
-    """WMO 코드를 w3.html에서 사용하는 아이콘 타입(sunny, cloudy, rainy, snowy)으로 변환"""
-    # 0: 맑음
+    """WMO 코드를 아이콘 타입으로 변환"""
     if code == 0: return "sunny"
-    # 1-3: 구름
     if code <= 3: return "cloudy"
-    # 71-77: 눈
     if code >= 71 and code <= 77: return "snowy"
-    # 그 외(비, 안개, 뇌우 등): 비
     return "rainy"
 
 def fetch_weather_data():
-    """API에서 데이터를 가져와 w3.html용 데이터 구조로 변환"""
+    """API 데이터 수집"""
     print(">>> 날씨 데이터 수집 시작")
     final_data = []
 
     for loc in LOCATIONS:
-        # 7일치 데이터 요청 (weathercode, max temp, min temp)
         url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7"
         
         try:
             res = requests.get(url).json()
             daily = res['daily']
             
-            # 1. 현재(오늘) 날씨 정보 (지도 마커용)
             today_code = daily['weathercode'][0]
-            today_temp = round((daily['temperature_2m_max'][0] + daily['temperature_2m_min'][0]) / 2) # 평균기온 근사치
+            today_temp = round((daily['temperature_2m_max'][0] + daily['temperature_2m_min'][0]) / 2)
             
-            # 2. 주간 예보 정보 (테이블용)
             weekly_forecast = []
             for i in range(7):
-                d_date = daily['time'][i] # yyyy-mm-dd
-                # 날짜 포맷 변환 (2023-12-12 -> 12.12)
+                d_date = daily['time'][i]
                 dt_obj = datetime.datetime.strptime(d_date, "%Y-%m-%d")
                 fmt_date = dt_obj.strftime("%m.%d")
                 
@@ -63,7 +55,6 @@ def fetch_weather_data():
                     "avg": round((w_max + w_min) / 2)
                 })
 
-            # 데이터 합치기
             city_data = {
                 "name": loc['name'],
                 "top": loc['top'],
@@ -77,7 +68,6 @@ def fetch_weather_data():
 
         except Exception as e:
             print(f"{loc['name']} 에러: {e}")
-            # 에러 시 기본값 채움 (코드 중단 방지)
             final_data.append({
                 "name": loc['name'], "top": loc['top'], "left": loc['left'],
                 "current_temp": 0, "current_type": "cloudy", "weekly": []
@@ -86,21 +76,22 @@ def fetch_weather_data():
     return final_data
 
 def generate_html(weather_data):
-    """HTML 템플릿에 데이터를 주입하여 파일 생성"""
-    
-    # Python 데이터를 JSON 문자열로 변환 (Javascript에서 쓰기 위해)
+    # 1. 한국 시간(KST) 계산: UTC + 9시간
+    utc_now = datetime.datetime.utcnow()
+    kst_now = utc_now + datetime.timedelta(hours=9)
+    server_time_str = kst_now.strftime("%Y-%m-%d %H:%M:%S")
+
     json_data = json.dumps(weather_data, ensure_ascii=False)
 
-    # w3.html의 원본 소스 (CSS와 구조 유지)
-    # script 부분의 weatherData 변수만 파이썬에서 주입한 json_data로 교체됩니다.
+    # 2. HTML 템플릿
     html_template = f"""
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="3600"> <title>KOREA WEATHER DASHBOARD</title>
+    <meta http-equiv="refresh" content="3600">
+    <title>KOREA WEATHER DASHBOARD</title>
     <style>
-        /* 1. 기본 환경 설정 */
         body {{
             background-color: #eef2f5; 
             margin: 0;
@@ -109,9 +100,9 @@ def generate_html(weather_data):
             display: flex;
             flex-direction: column;
             height: 100vh;
+            position: relative; /* 우측 하단 배치를 위해 필요 */
         }}
 
-        /* 2. 상단 헤더 */
         header {{
             background: #ffffff;
             height: 80px;
@@ -129,7 +120,6 @@ def generate_html(weather_data):
         #currentDate {{ font-size: 1.2rem; font-weight: bold; color: #7f8c8d; }}
         #currentTime {{ font-size: 2.5rem; font-weight: 900; color: #2c3e50; line-height: 1; }}
 
-        /* 3. 메인 컨텐츠 영역 */
         .main-content {{
             flex: 1;
             display: flex;
@@ -138,7 +128,6 @@ def generate_html(weather_data):
             overflow: hidden;
         }}
 
-        /* 좌측: 지도 영역 */
         .left-panel {{
             flex: 1.4; 
             display: flex;
@@ -151,138 +140,52 @@ def generate_html(weather_data):
             overflow: hidden;
         }}
 
-        .map-wrapper {{
-            position: relative;
-            height: 95%; 
-            aspect-ratio: 420 / 460;
-        }}
-
-        svg.map-svg {{
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.15));
-        }}
-
-        .land {{
-            fill: #f8f9fa;
-            stroke: #cbd5e0;
-            stroke-width: 2;
-            transition: fill 0.3s;
-        }}
-
-        .inset-box {{
-            fill: rgba(255, 255, 255, 0.8);
-            stroke: #cbd5e0;
-            stroke-width: 2;
-            stroke-dasharray: 5, 5;
-        }}
+        .map-wrapper {{ position: relative; height: 95%; aspect-ratio: 420 / 460; }}
+        svg.map-svg {{ width: 100%; height: 100%; overflow: visible; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.15)); }}
+        .land {{ fill: #f8f9fa; stroke: #cbd5e0; stroke-width: 2; transition: fill 0.3s; }}
+        .inset-box {{ fill: rgba(255, 255, 255, 0.8); stroke: #cbd5e0; stroke-width: 2; stroke-dasharray: 5, 5; }}
         
-        /* 우측: 주간 예보 영역 */
         .right-panel {{
             flex: 1;
             background: #fff;
             border-radius: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            overflow: hidden;
+            display: flex; flex-direction: column; padding: 20px; overflow: hidden;
         }}
 
-        .panel-header {{
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f2f6;
-        }}
-
-        .forecast-table-container {{
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: auto;
-        }}
-
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-            text-align: center;
-        }}
-
-        th {{
-            position: sticky;
-            top: 0;
-            background: #fff;
-            padding: 12px 5px;
-            color: #7f8c8d;
-            font-weight: 700;
-            border-bottom: 2px solid #eef2f5;
-            z-index: 10;
-        }}
-
-        td {{
-            padding: 10px 5px;
-            border-bottom: 1px solid #f1f2f6;
-            vertical-align: middle;
-        }}
-
-        .region-name {{
-            font-weight: 800;
-            color: #2c3e50;
-            text-align: left;
-            padding-left: 10px;
-            white-space: nowrap;
-        }}
-
-        .forecast-cell {{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-        }}
-
+        .panel-header {{ font-size: 1.5rem; font-weight: 800; color: #2c3e50; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #f1f2f6; }}
+        .forecast-table-container {{ flex: 1; overflow-y: auto; overflow-x: auto; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: center; }}
+        th {{ position: sticky; top: 0; background: #fff; padding: 12px 5px; color: #7f8c8d; font-weight: 700; border-bottom: 2px solid #eef2f5; z-index: 10; }}
+        td {{ padding: 10px 5px; border-bottom: 1px solid #f1f2f6; vertical-align: middle; }}
+        .region-name {{ font-weight: 800; color: #2c3e50; text-align: left; padding-left: 10px; white-space: nowrap; }}
+        
+        .forecast-cell {{ display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }}
         .mini-icon svg {{ width: 24px; height: 24px; }}
         .mini-temp {{ font-size: 0.75rem; color: #555; font-weight: 600; }}
-
         .forecast-table-container::-webkit-scrollbar {{ width: 6px; height: 6px; }}
         .forecast-table-container::-webkit-scrollbar-track {{ background: transparent; }}
         .forecast-table-container::-webkit-scrollbar-thumb {{ background: #dcdcdc; border-radius: 3px; }}
 
-        /* 마커 및 아이콘 (지도용) */
-        .marker {{
-            position: absolute;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 10;
-        }}
-
-        .weather-svg {{
-            width: 45px;  
-            height: 45px;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15));
-        }}
-
-        .info-box {{
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #dde1e6;
-            padding: 3px 12px;
-            border-radius: 20px;
-            margin-top: -2px;
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: #333;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            white-space: nowrap;
-        }}
-
+        .marker {{ position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10; }}
+        .weather-svg {{ width: 45px; height: 45px; animation: float 3s ease-in-out infinite; filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15)); }}
+        .info-box {{ background: rgba(255, 255, 255, 0.95); border: 2px solid #dde1e6; padding: 3px 12px; border-radius: 20px; margin-top: -2px; font-size: 1.1rem; font-weight: 900; color: #333; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap; }}
         .temp {{ color: #e67e22; margin-left: 4px; }}
+
+        /* --- 추가된 CSS: 우측 하단 업데이트 시간 --- */
+        .server-time {{
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            color: #95a5a6;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border-radius: 15px;
+            z-index: 999;
+            pointer-events: none;
+        }}
 
         @keyframes float {{
             0%, 100% {{ transform: translateY(0); }}
@@ -304,20 +207,10 @@ def generate_html(weather_data):
         <div class="left-panel">
             <div class="map-wrapper" id="mapContainer">
                 <svg class="map-svg" viewBox="0 0 420 460">
-                    <path class="land" d="
-                        M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230 
-                        L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390 
-                        L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300 
-                        L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150 
-                        L 60,130 L 90,120 L 80,90 L 110,80 Z
-                    " />
+                    <path class="land" d="M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230 L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390 L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300 L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150 L 60,130 L 90,120 L 80,90 L 110,80 Z" />
                     <circle class="land" cx="350" cy="180" r="8" />
                     <rect class="inset-box" x="290" y="360" width="120" height="90" rx="10" />
-                    <path class="land" d="
-                        M 320,405 
-                        C 320,385 380,385 380,405 
-                        C 380,425 320,425 320,405 Z
-                    " />
+                    <path class="land" d="M 320,405 C 320,385 380,385 380,405 C 380,425 320,425 320,405 Z" />
                 </svg>
             </div>
         </div>
@@ -326,23 +219,18 @@ def generate_html(weather_data):
             <div class="panel-header">WEEKLY FORECAST</div>
             <div class="forecast-table-container">
                 <table id="forecastTable">
-                    <thead>
-                        <tr id="tableHeaderRow">
-                            <th>지역</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                    </tbody>
+                    <thead><tr id="tableHeaderRow"><th>지역</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <div class="server-time">Data Updated: {server_time_str}</div>
+
     <script>
-        // --- 1. Python에서 주입된 실제 날씨 데이터 ---
         const weatherData = {json_data}; 
 
-        // --- 2. 시계 기능 ---
         function updateClock() {{
             const now = new Date();
             const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -354,7 +242,6 @@ def generate_html(weather_data):
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 3. 아이콘 SVG ---
         const getIconSvg = (type) => {{
             const icons = {{
                 sunny: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="14" fill="#ffb900" /><g stroke="#ffb900" stroke-width="5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="9" /><line x1="32" y1="55" x2="32" y2="60" /><line x1="4" y1="32" x2="9" y2="32" /><line x1="55" y1="32" x2="60" y2="32" /><line x1="12" y1="12" x2="16" y2="16" /><line x1="48" y1="48" x2="52" y2="52" /><line x1="12" y1="52" x2="16" y2="48" /><line x1="48" y1="16" x2="52" y2="12" /></g></svg>`,
@@ -365,7 +252,6 @@ def generate_html(weather_data):
             return icons[type] || icons.sunny;
         }};
 
-        // --- 4. 지도 마커 그리기 ---
         function drawMapMarkers() {{
             const container = document.getElementById('mapContainer');
             weatherData.forEach(city => {{
@@ -375,7 +261,6 @@ def generate_html(weather_data):
                 el.style.left = city.left + '%';
                 const delay = (Math.random() * 2).toFixed(2);
 
-                // API 데이터 적용: city.current_type, city.current_temp
                 el.innerHTML = `
                     <div class="weather-svg" style="animation-delay: -${{delay}}s">
                         ${{getIconSvg(city.current_type)}}
@@ -388,12 +273,10 @@ def generate_html(weather_data):
             }});
         }}
 
-        // --- 5. 주간 예보 테이블 그리기 ---
         function drawForecastTable() {{
             const tableHeaderRow = document.getElementById('tableHeaderRow');
             const tableBody = document.getElementById('tableBody');
             
-            // 첫 번째 도시의 데이터를 기준으로 헤더(날짜) 생성
             if(weatherData.length > 0) {{
                 weatherData[0].weekly.forEach(day => {{
                     const th = document.createElement('th');
@@ -402,16 +285,13 @@ def generate_html(weather_data):
                 }});
             }}
 
-            // 각 도시별 행 생성
             weatherData.forEach(city => {{
                 const tr = document.createElement('tr');
-                
                 const tdName = document.createElement('td');
                 tdName.className = 'region-name';
                 tdName.innerText = city.name;
                 tr.appendChild(tdName);
 
-                // 주간 데이터 루프
                 city.weekly.forEach(day => {{
                     const td = document.createElement('td');
                     td.innerHTML = `
@@ -426,19 +306,16 @@ def generate_html(weather_data):
             }});
         }}
 
-        // 실행
         drawMapMarkers();
         drawForecastTable();
-
     </script>
 </body>
 </html>
     """
 
-    # 파일 저장 (Github Pages가 읽을 수 있도록 index.html로 저장)
     with open("daily_weather.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-    print(">>> daily_weather.html 생성 완료")
+    print(f">>> daily_weather.html 생성 완료 (Update Time: {server_time_str})")
 
 if __name__ == "__main__":
     data = fetch_weather_data()
