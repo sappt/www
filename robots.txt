@@ -1,2 +1,15 @@
+# SAPPT Research 웹사이트 robots.txt
+# https://www.sappt.co.kr
+
 User-agent: *
-Disallow:
+Allow: /
+
+# 키오스크/디스플레이 전용 페이지 제외
+Disallow: /kiosk.html
+Disallow: /image01.html
+
+# 사이트맵 위치
+Sitemap: https://www.sappt.co.kr/sitemap.xml
+
+# 크롤링 속도 제한 (서버 부하 방지)
+Crawl-delay: 1
