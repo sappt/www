@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 	<!-- Global site tag (gtag.js) - Google Analytics  --  START -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135186223-1"></script>
@@ -42,7 +42,7 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 	<!-- favicon추가 -->
     <link rel="shortcut icon" href="assets/ico/sappt.ico" type="image/x-icon">
@@ -61,8 +61,37 @@
     <!-- The link to the CSS that the grid needs -->
     <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/jqgrid/5.5.1/css/ui.jqgrid.min.css" />
 
- 	<!-- http://www.guriddo.net/demo/guriddojs/  -->  
+ 	<!-- http://www.guriddo.net/demo/guriddojs/  -->
 	<!-- jqgrid  --  END -->
+
+	<!-- 구조화된 데이터 (JSON-LD) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": "샤프트리서치",
+		"alternateName": "SAPPT Research",
+		"url": "https://www.sappt.co.kr",
+		"logo": "https://www.sappt.co.kr/assets/img/sappt01.png",
+		"description": "기후변화에 대응하는 식물보호 기술 개발과 안전한 농산물 생산을 위한 전문 연구소",
+		"address": {
+			"@type": "PostalAddress",
+			"streetAddress": "양지면 남평로 326번길 28",
+			"addressLocality": "용인시 처인구",
+			"addressRegion": "경기도",
+			"postalCode": "17163",
+			"addressCountry": "KR"
+		},
+		"contactPoint": {
+			"@type": "ContactPoint",
+			"telephone": "+82-31-336-3973",
+			"faxNumber": "+82-31-336-3972",
+			"email": "sappt@sappt.co.kr",
+			"contactType": "customer service"
+		},
+		"sameAs": []
+	}
+	</script>
 
 </head>
 
@@ -103,11 +132,11 @@
 			 var imageHtml = "";
 				
 			if ( cellValue.slice(-4, cellValue.length).toUpperCase() == ".PDF" ) {
-			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ pdfIconPath +"' /></a>";
+			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ pdfIconPath +"' alt='PDF 파일 다운로드' /></a>";
 			} else if ( cellValue.slice(-4, cellValue.length).toUpperCase() == ".JPG"  ) {
-			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' /></a>";
+			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' alt='이미지 파일 보기' /></a>";
 			} else {
-			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' /></a>";
+			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' alt='파일 보기' /></a>";
 			}
 				
 			 return imageHtml;
@@ -152,7 +181,7 @@
 	<header>
 		<h2><a href="#">
 		     <!-- SAPPT Research 회사로고 -->
-		     <img  height="60" width="200" src="assets/img/sappt01.png">
+		     <img height="60" width="200" src="assets/img/sappt01.png" alt="샤프트리서치 로고">
 		    </a>
 		</h2>
 		<nav>
@@ -253,7 +282,7 @@
 	<footer>
 		<ul>
 		     <!-- SAPPT  회사로고 -->
-		     <img  height="60" width="200" src="assets/img/sappt.png">
+		     <img height="60" width="200" src="assets/img/sappt.png" alt="샤프트리서치 로고">
 		</ul>
 		<p>샤프트리서치 | 김대호</p>
 		<p>경기 용인시 처인구 양지면 남평로 326번길 28 (17163)</p>
