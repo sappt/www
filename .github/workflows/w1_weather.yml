@@ -1,4 +1,4 @@
-name: W1 Weather Update
+name: W1 Weather Update (중부5개도시)
 
 on:
   schedule:
