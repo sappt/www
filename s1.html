@@ -45,11 +45,12 @@
 
         .container {
             width: 100%;
-            height: 100%;
-            min-height: 100vh;
+            height: 100vh;
             background-color: #fff;
             padding: clamp(10px, 2vmin, 30px);
             overflow: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         /* 헤더 스타일 */
@@ -57,9 +58,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: clamp(10px, 2vmin, 25px);
+            flex-wrap: wrap;
+            gap: clamp(5px, 1vmin, 10px);
             border-bottom: 2px solid #0056b3;
             padding-bottom: clamp(5px, 1vmin, 15px);
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
         }
 
         h1 {
@@ -76,13 +86,17 @@
 
         /* 테이블 스타일 */
         .table-wrapper {
-            overflow-x: auto; /* 모바일 대응 가로 스크롤 */
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         table {
             width: 100%;
+            height: 100%;
             border-collapse: collapse;
-            margin-top: clamp(5px, 1vmin, 15px);
+            flex: 1;
         }
 
         th, td {
@@ -136,8 +150,8 @@
 
         /* 범례 */
         .legend {
-            margin-top: clamp(10px, 1.5vmin, 20px);
-            text-align: right;
+            width: 100%;
+            text-align: center;
             font-size: clamp(10px, 1.3vmin, 16px);
         }
         .legend span { margin-left: clamp(5px, 1vmin, 15px); }
@@ -154,8 +168,15 @@
 
 <div class="container">
     <header>
-        <h1>📅 주간 업무 및 출장 현황</h1>
-        <div class="date-range">2025.12.15 (월) ~ 12.19 (금)</div>
+        <div class="header-top">
+            <h1>📅 주간 업무 및 출장 현황</h1>
+            <div class="date-range">2025.12.15 (월) ~ 12.19 (금)</div>
+        </div>
+        <div class="legend">
+            <span style="color:#c92a2a">■ 출장</span>
+            <span style="color:#1098ad">■ 외근/미팅</span>
+            <span style="color:#7950f2">■ 휴가</span>
+        </div>
     </header>
 
     <div class="table-wrapper">
@@ -241,13 +262,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div class="legend">
-        <strong>범례:</strong>
-        <span style="color:#c92a2a">■ 출장</span>
-        <span style="color:#1098ad">■ 외근/미팅</span>
-        <span style="color:#7950f2">■ 휴가</span>
     </div>
 </div>
 
