@@ -4,7 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-SAPPT Research 웹사이트 - 한국 농업식물보호 연구기관을 위한 정적 웹사이트 + 동적 대시보드 플랫폼. GitHub Pages를 통해 www.sappt.co.kr 에서 호스팅됨.
+SAPPT Research 웹사이트 - 한국 농업식물보호 연구기관을 위한 정적 웹사이트 + 동적 대시보드 플랫폼. 
+GitHub Pages를 통해 www.sappt.co.kr 에서 호스팅됨.
 
 ## 빌드 명령어
 
