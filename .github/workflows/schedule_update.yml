@@ -1,0 +1,36 @@
+name: 매시간일정업데이트(주간계획표)
+
+on:
+  schedule:
+    # 매시 정각(0분)마다 실행
+    - cron: '0 * * * *'
+  workflow_dispatch: # 수동 실행 버튼 추가
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v3
+
+      - name: 파이썬 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 라이브러리 설치
+        run: pip install requests
+
+      - name: 주간 일정 HTML 생성
+        run: python build_schedule.py
+
+      - name: 결과 커밋 및 푸시
+        run: |
+          git config --global user.name 'ScheduleBot'
+          git config --global user.email 'bot@noreply.github.com'
+          git add s1.html
+          git commit -m "Update schedule: $(date)" || exit 0
+          git push
