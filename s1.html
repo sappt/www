@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3600">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주간 업무 현황 - 샤프트리서치</title>
 
@@ -39,7 +40,6 @@
             font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
             background-color: #f9f9f9;
             color: #333;
-            /* 기본 폰트 크기: 뷰포트 기반 반응형 */
             font-size: clamp(14px, 2.5vmin, 32px);
         }
 
@@ -113,13 +113,17 @@
             white-space: nowrap;
         }
 
-        /* 첫 번째 열(이름) 고정 효과 (필요시) */
+        th small {
+            font-weight: normal;
+            color: #888;
+        }
+
         td:first-child {
             font-weight: bold;
             background-color: #fafafa;
         }
 
-        /* 상태별 라벨 스타일 (Badge) */
+        /* 상태별 라벨 스타일 */
         .status {
             display: inline-block;
             padding: clamp(4px, 0.8vmin, 12px) clamp(8px, 1.5vmin, 20px);
@@ -129,12 +133,11 @@
             margin-bottom: 4px;
         }
 
-        .trip { background-color: #ffe3e3; color: #c92a2a; } /* 출장 (빨강) */
-        .outside { background-color: #e3fafc; color: #1098ad; } /* 외근 (파랑) */
-        .vacation { background-color: #f3f0ff; color: #7950f2; } /* 휴가 (보라) */
-        .office { color: #868e96; font-size: clamp(14px, 2.2vmin, 30px); } /* 사내근무 (회색) */
+        .trip { background-color: #ffe3e3; color: #c92a2a; }
+        .outside { background-color: #e3fafc; color: #1098ad; }
+        .vacation { background-color: #f3f0ff; color: #7950f2; }
+        .office { color: #868e96; font-size: clamp(14px, 2.2vmin, 30px); }
 
-        /* 비고 텍스트 */
         .desc {
             display: block;
             font-size: clamp(12px, 1.8vmin, 24px);
@@ -142,7 +145,6 @@
             margin-top: 2px;
         }
 
-        /* 직급 텍스트 */
         .position {
             font-size: clamp(12px, 1.8vmin, 24px);
             color: #888;
@@ -156,11 +158,18 @@
         }
         .legend span { margin-left: clamp(8px, 1.5vmin, 20px); }
 
-        /* 인쇄 시 스타일 */
+        /* 업데이트 시간 */
+        .update-time {
+            text-align: right;
+            font-size: clamp(10px, 1.5vmin, 18px);
+            color: #999;
+            padding-top: 10px;
+        }
+
         @media print {
             body { background-color: #fff; padding: 0; }
             .container { box-shadow: none; max-width: 100%; }
-            .status { border: 1px solid #ccc; } /* 배경색이 안 나올 경우 대비 */
+            .status { border: 1px solid #ccc; }
         }
     </style>
 </head>
@@ -169,13 +178,13 @@
 <div class="container">
     <header>
         <div class="header-top">
-            <h1>📅 주간 업무 및 출장 현황</h1>
-            <div class="date-range">2025.12.15 (월) ~ 12.19 (금)</div>
+            <h1>주간 업무 및 출장 현황</h1>
+            <div class="date-range">2025.12.22 (월) ~ 12.26 (금)</div>
         </div>
         <div class="legend">
             <span style="color:#c92a2a">■ 출장</span>
             <span style="color:#1098ad">■ 외근/미팅</span>
-            <span style="color:#7950f2">■ 휴가</span>
+            <span style="color:#7950f2">■ 휴가/연차</span>
         </div>
     </header>
 
@@ -183,86 +192,77 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 10%">성명 / 직급</th>
-                    <th style="width: 18%">월 (Mon)</th>
-                    <th style="width: 18%">화 (Tue)</th>
-                    <th style="width: 18%">수 (Wed)</th>
-                    <th style="width: 18%">목 (Thu)</th>
-                    <th style="width: 18%">금 (Fri)</th>
+                    <th style="width: 10%">성명</th>
+                    <th style="width: 18%">월 (Mon)<br><small>12/22</small></th>
+                    <th style="width: 18%">화 (Tue)<br><small>12/23</small></th>
+                    <th style="width: 18%">수 (Wed)<br><small>12/24</small></th>
+                    <th style="width: 18%">목 (Thu)<br><small>12/25</small></th>
+                    <th style="width: 18%">금 (Fri)<br><small>12/26</small></th>
+                    
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>김부장<br><span class="position">팀장</span></td>
-                    <td><span class="office">사내 근무</span></td>
-                    <td>
-                        <span class="status trip">출장</span>
-                        <span class="desc">부산 공장</span>
-                    </td>
-                    <td>
-                        <span class="status trip">출장</span>
-                        <span class="desc">부산 공장</span>
-                    </td>
+                    <td>김부장</td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                </tr>
+                    <td><span class="office">사내 근무</span></td>
+                    <td><span class="status vacation">연차</span>
+                        <span class="desc">????</span></td>
+                    <td><span class="status vacation">연차</span>
+                        <span class="desc">????</span></td>
+                    </tr>
                 <tr>
                     <td>이차장</td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td>
-                        <span class="status outside">외근</span>
-                        <span class="desc">거래처 미팅</span>
-                    </td>
                     <td><span class="office">사내 근무</span></td>
+                    <td><span class="status vacation">오후반차</span></td>
                     <td><span class="office">사내 근무</span></td>
-                </tr>
+                    </tr>
                 <tr>
                     <td>박과장</td>
-                    <td>
-                        <span class="status vacation">연차</span>
-                    </td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td><span class="office">사내 근무</span></td>
-                </tr>
+                    <td><span class="status trip">출장</span>
+                        <span class="desc">오오</span></td>
+                    <td><span class="status trip">출장</span></td>
+                    </tr>
                 <tr>
                     <td>최대리</td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td>
-                        <span class="status trip">출장</span>
-                        <span class="desc">대전 세미나</span>
-                    </td>
-                    <td>
-                        <span class="status trip">출장</span>
-                        <span class="desc">대전 세미나</span>
-                    </td>
-                </tr>
+                    <td><span class="status trip">출장</span>
+                        <span class="desc">어디어디</span></td>
+                    <td><span class="status trip">출장</span>
+                        <span class="desc">후포</span></td>
+                    </tr>
                 <tr>
                     <td>정사원</td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td>
-                        <span class="status outside">외근</span>
-                        <span class="desc">은행 업무</span>
-                    </td>
-                </tr>
-                 <tr>
+                    <td><span class="status trip">출장</span>
+                        <span class="desc">영주 군산 목표 진도</span></td>
+                    </tr>
+                <tr>
                     <td>강인턴</td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td><span class="office">사내 근무</span></td>
-                    <td><span class="office">사내 근무</span></td>
-                </tr>
+                    <td><span class="status trip">출장</span>
+                        <span class="desc">어디어디</span></td>
+                    <td><span class="status outside">외근</span></td>
+                    </tr>
+                
             </tbody>
         </table>
     </div>
+
+    <div class="update-time">Last Update: 2025-12-25 23:58:45 (KST)</div>
 </div>
 
 </body>
