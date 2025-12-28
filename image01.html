@@ -51,12 +51,19 @@
             return `https://picsum.photos/seed/${randomSeed}/1920/1080`;
         }
 
+        function getFHDBackgroundUrl() {
+            // FHD (1920x1080) 배경화면 이미지 불러오기
+            // 매번 다른 이미지를 받기 위해 시간 기반 쿼리 파라미터 추가
+            const timestamp = Date.now();
+            return `https://picsum.photos/1920/1080?random=${timestamp}`;
+        }
+
         function changeImage() {
             const nextImageElement = isFirstImageActive ? document.getElementById('img2') : document.getElementById('img1');
             const currentImageElement = isFirstImageActive ? document.getElementById('img1') : document.getElementById('img2');
 
             // 다음 이미지 로드 시작
-            nextImageElement.src = getNewImageUrl();
+            nextImageElement.src = getFHDBackgroundUrl();
 
             // 이미지가 로딩 완료되면 페이드 효과 실행
             nextImageElement.onload = function() {
@@ -75,7 +82,7 @@
         }
 
         // 초기 실행: 첫 번째 이미지 로드
-        document.getElementById('img1').src = getNewImageUrl();
+        document.getElementById('img1').src = getFHDBackgroundUrl();
 
         // 주기적 실행
         setInterval(changeImage, CHANGE_INTERVAL);
