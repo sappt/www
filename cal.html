@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주간 업무 및 출장 작성</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f9f9f9; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        
+        /* 필수 입력 표시 */
+        label.required::after { content: " *"; color: red; }
+
+        input[type="text"], input[type="email"], input[type="date"], select, textarea {
+            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px;
+        }
+        
+        button { width: 100%; padding: 12px; background-color: #4285F4; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #357ae8; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        /* 버튼형 라디오 스타일 */
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-group input[type="radio"] { display: none; }
+        .btn-group label {
+            flex: 1; min-width: 80px; padding: 12px 16px; text-align: center;
+            border: 2px solid #ddd; border-radius: 6px; cursor: pointer;
+            font-size: 14px; font-weight: bold; color: #555; background: #fff;
+            transition: all 0.2s ease;
+        }
+        .btn-group label:hover { border-color: #4285F4; color: #4285F4; }
+        .btn-group input[type="radio"]:checked + label {
+            background-color: #4285F4; color: white; border-color: #4285F4;
+        }
+
+        /* 날짜 한줄 배치 */
+        .date-row { display: flex; align-items: center; gap: 10px; }
+        .date-row input[type="date"] { flex: 1; }
+        .date-separator { color: #555; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>주간 업무 및 출장 작성</h2>
+    <form id="appForm">
+        
+        <div class="form-group">
+            <label for="name" class="required">성명</label>
+            <select id="name" name="name" required>
+                <option value="" disabled selected>선택하세요</option>
+                <option value="김부장" data-email="kim@gmail.com">김부장</option>
+                <option value="이차장" data-email="lee@gmail.com">이차장</option>
+                <option value="박과장" data-email="park@gmail.com">박과장</option>
+                <option value="최대리" data-email="choi@gmail.com">최대리</option>
+                <option value="정사원" data-email="jung@gmail.com">정사원</option>
+                <option value="강인턴" data-email="kang@gmail.com">강인턴</option>
+            </select>
+        </div>
+
+        <!-- 이메일: 성명 선택 시 자동 입력, 화면에서 숨김 -->
+        <input type="hidden" id="email" name="email">
+
+        <div class="form-group">
+            <label class="required">구분</label>
+            <div class="btn-group">
+                <input type="radio" id="type1" name="type" value="외근" required>
+                <label for="type1">외근</label>
+                <input type="radio" id="type2" name="type" value="연차">
+                <label for="type2">연차</label>
+                <input type="radio" id="type3" name="type" value="오전반차">
+                <label for="type3">오전반차</label>
+                <input type="radio" id="type4" name="type" value="오후반차">
+                <label for="type4">오후반차</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="required">기간</label>
+            <div class="date-row">
+                <input type="date" id="startDate" name="startDate" required>
+                <span class="date-separator">~</span>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="reason">사유</label>
+            <input type="text" id="reason" name="reason" placeholder="간단한 사유를 입력하세요">
+        </div>
+
+        <!-- 승인상태: 숨김 처리 -->
+        <input type="hidden" id="status" name="status" value="대기">
+
+        <button type="submit" id="submitBtn">제출하기</button>
+    </form>
+</div>
+
+<script>
+    // ▼▼▼ 여기에 배포된 웹 앱 URL을 붙여넣으세요 ▼▼▼
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdfMdHC-MODZPnIRZflgF06VnjqiQvoNQb4s77xbG1aisEvsX8c-w-aYeTkhFx_RMK-w/exec";
+
+    const form = document.getElementById('appForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const nameSelect = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+
+    // 성명 선택 시 이메일 자동 입력
+    nameSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const email = selectedOption.getAttribute('data-email') || '';
+        emailInput.value = email;
+    });
+
+    // 날짜 기본값: 당일
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').value = today;
+    document.getElementById('endDate').value = today;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 버튼 비활성화 (중복 전송 방지)
+        submitBtn.disabled = true;
+        submitBtn.innerText = "저장 중...";
+
+        // 폼 데이터 수집
+        const selectedType = document.querySelector('input[name="type"]:checked');
+        const formData = {
+            name: form.name.value,
+            email: form.email.value,
+            type: selectedType ? selectedType.value : '',
+            startDate: form.startDate.value,
+            endDate: form.endDate.value,
+            reason: form.reason.value,
+            status: form.status.value
+        };
+
+        // 데이터 전송
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' }
+        })
+        .then(() => {
+            alert("성공적으로 등록되었습니다.");
+            form.reset(); // 폼 초기화
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("저장에 실패했습니다.");
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "제출하기";
+        });
+    });
+</script>
+
+</body>
+</html>
