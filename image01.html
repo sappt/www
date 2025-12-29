@@ -58,12 +58,21 @@
             return `https://picsum.photos/1920/1080?random=${timestamp}`;
         }
 
+        function getFHDUrl1() {
+            // FHD (1920x1080) 배경화면 이미지 불러오기
+			//LoremFlickr 사이트는 URL의 맨 뒷부분에 원하는 영어 키워드를 적어서 이미지의 주제를 정함
+			//"자연"(nature), 숲과 자연(forest,nature),산과 풍경(mountain,landscape),바다와 물(ocean,water)
+            // 매번 다른 이미지를 받기 위해 시간 기반 쿼리 파라미터 추가
+            const timestamp = Date.now();
+            return `https://loremflickr.com/1920/1080/nature,forest,mountain,landscape,ocean,water?t=${timestamp}`;
+        }
+
         function changeImage() {
             const nextImageElement = isFirstImageActive ? document.getElementById('img2') : document.getElementById('img1');
             const currentImageElement = isFirstImageActive ? document.getElementById('img1') : document.getElementById('img2');
 
             // 다음 이미지 로드 시작
-            nextImageElement.src = getFHDBackgroundUrl();
+            nextImageElement.src = getFHDUrl1();
 
             // 이미지가 로딩 완료되면 페이드 효과 실행
             nextImageElement.onload = function() {
@@ -82,7 +91,7 @@
         }
 
         // 초기 실행: 첫 번째 이미지 로드
-        document.getElementById('img1').src = getFHDBackgroundUrl();
+        document.getElementById('img1').src = getFHDUrl1();
 
         // 주기적 실행
         setInterval(changeImage, CHANGE_INTERVAL);
