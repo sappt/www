@@ -2,17 +2,36 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>KOREA WEATHER DASHBOARD (Jeju Centered)</title>
+    <meta http-equiv="refresh" content="3600">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOREA WEATHER DASHBOARD - 전국 10개 도시</title>
+
+    <!-- SEO 메타 태그 -->
+    <meta name="description" content="한국 전국 10개 도시의 실시간 날씨 정보와 주간 예보. 서울, 춘천, 강릉, 대전, 대구, 전주, 광주, 여수, 부산, 제주 날씨.">
+    <meta name="keywords" content="한국날씨, 날씨예보, 주간날씨, 실시간날씨, weather, 샤프트리서치">
+    <meta name="author" content="샤프트리서치">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.sappt.co.kr/w3.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="전국 날씨 모니터 - 샤프트리서치">
+    <meta property="og:description" content="한국 전국 10개 도시의 실시간 날씨 정보와 주간 예보">
+    <meta property="og:url" content="https://www.sappt.co.kr/w3.html">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="샤프트리서치">
+
     <style>
         /* 1. 기본 환경 설정 */
         body {
-            background-color: #eef2f5; 
+            background-color: #eef2f5;
             margin: 0;
-            overflow: hidden; 
+            overflow: hidden;
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            position: relative;
         }
 
         /* 2. 상단 헤더 */
@@ -27,7 +46,7 @@
             z-index: 100;
             flex-shrink: 0;
         }
-        
+
         .title { font-size: 2rem; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }
         .clock-container { display: flex; align-items: center; gap: 15px; color: #555; }
         #currentDate { font-size: 1.3rem; font-weight: bold; color: #7f8c8d; }
@@ -44,7 +63,7 @@
 
         /* 좌측: 지도 영역 */
         .left-panel {
-            flex: 0.35; 
+            flex: 0.35;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,7 +76,7 @@
 
         .map-wrapper {
             position: relative;
-            height: 95%; 
+            height: 95%;
             aspect-ratio: 420 / 460;
         }
 
@@ -81,7 +100,7 @@
             stroke-width: 2;
             stroke-dasharray: 5, 5;
         }
-        
+
         /* 우측: 주간 예보 영역 */
         .right-panel {
             flex: 0.65;
@@ -210,7 +229,7 @@
         }
 
         .weather-svg {
-            width: 45px;  
+            width: 45px;
             height: 45px;
             animation: float 3s ease-in-out infinite;
             filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15));
@@ -233,6 +252,22 @@
         .temp-high { color: #e74c3c; margin-left: 2px; }
         .temp-separator { color: #999; margin: 0 1px; }
 
+        /* 업데이트 시간 표시 */
+        .server-time {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #95a5a6;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border-radius: 15px;
+            z-index: 999;
+            pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
@@ -254,14 +289,14 @@
             <div class="map-wrapper" id="mapContainer">
                 <svg class="map-svg" viewBox="0 0 420 460">
                     <path class="land" d="
-                        M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230 
-                        L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390 
-                        L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300 
-                        L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150 
+                        M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230
+                        L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390
+                        L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300
+                        L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150
                         L 60,130 L 90,120 L 80,90 L 110,80 Z
                     " />
                     <circle class="land" cx="350" cy="180" r="8" />
-                    
+
                     <rect class="inset-box" x="255" y="360" width="120" height="90" rx="10" />
 
                     <path class="land" d="
@@ -301,7 +336,11 @@
         </div>
     </div>
 
+    <div class="server-time">Last Update: 2025-12-29 23:29:59</div>
+
     <script>
+        const weatherData = [{"name": "서울", "top": 15, "left": 28, "tempHigh": 8, "tempLow": 0, "type": "rainy", "weekly": [{"date": "12.29", "type": "rainy", "tempHigh": 8, "tempLow": 0}, {"date": "12.30", "type": "sunny", "tempHigh": 1, "tempLow": -5}, {"date": "12.31", "type": "sunny", "tempHigh": -5, "tempLow": -10}, {"date": "01.01", "type": "cloudy", "tempHigh": -6, "tempLow": -12}, {"date": "01.02", "type": "sunny", "tempHigh": -6, "tempLow": -12}, {"date": "01.03", "type": "cloudy", "tempHigh": 0, "tempLow": -9}, {"date": "01.04", "type": "rainy", "tempHigh": 4, "tempLow": -3}]}, {"name": "춘천", "top": 10, "left": 45, "tempHigh": 8, "tempLow": -2, "type": "rainy", "weekly": [{"date": "12.29", "type": "rainy", "tempHigh": 8, "tempLow": -2}, {"date": "12.30", "type": "sunny", "tempHigh": 2, "tempLow": -8}, {"date": "12.31", "type": "sunny", "tempHigh": -4, "tempLow": -13}, {"date": "01.01", "type": "cloudy", "tempHigh": -6, "tempLow": -15}, {"date": "01.02", "type": "sunny", "tempHigh": -7, "tempLow": -15}, {"date": "01.03", "type": "cloudy", "tempHigh": -1, "tempLow": -13}, {"date": "01.04", "type": "cloudy", "tempHigh": 4, "tempLow": -6}]}, {"name": "강릉", "top": 15, "left": 65, "tempHigh": 10, "tempLow": 1, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 10, "tempLow": 1}, {"date": "12.30", "type": "sunny", "tempHigh": 5, "tempLow": -4}, {"date": "12.31", "type": "sunny", "tempHigh": 1, "tempLow": -7}, {"date": "01.01", "type": "cloudy", "tempHigh": -2, "tempLow": -15}, {"date": "01.02", "type": "sunny", "tempHigh": -7, "tempLow": -16}, {"date": "01.03", "type": "sunny", "tempHigh": -1, "tempLow": -13}, {"date": "01.04", "type": "cloudy", "tempHigh": -1, "tempLow": -6}]}, {"name": "대전", "top": 35, "left": 38, "tempHigh": 10, "tempLow": 0, "type": "rainy", "weekly": [{"date": "12.29", "type": "rainy", "tempHigh": 10, "tempLow": 0}, {"date": "12.30", "type": "cloudy", "tempHigh": 2, "tempLow": -6}, {"date": "12.31", "type": "cloudy", "tempHigh": -3, "tempLow": -10}, {"date": "01.01", "type": "cloudy", "tempHigh": -4, "tempLow": -11}, {"date": "01.02", "type": "cloudy", "tempHigh": -3, "tempLow": -10}, {"date": "01.03", "type": "cloudy", "tempHigh": 2, "tempLow": -8}, {"date": "01.04", "type": "cloudy", "tempHigh": 5, "tempLow": -3}]}, {"name": "대구", "top": 48, "left": 60, "tempHigh": 12, "tempLow": 0, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 12, "tempLow": 0}, {"date": "12.30", "type": "sunny", "tempHigh": 4, "tempLow": -2}, {"date": "12.31", "type": "cloudy", "tempHigh": -2, "tempLow": -7}, {"date": "01.01", "type": "cloudy", "tempHigh": -3, "tempLow": -9}, {"date": "01.02", "type": "cloudy", "tempHigh": -2, "tempLow": -11}, {"date": "01.03", "type": "cloudy", "tempHigh": 3, "tempLow": -8}, {"date": "01.04", "type": "cloudy", "tempHigh": 8, "tempLow": -4}]}, {"name": "전주", "top": 48, "left": 28, "tempHigh": 12, "tempLow": 2, "type": "rainy", "weekly": [{"date": "12.29", "type": "rainy", "tempHigh": 12, "tempLow": 2}, {"date": "12.30", "type": "sunny", "tempHigh": 4, "tempLow": -4}, {"date": "12.31", "type": "cloudy", "tempHigh": -2, "tempLow": -6}, {"date": "01.01", "type": "cloudy", "tempHigh": -2, "tempLow": -9}, {"date": "01.02", "type": "cloudy", "tempHigh": -1, "tempLow": -9}, {"date": "01.03", "type": "cloudy", "tempHigh": 3, "tempLow": -7}, {"date": "01.04", "type": "cloudy", "tempHigh": 8, "tempLow": -4}]}, {"name": "광주", "top": 65, "left": 25, "tempHigh": 12, "tempLow": 2, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 12, "tempLow": 2}, {"date": "12.30", "type": "sunny", "tempHigh": 6, "tempLow": -2}, {"date": "12.31", "type": "cloudy", "tempHigh": 0, "tempLow": -5}, {"date": "01.01", "type": "cloudy", "tempHigh": -2, "tempLow": -7}, {"date": "01.02", "type": "cloudy", "tempHigh": 0, "tempLow": -6}, {"date": "01.03", "type": "cloudy", "tempHigh": 4, "tempLow": -4}, {"date": "01.04", "type": "rainy", "tempHigh": 8, "tempLow": -4}]}, {"name": "여수", "top": 78, "left": 40, "tempHigh": 13, "tempLow": 5, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 13, "tempLow": 5}, {"date": "12.30", "type": "cloudy", "tempHigh": 8, "tempLow": 1}, {"date": "12.31", "type": "sunny", "tempHigh": 2, "tempLow": -3}, {"date": "01.01", "type": "cloudy", "tempHigh": -1, "tempLow": -5}, {"date": "01.02", "type": "cloudy", "tempHigh": 1, "tempLow": -4}, {"date": "01.03", "type": "cloudy", "tempHigh": 5, "tempLow": -1}, {"date": "01.04", "type": "cloudy", "tempHigh": 8, "tempLow": 3}]}, {"name": "부산", "top": 70, "left": 68, "tempHigh": 12, "tempLow": 3, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 12, "tempLow": 3}, {"date": "12.30", "type": "cloudy", "tempHigh": 7, "tempLow": 0}, {"date": "12.31", "type": "sunny", "tempHigh": 0, "tempLow": -5}, {"date": "01.01", "type": "cloudy", "tempHigh": -1, "tempLow": -6}, {"date": "01.02", "type": "sunny", "tempHigh": 0, "tempLow": -6}, {"date": "01.03", "type": "sunny", "tempHigh": 5, "tempLow": -3}, {"date": "01.04", "type": "cloudy", "tempHigh": 8, "tempLow": 2}]}, {"name": "제주", "top": 88, "left": 75, "tempHigh": 15, "tempLow": 10, "type": "cloudy", "weekly": [{"date": "12.29", "type": "cloudy", "tempHigh": 15, "tempLow": 10}, {"date": "12.30", "type": "cloudy", "tempHigh": 11, "tempLow": 6}, {"date": "12.31", "type": "cloudy", "tempHigh": 5, "tempLow": 2}, {"date": "01.01", "type": "rainy", "tempHigh": 6, "tempLow": 1}, {"date": "01.02", "type": "rainy", "tempHigh": 8, "tempLow": 6}, {"date": "01.03", "type": "cloudy", "tempHigh": 10, "tempLow": 8}, {"date": "01.04", "type": "cloudy", "tempHigh": 12, "tempLow": 10}]}];
+
         // --- 1. 시계 기능 ---
         function updateClock() {
             const now = new Date();
@@ -325,22 +364,7 @@
             return icons[type] || icons.sunny;
         };
 
-        // --- 3. 데이터 설정 ---
-        const weatherTypes = ['sunny', 'cloudy', 'rainy', 'snowy'];
-        const weatherData = [
-            { name: '서울', top: 15, left: 28, tempLow: 18, tempHigh: 24, type: 'sunny' },
-            { name: '춘천', top: 10, left: 45, tempLow: 14, tempHigh: 21, type: 'cloudy' },
-            { name: '강릉', top: 15, left: 65, tempLow: 19, tempHigh: 26, type: 'sunny' },
-            { name: '대전', top: 35, left: 38, tempLow: 17, tempHigh: 25, type: 'rainy' },
-            { name: '대구', top: 48, left: 60, tempLow: 21, tempHigh: 29, type: 'sunny' },
-            { name: '전주', top: 48, left: 28, tempLow: 18, tempHigh: 26, type: 'cloudy' },
-            { name: '광주', top: 65, left: 25, tempLow: 19, tempHigh: 27, type: 'rainy' },
-            { name: '여수', top: 78, left: 40, tempLow: 18, tempHigh: 25, type: 'cloudy' },
-            { name: '부산', top: 70, left: 68, tempLow: 17, tempHigh: 23, type: 'rainy' },
-            { name: '제주', top: 88, left: 75, tempLow: 20, tempHigh: 28, type: 'sunny' }
-        ];
-
-        // --- 4. 지도 마커 그리기 ---
+        // --- 3. 지도 마커 그리기 ---
         function drawMapMarkers() {
             const container = document.getElementById('mapContainer');
             weatherData.forEach(city => {
@@ -362,49 +386,24 @@
             });
         }
 
-        // --- 5. 주간 예보 테이블 그리기 ---
-        function generateNext7Days() {
-            const dates = [];
-            const today = new Date();
-            for (let i = 1; i <= 7; i++) {
-                const nextDate = new Date(today);
-                nextDate.setDate(today.getDate() + i);
-                const mon = String(nextDate.getMonth() + 1).padStart(2, '0');
-                const day = String(nextDate.getDate()).padStart(2, '0');
-                dates.push(`${mon}.${day}`);
-            }
-            return dates;
-        }
-
+        // --- 4. 주간 예보 테이블 그리기 ---
         function drawForecastTable() {
             const tableHeaderRow = document.getElementById('tableHeaderRow');
             const tableBody = document.getElementById('tableBody');
             const tableBodyClone = document.getElementById('tableBodyClone');
 
-            const futureDates = generateNext7Days();
-            futureDates.forEach(date => {
-                const th = document.createElement('th');
-                th.innerText = date;
-                tableHeaderRow.appendChild(th);
-            });
-
-            // 각 지역별 날씨 데이터를 미리 생성 (원본과 복제본이 동일하도록)
-            const forecastData = weatherData.map(city => {
-                const weekData = [];
-                for (let i = 0; i < 7; i++) {
-                    const variation = Math.floor(Math.random() * 6) - 2;
-                    weekData.push({
-                        type: weatherTypes[Math.floor(Math.random() * weatherTypes.length)],
-                        tempLow: city.tempLow + variation,
-                        tempHigh: city.tempHigh + variation
-                    });
-                }
-                return { city, weekData };
-            });
+            // 헤더에 날짜 추가
+            if(weatherData.length > 0 && weatherData[0].weekly) {
+                weatherData[0].weekly.forEach(day => {
+                    const th = document.createElement('th');
+                    th.innerText = day.date;
+                    tableHeaderRow.appendChild(th);
+                });
+            }
 
             // 테이블 행 생성 함수
             function createRows(targetBody) {
-                forecastData.forEach(({ city, weekData }) => {
+                weatherData.forEach(city => {
                     const tr = document.createElement('tr');
 
                     const tdName = document.createElement('td');
@@ -412,16 +411,18 @@
                     tdName.innerText = city.name;
                     tr.appendChild(tdName);
 
-                    weekData.forEach(day => {
-                        const td = document.createElement('td');
-                        td.innerHTML = `
-                            <div class="forecast-cell">
-                                <div class="mini-icon">${getIconSvg(day.type)}</div>
-                                <div class="mini-temp"><span class="low">${day.tempLow}°</span>/<span class="high">${day.tempHigh}°</span></div>
-                            </div>
-                        `;
-                        tr.appendChild(td);
-                    });
+                    if(city.weekly) {
+                        city.weekly.forEach(day => {
+                            const td = document.createElement('td');
+                            td.innerHTML = `
+                                <div class="forecast-cell">
+                                    <div class="mini-icon">${getIconSvg(day.type)}</div>
+                                    <div class="mini-temp"><span class="low">${day.tempLow}°</span>/<span class="high">${day.tempHigh}°</span></div>
+                                </div>
+                            `;
+                            tr.appendChild(td);
+                        });
+                    }
                     targetBody.appendChild(tr);
                 });
             }
@@ -433,7 +434,7 @@
 
         drawMapMarkers();
         drawForecastTable();
-
     </script>
 </body>
 </html>
+    
