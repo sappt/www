@@ -13,14 +13,20 @@ EMP_DATA_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=o
 SCHEDULE_DATA_URL = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet=schedule_data"
 
 def get_current_week_dates():
-    """현재 주의 월~금 날짜 반환"""
-    today = datetime.date.today()
-    # 월요일 찾기 (weekday: 월=0, 일=6)
-    monday = today - datetime.timedelta(days=today.weekday())
+    """현재 주의 일~토 날짜 반환 (KST 기준)"""
+    # UTC 시간을 KST로 변환 (GitHub Actions에서 실행될 때 시간대 문제 해결)
+    utc_now = datetime.datetime.utcnow()
+    kst_now = utc_now + datetime.timedelta(hours=9)
+    today = kst_now.date()
+
+    # 일요일 찾기 (weekday: 월=0, 일=6)
+    # (weekday() + 1) % 7 을 계산하면 일=0, 월=1, ..., 토=6
+    days_since_sunday = (today.weekday() + 1) % 7
+    sunday = today - datetime.timedelta(days=days_since_sunday)
 
     week_dates = []
-    for i in range(5):  # 월~금
-        d = monday + datetime.timedelta(days=i)
+    for i in range(7):  # 일~토
+        d = sunday + datetime.timedelta(days=i)
         week_dates.append(d)
 
     return week_dates
@@ -129,21 +135,21 @@ def generate_html(employees, schedules, week_dates):
 
     # 주간 날짜 범위 문자열
     start_date = week_dates[0]
-    end_date = week_dates[4]
+    end_date = week_dates[6]
     days_kr = ["월", "화", "수", "목", "금", "토", "일"]
     date_range = f"{start_date.strftime('%Y.%m.%d')} ({days_kr[start_date.weekday()]}) ~ {end_date.strftime('%m.%d')} ({days_kr[end_date.weekday()]})"
 
-    # 테이블 헤더 생성
+    # 테이블 헤더 생성 (월~금만 표시)
     header_cells = ""
-    for d in week_dates:
-        day_name = ["월 (Mon)", "화 (Tue)", "수 (Wed)", "목 (Thu)", "금 (Fri)"][d.weekday()]
+    for d in week_dates[1:6]:  # 월~금
+        day_name = ["월 (Mon)", "화 (Tue)", "수 (Wed)", "목 (Thu)", "금 (Fri)", "토 (Sat)", "일 (Sun)"][d.weekday()]
         header_cells += f'<th style="width: 18%">{day_name}<br><small>{d.strftime("%m/%d")}</small></th>\n                    '
 
-    # 테이블 본문 생성
+    # 테이블 본문 생성 (월~금만 표시)
     body_rows = ""
     for emp in employees:
         cells = ""
-        for d in week_dates:
+        for d in week_dates[1:6]:  # 월~금
             schedule = get_schedule_for_date(schedules, emp["email"], d)
             cell_html = generate_cell_html(schedule)
             cells += f"<td>{cell_html}</td>\n                    "
