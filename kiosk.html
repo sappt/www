@@ -23,25 +23,28 @@
 </head>
 <body>
 
-    <iframe id="pageViewer" src="w1.html"></iframe>
+    <iframe id="pageViewer"></iframe>
     <script>
         // 1. 순환할 파일 목록을 배열로 정의
         const pages = ['w1.html','w2.html', 's1.html', 'image01.html'];
-        
+
         // 2. 현재 보여주고 있는 페이지의 인덱스 (0 = a.html)
         let currentIndex = 0;
-        
+
         // 3. iframe 요소 가져오기
         const iframe = document.getElementById('pageViewer');
+
+        // 초기 페이지 로드 (캐시 무시를 위해 타임스탐프 추가)
+        iframe.src = pages[currentIndex] + '?t=' + Date.now();
 
         // 4. x초(x000ms)마다 실행되는 타이머 설정
         setInterval(() => {
             // 다음 인덱스 계산 (나머지 연산 % 을 사용하여 0, 1, 2, 0, 1, 2... 반복)
             currentIndex = (currentIndex + 1) % pages.length;
-            
-            // iframe의 주소를 변경하여 다음 파일 로딩
-            iframe.src = pages[currentIndex];
-            
+
+            // iframe의 주소를 변경하여 다음 파일 로딩 (캐시 무시를 위해 타임스탬프 추가)
+            iframe.src = pages[currentIndex] + '?t=' + Date.now();
+
             console.log(`이동함: ${pages[currentIndex]}`); // 개발자 도구 확인용
         }, 20000);// x초(x000ms)마다 실행되는 타이머 설정
     </script>
