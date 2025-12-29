@@ -72,7 +72,7 @@
             const currentImageElement = isFirstImageActive ? document.getElementById('img1') : document.getElementById('img2');
 
             // 다음 이미지 로드 시작
-            nextImageElement.src = getFHDUrl1();
+            nextImageElement.src = getFHDBackgroundUrl();
 
             // 이미지가 로딩 완료되면 페이드 효과 실행
             nextImageElement.onload = function() {
@@ -91,7 +91,7 @@
         }
 
         // 초기 실행: 첫 번째 이미지 로드
-        document.getElementById('img1').src = getFHDUrl1();
+        document.getElementById('img1').src = getFHDBackgroundUrl();
 
         // 주기적 실행
         setInterval(changeImage, CHANGE_INTERVAL);
