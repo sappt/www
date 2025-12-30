@@ -133,10 +133,6 @@
             flex-wrap: wrap;
         }
 
-        /* 요일별 색상 */
-        .sunday { color: red; }
-        .saturday { color: blue; }
-
         th:last-child, td:last-child {
             border-right: none;
         }
@@ -170,8 +166,8 @@
         }
 
         tbody td:nth-child(n+2) {
-            flex-basis: 14.28%;
-            width: 14.28%;
+            flex-basis: 18%;
+            width: 18%;
         }
 
         /* 상태별 라벨 스타일 */
@@ -200,6 +196,10 @@
             font-size: clamp(12px, 1.8vmin, 24px);
             color: #888;
         }
+
+        /* 요일별 색상 */
+        .sunday { color: red; }
+        .saturday { color: blue; }
 
         /* 범례 */
         .legend {
@@ -251,6 +251,7 @@
                     <th style="width: 14.28%">목 (Thu)<br><small>01/01</small></th>
                     <th style="width: 14.28%">금 (Fri)<br><small>01/02</small></th>
                     <th style="width: 14.28%" class="saturday">토 (Sat)<br><small>01/03</small></th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -260,8 +261,10 @@
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="status vacation">연차</span></td>
-                    <td><span class="office">사내 근무</span></td>
-                    <td><span class="office">사내 근무</span></td>
+                    <td><span class="status vacation">연차</span>
+                        <span class="desc">연말</span></td>
+                    <td><span class="status vacation">연차</span>
+                        <span class="desc">연말휴가</span></td>
                     <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
@@ -270,7 +273,8 @@
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
-                    <td><span class="office">사내 근무</span></td>
+                    <td><span class="status vacation">연차</span>
+                        <span class="desc">연말</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
@@ -329,7 +333,7 @@
         </table>
     </div>
 
-    <div class="update-time">Last Update: 2025-12-30 13:52:28 (KST)</div>
+    <div class="update-time">Last Update: 2025-12-30 14:17:46 (KST)</div>
 </div>
 
 </body>
