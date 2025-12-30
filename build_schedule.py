@@ -83,12 +83,12 @@ def parse_schedules(rows):
                 continue
     return schedules
 
-def get_schedule_for_date(schedules, email, target_date):
+def get_schedule_for_date(schedules, name, target_date):
     """특정 직원의 특정 날짜 일정 찾기"""
     target_str = target_date.strftime("%Y-%m-%d")
 
     for s in schedules:
-        if s["email"] == email:
+        if s["name"] == name:
             # 날짜 범위 체크
             if s["start_date"] <= target_str <= s["end_date"]:
                 return s
@@ -150,7 +150,7 @@ def generate_html(employees, schedules, week_dates):
     for emp in employees:
         cells = ""
         for d in week_dates[1:6]:  # 월~금
-            schedule = get_schedule_for_date(schedules, emp["email"], d)
+            schedule = get_schedule_for_date(schedules, emp["name"], d)
             cell_html = generate_cell_html(schedule)
             cells += f"<td>{cell_html}</td>\n                    "
 
