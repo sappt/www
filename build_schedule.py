@@ -76,8 +76,9 @@ def parse_schedules(rows):
                     "type": row[3].strip(),  # 연차, 출장, 외근 등
                     "start_date": row[4].strip(),
                     "end_date": row[5].strip(),
-                    "location": row[6].strip() if len(row) > 6 else "",
-                    "status": row[7].strip() if len(row) > 7 else ""
+                    "reason": row[6].strip() if len(row) > 6 else "",
+                    "location": row[7].strip() if len(row) > 7 else "",
+                    "status": row[8].strip() if len(row) > 8 else ""
                 })
             except:
                 continue
@@ -119,12 +120,18 @@ def generate_cell_html(schedule):
     if css_class == "office":
         return '<span class="office">사내 근무</span>'
 
+    reason = schedule.get("reason", "")
     location = schedule.get("location", "")
+
+    html = f'<span class="status {css_class}">{label}</span>'
+
+    if reason:
+        html += f'\n                        <span class="desc">사유: {reason}</span>'
+
     if location:
-        return f'''<span class="status {css_class}">{label}</span>
-                        <span class="desc">{location}</span>'''
-    else:
-        return f'<span class="status {css_class}">{label}</span>'
+        html += f'\n                        <span class="desc">비고: {location}</span>'
+
+    return html
 
 def generate_html(employees, schedules, week_dates):
     """HTML 파일 생성"""
@@ -405,7 +412,6 @@ def generate_html(employees, schedules, week_dates):
             <div class="date-range">{date_range}</div>
         </div>
         <div class="legend">
-            <span style="color:#c92a2a">■ 출장</span>
             <span style="color:#1098ad">■ 외근/오전외근/오후외근</span>
             <span style="color:#7950f2">■ 휴가/연차/반차</span>
         </div>
