@@ -121,15 +121,11 @@ def generate_cell_html(schedule):
         return '<span class="office">사내 근무</span>'
 
     reason = schedule.get("reason", "")
-    location = schedule.get("location", "")
 
     html = f'<span class="status {css_class}">{label}</span>'
 
     if reason:
-        html += f'\n                        <span class="desc">사유: {reason}</span>'
-
-    if location:
-        html += f'\n                        <span class="desc">비고: {location}</span>'
+        html += f'\n                        <span class="desc">{reason}</span>'
 
     return html
 
