@@ -341,13 +341,14 @@ def generate_html(employees, schedules, week_dates):
         }}
 
         tbody td:nth-child(n+2) {{
-            flex-basis: 18%;
-            width: 18%;
+            flex-basis: 14.28%;
+            width: 14.28%;
         }}
 
         /* 상태별 라벨 스타일 */
         .status {{
-            display: inline-block;
+            display: block;
+            width: 100%;
             padding: clamp(4px, 0.8vmin, 12px) clamp(8px, 1.5vmin, 20px);
             border-radius: 4px;
             font-size: clamp(12px, 2vmin, 28px);
