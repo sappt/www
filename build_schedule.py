@@ -258,13 +258,53 @@ def generate_html(employees, schedules, week_dates):
             height: 100%;
             border-collapse: collapse;
             flex: 1;
+            display: flex;
+            flex-direction: column;
+        }}
+
+        thead {{
+            flex-shrink: 0;
+        }}
+
+        tbody {{
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 100%;
+        }}
+
+        tbody tr {{
+            flex: 1;
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }}
+
+        tbody tr:last-child {{
+            border-bottom: 1px solid #ddd;
         }}
 
         th, td {{
-            border: 1px solid #ddd;
+            border-right: 1px solid #ddd;
             padding: clamp(8px, 1.5vmin, 20px);
             text-align: center;
             font-size: clamp(14px, 2.5vmin, 32px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }}
+
+        th:last-child, td:last-child {{
+            border-right: none;
+        }}
+
+        thead tr {{
+            display: flex;
+            flex-shrink: 0;
+        }}
+
+        thead th {{
+            border-bottom: 1px solid #ddd;
         }}
 
         th {{
@@ -282,6 +322,13 @@ def generate_html(employees, schedules, week_dates):
         td:first-child {{
             font-weight: bold;
             background-color: #fafafa;
+            flex-basis: 10%;
+            width: 10%;
+        }}
+
+        tbody td:nth-child(n+2) {{
+            flex-basis: 18%;
+            width: 18%;
         }}
 
         /* 상태별 라벨 스타일 */
