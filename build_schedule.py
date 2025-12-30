@@ -139,20 +139,31 @@ def generate_html(employees, schedules, week_dates):
     days_kr = ["월", "화", "수", "목", "금", "토", "일"]
     date_range = f"{start_date.strftime('%Y.%m.%d')} ({days_kr[start_date.weekday()]}) ~ {end_date.strftime('%m.%d')} ({days_kr[end_date.weekday()]})"
 
-    # 테이블 헤더 생성 (월~금만 표시)
+    # 테이블 헤더 생성 (일~토 전체 표시)
     header_cells = ""
-    for d in week_dates[1:6]:  # 월~금
-        day_name = ["월 (Mon)", "화 (Tue)", "수 (Wed)", "목 (Thu)", "금 (Fri)", "토 (Sat)", "일 (Sun)"][d.weekday()]
-        header_cells += f'<th style="width: 18%">{day_name}<br><small>{d.strftime("%m/%d")}</small></th>\n                    '
+    day_names = ["월 (Mon)", "화 (Tue)", "수 (Wed)", "목 (Thu)", "금 (Fri)", "토 (Sat)", "일 (Sun)"]
+    for d in week_dates:  # 일~토 (week_dates는 이미 [일, 월, 화, 수, 목, 금, 토] 순서)
+        day_idx = d.weekday()  # 월=0, 일=6
+        day_name = day_names[day_idx]
+        day_class = "sunday" if day_idx == 6 else "saturday" if day_idx == 5 else ""
+        if day_class:
+            header_cells += f'<th style="width: 14.28%" class="{day_class}">{day_name}<br><small>{d.strftime("%m/%d")}</small></th>\n                    '
+        else:
+            header_cells += f'<th style="width: 14.28%">{day_name}<br><small>{d.strftime("%m/%d")}</small></th>\n                    '
 
-    # 테이블 본문 생성 (월~금만 표시)
+    # 테이블 본문 생성 (일~토 전체 표시)
     body_rows = ""
     for emp in employees:
         cells = ""
-        for d in week_dates[1:6]:  # 월~금
+        for d in week_dates:  # 일~토
             schedule = get_schedule_for_date(schedules, emp["name"], d)
             cell_html = generate_cell_html(schedule)
-            cells += f"<td>{cell_html}</td>\n                    "
+            day_idx = d.weekday()
+            day_class = "sunday" if day_idx == 6 else "saturday" if day_idx == 5 else ""
+            if day_class:
+                cells += f'<td class="{day_class}">{cell_html}</td>\n                    '
+            else:
+                cells += f"<td>{cell_html}</td>\n                    "
 
         body_rows += f'''<tr>
                     <td>{emp["name"]}</td>
@@ -357,6 +368,10 @@ def generate_html(employees, schedules, week_dates):
             font-size: clamp(12px, 1.8vmin, 24px);
             color: #888;
         }}
+
+        /* 요일별 색상 */
+        .sunday {{ color: red; }}
+        .saturday {{ color: blue; }}
 
         /* 범례 */
         .legend {{

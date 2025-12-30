@@ -133,6 +133,10 @@
             flex-wrap: wrap;
         }
 
+        /* 요일별 색상 */
+        .sunday { color: red; }
+        .saturday { color: blue; }
+
         th:last-child, td:last-child {
             border-right: none;
         }
@@ -166,8 +170,8 @@
         }
 
         tbody td:nth-child(n+2) {
-            flex-basis: 18%;
-            width: 18%;
+            flex-basis: 14.28%;
+            width: 14.28%;
         }
 
         /* 상태별 라벨 스타일 */
@@ -240,70 +244,85 @@
             <thead>
                 <tr>
                     <th style="width: 10%">성명</th>
-                    <th style="width: 18%">월 (Mon)<br><small>12/29</small></th>
-                    <th style="width: 18%">화 (Tue)<br><small>12/30</small></th>
-                    <th style="width: 18%">수 (Wed)<br><small>12/31</small></th>
-                    <th style="width: 18%">목 (Thu)<br><small>01/01</small></th>
-                    <th style="width: 18%">금 (Fri)<br><small>01/02</small></th>
-                    
+                    <th style="width: 14.28%" class="sunday">일 (Sun)<br><small>12/28</small></th>
+                    <th style="width: 14.28%">월 (Mon)<br><small>12/29</small></th>
+                    <th style="width: 14.28%">화 (Tue)<br><small>12/30</small></th>
+                    <th style="width: 14.28%">수 (Wed)<br><small>12/31</small></th>
+                    <th style="width: 14.28%">목 (Thu)<br><small>01/01</small></th>
+                    <th style="width: 14.28%">금 (Fri)<br><small>01/02</small></th>
+                    <th style="width: 14.28%" class="saturday">토 (Sat)<br><small>01/03</small></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>김대호</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>임성택</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>서한얼</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>유태희</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>강광훈</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>박원상</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 <tr>
                     <td>최승환</td>
+                    <td class="sunday"><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
                     <td><span class="office">사내 근무</span></td>
+                    <td class="saturday"><span class="office">사내 근무</span></td>
                     </tr>
                 
             </tbody>
