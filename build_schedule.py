@@ -98,7 +98,7 @@ def get_schedule_for_date(schedules, name, target_date):
 def get_status_class(schedule_type):
     """일정 유형에 따른 CSS 클래스 반환"""
     if not schedule_type:
-        return "office", "사내 근무"
+        return "office", "내근"
 
     t = schedule_type.lower()
     if "연차" in schedule_type or "반차" in schedule_type or "휴가" in schedule_type:
@@ -108,7 +108,7 @@ def get_status_class(schedule_type):
     elif "외근" in schedule_type or "미팅" in schedule_type:
         return "outside", schedule_type
     else:
-        return "office", "사내 근무"
+        return "office", "내근"
 
 def generate_cell_html(schedule, day_idx=None):
     """테이블 셀 HTML 생성"""
@@ -116,12 +116,12 @@ def generate_cell_html(schedule, day_idx=None):
         # 일요일(6)과 토요일(5)에는 입력된 정보 없으면 공백 처리
         if day_idx in (5, 6):
             return ''
-        return '<span class="office">사내 근무</span>'
+        return '<span class="office">내근</span>'
 
     css_class, label = get_status_class(schedule["type"])
 
     if css_class == "office":
-        return '<span class="office">사내 근무</span>'
+        return '<span class="office">내근</span>'
 
     reason = schedule.get("reason", "")
 
