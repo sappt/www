@@ -110,9 +110,12 @@ def get_status_class(schedule_type):
     else:
         return "office", "사내 근무"
 
-def generate_cell_html(schedule):
+def generate_cell_html(schedule, day_idx=None):
     """테이블 셀 HTML 생성"""
     if schedule is None:
+        # 일요일(6)과 토요일(5)에는 입력된 정보 없으면 공백 처리
+        if day_idx in (5, 6):
+            return ''
         return '<span class="office">사내 근무</span>'
 
     css_class, label = get_status_class(schedule["type"])
@@ -160,8 +163,8 @@ def generate_html(employees, schedules, week_dates):
         cells = ""
         for d in week_dates:  # 일~토
             schedule = get_schedule_for_date(schedules, emp["name"], d)
-            cell_html = generate_cell_html(schedule)
             day_idx = d.weekday()
+            cell_html = generate_cell_html(schedule, day_idx)
             day_class = "sunday" if day_idx == 6 else "saturday" if day_idx == 5 else ""
             if day_class:
                 cells += f'<td class="{day_class}">{cell_html}</td>\n                    '
