@@ -102,11 +102,11 @@ def get_status_class(schedule_type):
 
     t = schedule_type.lower()
     if "연차" in schedule_type or "반차" in schedule_type or "휴가" in schedule_type:
-        return "vacation", schedule_type
+        return "vacation", "☀️ " + schedule_type
     elif "출장" in schedule_type:
         return "trip", "출장"
     elif "외근" in schedule_type or "미팅" in schedule_type:
-        return "outside", schedule_type
+        return "outside", "📍 " + schedule_type
     else:
         return "office", "내근"
 
