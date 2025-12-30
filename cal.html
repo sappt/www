@@ -198,7 +198,8 @@
             startDate: form.startDate.value,
             endDate: form.endDate.value,
             reason: form.reason.value,
-            status: form.status.value
+            status: form.status.value,
+            timestamp: new Date().toLocaleString('ko-KR')
         };
 
         // 데이터 전송
