@@ -84,16 +84,25 @@ def parse_schedules(rows):
                 continue
     return schedules
 
-def get_schedule_for_date(schedules, name, target_date):
-    """특정 직원의 특정 날짜 일정 찾기"""
+def get_schedules_for_date(schedules, name, target_date):
+    """특정 직원의 특정 날짜 모든 일정 찾기 (오전/오후 구분)"""
     target_str = target_date.strftime("%Y-%m-%d")
+    morning = None
+    afternoon = None
 
     for s in schedules:
-        if s["name"] == name:
-            # 날짜 범위 체크
-            if s["start_date"] <= target_str <= s["end_date"]:
-                return s
-    return None
+        if s["name"] == name and s["start_date"] <= target_str <= s["end_date"]:
+            schedule_type = s["type"]
+
+            if "오전" in schedule_type:
+                morning = s
+            elif "오후" in schedule_type:
+                afternoon = s
+            else:
+                # 오전/오후 구분 없는 일정 (연차, 출장 등)
+                morning = s
+
+    return morning, afternoon
 
 def get_status_class(schedule_type):
     """일정 유형에 따른 CSS 클래스 반환"""
@@ -110,27 +119,72 @@ def get_status_class(schedule_type):
     else:
         return "office", "내근"
 
-def generate_cell_html(schedule, day_idx=None):
-    """테이블 셀 HTML 생성"""
-    if schedule is None:
-        # 일요일(6)과 토요일(5)에는 입력된 정보 없으면 공백 처리
+def generate_cell_html(morning_schedule, afternoon_schedule=None, day_idx=None):
+    """테이블 셀 HTML 생성 (오전/오후 구분)"""
+    # 둘 다 없는 경우
+    if morning_schedule is None and afternoon_schedule is None:
         if day_idx in (5, 6):
             return ''
         return '<span class="office">내근</span>'
 
-    css_class, label = get_status_class(schedule["type"])
+    # 오전과 오후 모두 있는 경우
+    if morning_schedule is not None and afternoon_schedule is not None:
+        css_class_m, label_m = get_status_class(morning_schedule["type"])
+        css_class_a, label_a = get_status_class(afternoon_schedule["type"])
+        reason_m = morning_schedule.get("reason", "")
+        reason_a = afternoon_schedule.get("reason", "")
 
-    if css_class == "office":
-        return '<span class="office">내근</span>'
+        html = f'''<span class="section morning">
+                            <span class="status {css_class_m}">{label_m}</span>'''
+        if reason_m:
+            html += f'\n                            <span class="desc">{reason_m}</span>'
+        html += f'''
+                        </span>
+                        <span class="section afternoon">
+                            <span class="status {css_class_a}">{label_a}</span>'''
+        if reason_a:
+            html += f'\n                            <span class="desc">{reason_a}</span>'
+        html += '''
+                        </span>'''
+        return html
 
-    reason = schedule.get("reason", "")
+    # 오전만 있는 경우
+    if morning_schedule is not None:
+        css_class, label = get_status_class(morning_schedule["type"])
 
-    html = f'<span class="status {css_class}">{label}</span>'
+        if css_class == "office":
+            return '<span class="office">내근</span>'
 
-    if reason:
-        html += f'\n                        <span class="desc">{reason}</span>'
+        reason = morning_schedule.get("reason", "")
 
-    return html
+        # 오전/오후 구분 여부 확인
+        if "오전" in morning_schedule["type"]:
+            html = f'''<div class="morning-content">
+                            <span class="status {css_class}">{label}</span>'''
+            if reason:
+                html += f'\n                            <span class="desc">{reason}</span>'
+            html += '\n                        </div>'
+            return html
+        else:
+            # 오전/오후 구분 없는 일정 (연차, 출장 등)
+            html = f'<span class="status {css_class}">{label}</span>'
+            if reason:
+                html += f'\n                        <span class="desc">{reason}</span>'
+            return html
+
+    # 오후만 있는 경우
+    if afternoon_schedule is not None:
+        css_class, label = get_status_class(afternoon_schedule["type"])
+        reason = afternoon_schedule.get("reason", "")
+
+        html = f'''<div class="afternoon-content">
+                            <span class="status {css_class}">{label}</span>'''
+        if reason:
+            html += f'\n                            <span class="desc">{reason}</span>'
+        html += '\n                        </div>'
+        return html
+
+    return ''
 
 def generate_html(employees, schedules, week_dates):
     """HTML 파일 생성"""
@@ -162,12 +216,27 @@ def generate_html(employees, schedules, week_dates):
     for emp in employees:
         cells = ""
         for d in week_dates:  # 일~토
-            schedule = get_schedule_for_date(schedules, emp["name"], d)
+            morning_schedule, afternoon_schedule = get_schedules_for_date(schedules, emp["name"], d)
             day_idx = d.weekday()
-            cell_html = generate_cell_html(schedule, day_idx)
+            cell_html = generate_cell_html(morning_schedule, afternoon_schedule, day_idx)
+
+            # 셀 클래스 결정
             day_class = "sunday" if day_idx == 6 else "saturday" if day_idx == 5 else ""
-            if day_class:
-                cells += f'<td class="{day_class}">{cell_html}</td>\n                    '
+
+            # 오전만 있는 경우 morning-half 클래스 추가
+            if morning_schedule is not None and afternoon_schedule is None and "오전" in morning_schedule["type"]:
+                cell_class = f"{day_class} morning-half".strip()
+            # 오후만 있는 경우 afternoon-half 클래스 추가
+            elif afternoon_schedule is not None and morning_schedule is None:
+                cell_class = f"{day_class} afternoon-half".strip()
+            # 오전/오후 모두 있거나 오전/오후 구분 없는 경우 full-status
+            elif morning_schedule is not None and afternoon_schedule is None and "오전" not in morning_schedule["type"]:
+                cell_class = f"{day_class} full-status".strip()
+            else:
+                cell_class = day_class
+
+            if cell_class:
+                cells += f'<td class="{cell_class}">{cell_html}</td>\n                    '
             else:
                 cells += f"<td>{cell_html}</td>\n                    "
 
@@ -346,6 +415,83 @@ def generate_html(employees, schedules, week_dates):
         tbody td:nth-child(n+2) {{
             flex-basis: 14.28%;
             width: 14.28%;
+        }}
+
+        /* td를 상하 분할 레이아웃으로 설정 */
+        tbody td {{
+            flex-direction: column;
+            position: relative;
+            padding: 0;
+        }}
+
+        /* 일반 td (내근 등) */
+        tbody td:not(.morning-half):not(.afternoon-half):not(.full-status) {{
+            padding: clamp(8px, 1.5vmin, 20px);
+        }}
+
+        /* 오전 상태 (상단에만 표시, 하단 공백) */
+        tbody td.morning-half {{
+            padding: 0;
+        }}
+
+        .morning-content {{
+            flex: 0 0 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4px, 1vmin, 12px);
+        }}
+
+        tbody td.morning-half::after {{
+            content: '';
+            flex: 0 0 50%;
+        }}
+
+        /* 오후 상태 (상단 공백, 하단에만 표시) */
+        tbody td.afternoon-half {{
+            padding: 0;
+        }}
+
+        tbody td.afternoon-half::before {{
+            content: '';
+            flex: 0 0 50%;
+        }}
+
+        .afternoon-content {{
+            flex: 0 0 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4px, 1vmin, 12px);
+        }}
+
+        /* 전체 상태 (100% 표시) - 기존대로 */
+        tbody td.full-status {{
+            padding: clamp(8px, 1.5vmin, 20px);
+        }}
+
+        tbody td.full-status .status {{
+            margin-bottom: 4px;
+        }}
+
+        /* 오전/오후 섹션 (같은 셀에 오전과 오후가 모두 있을 때) */
+        .section {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 50%;
+            width: 100%;
+            padding: clamp(4px, 1vmin, 12px);
+        }}
+
+        /* 오후 섹션이 있으면 위에 가로 구분선 추가 */
+        .section.afternoon {{
+            border-top: 2px solid #ddd;
         }}
 
         /* 상태별 라벨 스타일 */
