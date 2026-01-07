@@ -34,5 +34,5 @@ jobs:
           git config --global user.name 'WeatherBot'
           git config --global user.email 'bot@noreply.github.com'
           git add daily_weather.html
-          git commit -m "Update weather: $(date)" || exit 0
+          git commit -m "Update weather.html" || exit 0
           git push
