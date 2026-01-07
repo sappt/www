@@ -170,6 +170,83 @@
             width: 14.28%;
         }
 
+        /* td를 상하 분할 레이아웃으로 설정 */
+        tbody td {
+            flex-direction: column;
+            position: relative;
+            padding: 0;
+        }
+
+        /* 일반 td (내근 등) */
+        tbody td:not(.morning-half):not(.afternoon-half):not(.full-status) {
+            padding: clamp(8px, 1.5vmin, 20px);
+        }
+
+        /* 오전 상태 (상단에만 표시, 하단 공백) */
+        tbody td.morning-half {
+            padding: 0;
+        }
+
+        .morning-content {
+            flex: 0 0 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4px, 1vmin, 12px);
+        }
+
+        tbody td.morning-half::after {
+            content: '';
+            flex: 0 0 50%;
+        }
+
+        /* 오후 상태 (상단 공백, 하단에만 표시) */
+        tbody td.afternoon-half {
+            padding: 0;
+        }
+
+        tbody td.afternoon-half::before {
+            content: '';
+            flex: 0 0 50%;
+        }
+
+        .afternoon-content {
+            flex: 0 0 50%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(4px, 1vmin, 12px);
+        }
+
+        /* 전체 상태 (100% 표시) - 기존대로 */
+        tbody td.full-status {
+            padding: clamp(8px, 1.5vmin, 20px);
+        }
+
+        tbody td.full-status .status {
+            margin-bottom: 4px;
+        }
+
+        /* 오전/오후 섹션 (같은 셀에 오전과 오후가 모두 있을 때) */
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 50%;
+            width: 100%;
+            padding: clamp(4px, 1vmin, 12px);
+        }
+
+        /* 오후 섹션이 있으면 위에 가로 구분선 추가 */
+        .section.afternoon {
+            border-top: 2px solid #ddd;
+        }
+
         /* 상태별 라벨 스타일 */
         .status {
             display: block;
@@ -279,11 +356,13 @@
                     <td>서한얼</td>
                     <td class="sunday"></td>
                     <td><span class="office">내근</span></td>
-                    <td><span class="status vacation">😴연차</span>
+                    <td class="full-status"><span class="status vacation">😴연차</span>
                         <span class="desc">병원정기검진</span></td>
                     <td><span class="office">내근</span></td>
-                    <td><span class="status outside">🚗오전외근</span>
-                        <span class="desc">수원 오이</span></td>
+                    <td class="morning-half"><div class="morning-content">
+                            <span class="status outside">🚗오전외근</span>
+                            <span class="desc">수원 오이</span>
+                        </div></td>
                     <td><span class="office">내근</span></td>
                     <td class="saturday"></td>
                     </tr>
@@ -291,13 +370,19 @@
                     <td>유태희</td>
                     <td class="sunday"></td>
                     <td><span class="office">내근</span></td>
-                    <td><span class="status outside">🚗오전외근</span>
+                    <td><span class="section morning">
+                            <span class="status outside">🚗오전외근</span>
+                            <span class="desc">테스트</span>
+                        </span>
+                        <span class="section afternoon">
+                            <span class="status outside">🚗오후외근</span>
+                            <span class="desc">테스트</span>
+                        </span></td>
+                    <td class="full-status"><span class="status outside">🚗외근</span>
                         <span class="desc">테스트</span></td>
-                    <td><span class="status outside">🚗외근</span>
+                    <td class="full-status"><span class="status outside">🚗외근</span>
                         <span class="desc">테스트</span></td>
-                    <td><span class="status outside">🚗외근</span>
-                        <span class="desc">테스트</span></td>
-                    <td><span class="status vacation">😴연차</span>
+                    <td class="full-status"><span class="status vacation">😴연차</span>
                         <span class="desc">가족병원진료</span></td>
                     <td class="saturday"></td>
                     </tr>
@@ -326,8 +411,10 @@
                     <td class="sunday"></td>
                     <td><span class="office">내근</span></td>
                     <td><span class="office">내근</span></td>
-                    <td><span class="status outside">🚗오전외근</span>
-                        <span class="desc">테스트</span></td>
+                    <td class="morning-half"><div class="morning-content">
+                            <span class="status outside">🚗오전외근</span>
+                            <span class="desc">테스트</span>
+                        </div></td>
                     <td><span class="office">내근</span></td>
                     <td><span class="office">내근</span></td>
                     <td class="saturday"></td>
@@ -337,7 +424,7 @@
         </table>
     </div>
 
-    <div class="update-time">Last Update: 2026-01-07 14:46:46 (KST)</div>
+    <div class="update-time">Last Update: 2026-01-07 14:53:37 (KST)</div>
 </div>
 
 </body>
