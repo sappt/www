@@ -40,14 +40,14 @@
             font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
             background-color: #f9f9f9;
             color: #333;
-            font-size: clamp(14px, 2.5vmin, 32px);
+            font-size: clamp(14px, 1.5vmin, 28px);
         }
 
         .container {
             width: 100%;
             height: 100vh;
             background-color: #fff;
-            padding: clamp(10px, 2vmin, 30px);
+            padding: clamp(10px, 1vmin, 30px);
             overflow: auto;
             display: flex;
             flex-direction: column;
@@ -59,9 +59,9 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: clamp(5px, 1vmin, 10px);
+            gap: clamp(5px, 0.8vmin, 15px);
             border-bottom: 2px solid #0056b3;
-            padding-bottom: clamp(5px, 1vmin, 15px);
+            padding-bottom: clamp(5px, 0.8vmin, 15px);
             flex-shrink: 0;
         }
 
@@ -74,12 +74,12 @@
 
         h1 {
             margin: 0;
-            font-size: clamp(20px, 4vmin, 48px);
+            font-size: clamp(18px, 2.2vmin, 36px);
             color: #0056b3;
         }
 
         .date-range {
-            font-size: clamp(14px, 3vmin, 32px);
+            font-size: clamp(12px, 1.8vmin, 26px);
             font-weight: bold;
             color: #555;
         }
@@ -124,9 +124,9 @@
 
         th, td {
             border-right: 1px solid #ddd;
-            padding: clamp(8px, 1.5vmin, 20px);
+            padding: clamp(8px, 1vmin, 16px);
             text-align: center;
-            font-size: clamp(14px, 2.5vmin, 32px);
+            font-size: clamp(12px, 1.5vmin, 26px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -177,14 +177,19 @@
             padding: 0;
         }
 
-        /* 일반 td (내근 등) */
-        tbody td:not(.morning-half):not(.afternoon-half):not(.full-status) {
-            padding: clamp(8px, 1.5vmin, 20px);
+        /* 일반 td (내근 등) - .section이 없는 경우만 */
+        tbody td:not(.morning-half):not(.afternoon-half):not(.full-status):not(:has(.section)) {
+            padding: clamp(8px, 1vmin, 16px);
+        }
+
+        /* 오전/오후 둘 다 있는 td (.section을 가진 경우) */
+        tbody td:has(.section) {
+            padding: 0;
         }
 
         /* 오전 상태 (상단에만 표시, 하단 공백) */
         tbody td.morning-half {
-            padding: 0;
+            padding: 0 !important;
         }
 
         .morning-content {
@@ -194,7 +199,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: clamp(4px, 1vmin, 12px);
+            padding: clamp(4px, 0.8vmin, 10px);
         }
 
         tbody td.morning-half::after {
@@ -204,7 +209,7 @@
 
         /* 오후 상태 (상단 공백, 하단에만 표시) */
         tbody td.afternoon-half {
-            padding: 0;
+            padding: 0 !important;
         }
 
         tbody td.afternoon-half::before {
@@ -219,12 +224,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: clamp(4px, 1vmin, 12px);
+            padding: clamp(4px, 0.8vmin, 10px);
         }
 
         /* 전체 상태 (100% 표시) - 기존대로 */
         tbody td.full-status {
-            padding: clamp(8px, 1.5vmin, 20px);
+            padding: clamp(8px, 1vmin, 16px);
         }
 
         tbody td.full-status .status {
@@ -237,9 +242,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex: 0 0 50%;
-            width: 100%;
-            padding: clamp(4px, 1vmin, 12px);
+            flex: 1;
+            min-height: 0;
+            padding: clamp(4px, 0.8vmin, 10px);
+            min-width: 0;
+        }
+
+        /* 오전 섹션 */
+        .section.morning {
+            border-bottom: 1px solid #ddd;
         }
 
         /* 오후 섹션이 있으면 위에 가로 구분선 추가 */
@@ -251,27 +262,27 @@
         .status {
             display: block;
             width: 100%;
-            padding: clamp(4px, 0.8vmin, 12px) clamp(8px, 1.5vmin, 20px);
+            padding: clamp(4px, 0.6vmin, 10px) clamp(6px, 1vmin, 16px);
             border-radius: 4px;
-            font-size: clamp(12px, 2vmin, 28px);
+            font-size: clamp(11px, 1.2vmin, 22px);
             font-weight: bold;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .trip { background-color: #ffe3e3; color: #c92a2a; }
         .outside { background-color: #e3fafc; color: #1098ad; }
         .vacation { background-color: #f3f0ff; color: #7950f2; }
-        .office { color: #868e96; font-size: clamp(14px, 2.2vmin, 30px); }
+        .office { color: #868e96; font-size: clamp(12px, 1.2vmin, 22px); }
 
         .desc {
             display: block;
-            font-size: clamp(12px, 1.8vmin, 24px);
+            font-size: clamp(10px, 1vmin, 18px);
             color: #555;
             margin-top: 2px;
         }
 
         .position {
-            font-size: clamp(12px, 1.8vmin, 24px);
+            font-size: clamp(10px, 1vmin, 18px);
             color: #888;
         }
 
@@ -283,14 +294,14 @@
         .legend {
             width: 100%;
             text-align: center;
-            font-size: clamp(12px, 2vmin, 24px);
+            font-size: clamp(11px, 1.2vmin, 20px);
         }
-        .legend span { margin-left: clamp(8px, 1.5vmin, 20px); }
+        .legend span { margin-left: clamp(8px, 1vmin, 16px); }
 
         /* 업데이트 시간 */
         .update-time {
             text-align: right;
-            font-size: clamp(10px, 1.5vmin, 18px);
+            font-size: clamp(9px, 0.9vmin, 14px);
             color: #999;
             padding-top: 10px;
         }
@@ -424,7 +435,7 @@
         </table>
     </div>
 
-    <div class="update-time">Last Update: 2026-01-07 17:20:14 (KST)</div>
+    <div class="update-time">Last Update: 2026-01-07 17:50:45 (KST)</div>
 </div>
 
 </body>
