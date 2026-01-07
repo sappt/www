@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3600">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOREA WEATHER DASHBOARD - 전국 10개 도시</title>
+
+    <!-- SEO 메타 태그 -->
+    <meta name="description" content="한국 전국 10개 도시의 실시간 날씨 정보와 주간 예보. 서울, 춘천, 강릉, 대전, 대구, 전주, 광주, 여수, 부산, 제주 날씨.">
+    <meta name="keywords" content="한국날씨, 날씨예보, 주간날씨, 실시간날씨, weather, 샤프트리서치">
+    <meta name="author" content="샤프트리서치">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.sappt.co.kr/w3d.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="전국 날씨 모니터 - 샤프트리서치">
+    <meta property="og:description" content="한국 전국 10개 도시의 실시간 날씨 정보와 주간 예보">
+    <meta property="og:url" content="https://www.sappt.co.kr/w3d.html">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="샤프트리서치">
+
+    <style>
+        /* 1. 기본 환경 설정 */
+        body {
+            background-color: #1a1a1a;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* 2. 상단 헤더 */
+        header {
+            background: #2d2d2d;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .title { font-size: 2rem; font-weight: 900; color: #e0e0e0; letter-spacing: -1px; }
+        .clock-container { display: flex; align-items: center; gap: 15px; color: #b0b0b0; }
+        #currentDate { font-size: 1.3rem; font-weight: bold; color: #b0b0b0; }
+        #currentTime { font-size: 2rem; font-weight: 900; color: #e0e0e0; }
+
+        /* 3. 메인 컨텐츠 영역 (좌우 분할) */
+        .main-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        /* 좌측: 지도 영역 */
+        .left-panel {
+            flex: 0.35;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2d2d2d;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-wrapper {
+            position: relative;
+            height: 95%;
+            aspect-ratio: 420 / 460;
+        }
+
+        svg.map-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .land {
+            fill: #3a3a3a;
+            stroke: #555555;
+            stroke-width: 2;
+            transition: fill 0.3s;
+        }
+
+        .inset-box {
+            fill: rgba(45, 45, 45, 0.8);
+            stroke: #555555;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
+        }
+
+        /* 우측: 주간 예보 영역 */
+        .right-panel {
+            flex: 0.65;
+            background: #2d2d2d;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #444444;
+        }
+
+        .forecast-table-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .table-header-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: #2d2d2d;
+        }
+
+        .table-body-wrapper {
+            overflow: hidden;
+            height: calc(100% - 50px);
+        }
+
+        .scrolling-content {
+            animation: scrollUp 30s linear infinite;
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        .scrolling-content:hover {
+            animation-play-state: paused;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        th {
+            background: #2d2d2d;
+            padding: 8px 2px;
+            color: #b0b0b0;
+            font-weight: 700;
+            border-bottom: 2px solid #444444;
+        }
+
+        .table-header-wrapper table,
+        .table-body-wrapper table {
+            table-layout: fixed;
+        }
+
+        .table-header-wrapper th:first-child,
+        .table-body-wrapper td:first-child {
+            width: 55px;
+        }
+
+        td {
+            padding: 5px 2px;
+            border-bottom: 1px solid #444444;
+            vertical-align: middle;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #3a3a3a;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #2d2d2d;
+        }
+
+        .region-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            text-align: left;
+            padding-left: 5px;
+            white-space: nowrap;
+        }
+
+        .forecast-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+        }
+
+        .mini-icon svg { width: 32px; height: 32px; }
+        .mini-temp { font-size: 0.95rem; font-weight: 600; }
+        .mini-temp .low { color: #64b5f6; }
+        .mini-temp .high { color: #ef5350; }
+
+        .forecast-table-container::-webkit-scrollbar { width: 6px; height: 6px; }
+        .forecast-table-container::-webkit-scrollbar-track { background: transparent; }
+        .forecast-table-container::-webkit-scrollbar-thumb { background: #666666; border-radius: 3px; }
+
+        /* 4. 마커 및 아이콘 (지도용) */
+        .marker {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .weather-svg {
+            width: 45px;
+            height: 45px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.3));
+        }
+
+        .info-box {
+            background: rgba(45, 45, 45, 0.95);
+            border: 2px solid #555555;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-top: -2px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        .temp-low { color: #64b5f6; margin-left: 4px; }
+        .temp-high { color: #ef5350; margin-left: 2px; }
+        .temp-separator { color: #999; margin: 0 1px; }
+
+        /* 업데이트 시간 표시 */
+        .server-time {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #888888;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(45,45,45,0.8);
+            padding: 5px 10px;
+            border-radius: 15px;
+            z-index: 999;
+            pointer-events: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title">LIVE WEATHER MONITOR</div>
+        <div class="clock-container">
+            <div id="currentDate"></div>
+            <div id="currentTime"></div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-panel">
+            <div class="map-wrapper" id="mapContainer">
+                <svg class="map-svg" viewBox="0 0 420 460">
+                    <path class="land" d="
+                        M 130,60 L 260,30 L 270,80 L 290,100 L 295,180 L 320,230
+                        L 335,235 L 320,250 L 310,330 L 290,360 L 250,370 L 230,390
+                        L 190,395 L 160,380 L 130,400 L 100,380 L 90,330 L 80,300
+                        L 60,280 L 90,260 L 50,200 L 30,180 L 20,160 L 50,150
+                        L 60,130 L 90,120 L 80,90 L 110,80 Z
+                    " />
+                    <circle class="land" cx="350" cy="180" r="8" />
+
+                    <rect class="inset-box" x="255" y="360" width="120" height="90" rx="10" />
+
+                    <path class="land" d="
+                        M 285,405
+                        C 285,385 345,385 345,405
+                        C 345,425 285,425 285,405 Z
+                    " />
+                </svg>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="panel-header">WEEKLY FORECAST</div>
+            <div class="forecast-table-container">
+                <div class="table-header-wrapper">
+                    <table>
+                        <thead>
+                            <tr id="tableHeaderRow">
+                                <th>지역</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="table-body-wrapper">
+                    <div class="scrolling-content" id="scrollingContent">
+                        <table>
+                            <tbody id="tableBody">
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody id="tableBodyClone">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="server-time">Last Update: 2026-01-06 15:16:55</div>
+
+    <script>
+        const weatherData = [{"name": "서울", "top": 15, "left": 28, "tempHigh": 4, "tempLow": -8, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 4, "tempLow": -8}, {"date": "01.07", "type": "cloudy", "tempHigh": 3, "tempLow": -6}, {"date": "01.08", "type": "sunny", "tempHigh": -4, "tempLow": -10}, {"date": "01.09", "type": "cloudy", "tempHigh": 6, "tempLow": -8}, {"date": "01.10", "type": "rainy", "tempHigh": 6, "tempLow": -6}, {"date": "01.11", "type": "cloudy", "tempHigh": -3, "tempLow": -9}, {"date": "01.12", "type": "rainy", "tempHigh": 2, "tempLow": -9}]}, {"name": "춘천", "top": 10, "left": 45, "tempHigh": 3, "tempLow": -10, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 3, "tempLow": -10}, {"date": "01.07", "type": "cloudy", "tempHigh": 0, "tempLow": -9}, {"date": "01.08", "type": "sunny", "tempHigh": -3, "tempLow": -13}, {"date": "01.09", "type": "cloudy", "tempHigh": 2, "tempLow": -10}, {"date": "01.10", "type": "rainy", "tempHigh": 4, "tempLow": -9}, {"date": "01.11", "type": "cloudy", "tempHigh": -6, "tempLow": -11}, {"date": "01.12", "type": "snowy", "tempHigh": 1, "tempLow": -12}]}, {"name": "강릉", "top": 15, "left": 65, "tempHigh": 7, "tempLow": -3, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 7, "tempLow": -3}, {"date": "01.07", "type": "cloudy", "tempHigh": 5, "tempLow": -4}, {"date": "01.08", "type": "sunny", "tempHigh": -1, "tempLow": -7}, {"date": "01.09", "type": "cloudy", "tempHigh": 5, "tempLow": -5}, {"date": "01.10", "type": "snowy", "tempHigh": 0, "tempLow": -13}, {"date": "01.11", "type": "sunny", "tempHigh": -11, "tempLow": -15}, {"date": "01.12", "type": "snowy", "tempHigh": -1, "tempLow": -16}]}, {"name": "대전", "top": 35, "left": 38, "tempHigh": 4, "tempLow": -9, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 4, "tempLow": -9}, {"date": "01.07", "type": "cloudy", "tempHigh": 5, "tempLow": -4}, {"date": "01.08", "type": "cloudy", "tempHigh": -2, "tempLow": -10}, {"date": "01.09", "type": "cloudy", "tempHigh": 5, "tempLow": -9}, {"date": "01.10", "type": "rainy", "tempHigh": 6, "tempLow": -4}, {"date": "01.11", "type": "cloudy", "tempHigh": -2, "tempLow": -6}, {"date": "01.12", "type": "cloudy", "tempHigh": 7, "tempLow": -6}]}, {"name": "대구", "top": 48, "left": 60, "tempHigh": 5, "tempLow": -6, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 5, "tempLow": -6}, {"date": "01.07", "type": "cloudy", "tempHigh": 6, "tempLow": -2}, {"date": "01.08", "type": "sunny", "tempHigh": -2, "tempLow": -8}, {"date": "01.09", "type": "cloudy", "tempHigh": 5, "tempLow": -7}, {"date": "01.10", "type": "rainy", "tempHigh": 8, "tempLow": -3}, {"date": "01.11", "type": "cloudy", "tempHigh": 1, "tempLow": -7}, {"date": "01.12", "type": "cloudy", "tempHigh": 10, "tempLow": -7}]}, {"name": "전주", "top": 48, "left": 28, "tempHigh": 4, "tempLow": -8, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 4, "tempLow": -8}, {"date": "01.07", "type": "rainy", "tempHigh": 6, "tempLow": -3}, {"date": "01.08", "type": "sunny", "tempHigh": -1, "tempLow": -7}, {"date": "01.09", "type": "cloudy", "tempHigh": 6, "tempLow": -7}, {"date": "01.10", "type": "rainy", "tempHigh": 8, "tempLow": -1}, {"date": "01.11", "type": "snowy", "tempHigh": 1, "tempLow": -5}, {"date": "01.12", "type": "rainy", "tempHigh": 9, "tempLow": -2}]}, {"name": "광주", "top": 65, "left": 25, "tempHigh": 6, "tempLow": -5, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 6, "tempLow": -5}, {"date": "01.07", "type": "rainy", "tempHigh": 7, "tempLow": -1}, {"date": "01.08", "type": "cloudy", "tempHigh": 1, "tempLow": -4}, {"date": "01.09", "type": "cloudy", "tempHigh": 6, "tempLow": -6}, {"date": "01.10", "type": "rainy", "tempHigh": 9, "tempLow": 0}, {"date": "01.11", "type": "rainy", "tempHigh": 2, "tempLow": -4}, {"date": "01.12", "type": "snowy", "tempHigh": 10, "tempLow": -6}]}, {"name": "여수", "top": 78, "left": 40, "tempHigh": 8, "tempLow": -2, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 8, "tempLow": -2}, {"date": "01.07", "type": "cloudy", "tempHigh": 8, "tempLow": 1}, {"date": "01.08", "type": "sunny", "tempHigh": 2, "tempLow": -3}, {"date": "01.09", "type": "cloudy", "tempHigh": 6, "tempLow": -4}, {"date": "01.10", "type": "rainy", "tempHigh": 9, "tempLow": 1}, {"date": "01.11", "type": "rainy", "tempHigh": 4, "tempLow": 0}, {"date": "01.12", "type": "cloudy", "tempHigh": 11, "tempLow": 1}]}, {"name": "부산", "top": 70, "left": 68, "tempHigh": 7, "tempLow": -4, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 7, "tempLow": -4}, {"date": "01.07", "type": "cloudy", "tempHigh": 8, "tempLow": -1}, {"date": "01.08", "type": "sunny", "tempHigh": 0, "tempLow": -6}, {"date": "01.09", "type": "cloudy", "tempHigh": 6, "tempLow": -6}, {"date": "01.10", "type": "cloudy", "tempHigh": 12, "tempLow": 0}, {"date": "01.11", "type": "cloudy", "tempHigh": 4, "tempLow": -2}, {"date": "01.12", "type": "cloudy", "tempHigh": 12, "tempLow": 0}]}, {"name": "제주", "top": 88, "left": 75, "tempHigh": 6, "tempLow": 4, "type": "cloudy", "weekly": [{"date": "01.06", "type": "cloudy", "tempHigh": 6, "tempLow": 4}, {"date": "01.07", "type": "cloudy", "tempHigh": 9, "tempLow": 5}, {"date": "01.08", "type": "cloudy", "tempHigh": 5, "tempLow": 3}, {"date": "01.09", "type": "cloudy", "tempHigh": 12, "tempLow": 2}, {"date": "01.10", "type": "rainy", "tempHigh": 14, "tempLow": 7}, {"date": "01.11", "type": "rainy", "tempHigh": 8, "tempLow": 7}, {"date": "01.12", "type": "cloudy", "tempHigh": 15, "tempLow": 8}]}];
+
+        // --- 1. 시계 기능 ---
+        function updateClock() {
+            const now = new Date();
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const dateStr = `${now.getFullYear()}. ${String(now.getMonth()+1).padStart(2, '0')}. ${String(now.getDate()).padStart(2, '0')} (${days[now.getDay()]})`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            document.getElementById('currentDate').innerText = dateStr;
+            document.getElementById('currentTime').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- 2. 아이콘 SVG ---
+        const getIconSvg = (type) => {
+            const icons = {
+                sunny: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="14" fill="#ffb900" /><g stroke="#ffb900" stroke-width="5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="9" /><line x1="32" y1="55" x2="32" y2="60" /><line x1="4" y1="32" x2="9" y2="32" /><line x1="55" y1="32" x2="60" y2="32" /><line x1="12" y1="12" x2="16" y2="16" /><line x1="48" y1="48" x2="52" y2="52" /><line x1="12" y1="52" x2="16" y2="48" /><line x1="48" y1="16" x2="52" y2="12" /></g></svg>`,
+                cloudy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M16,40 Q4,40 4,28 Q4,18 14,16 Q18,4 30,6 Q36,0 46,6 Q58,6 58,22 Q62,26 62,34 Q62,44 50,44 Z" /><path fill="#ecf0f1" d="M16,36 Q8,36 8,28 Q8,22 14,20 Q18,10 30,12 Q36,8 44,12 Q54,12 54,24 Q58,28 58,34 Q58,40 50,40 Z" /></svg>`,
+                rainy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g fill="#3498db"><path d="M20,42 L16,52 L24,52 Z" /><path d="M34,42 L30,52 L38,52 Z" /><path d="M48,42 L44,52 L52,52 Z" /></g></svg>`,
+                snowy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g stroke="#3498db" stroke-width="3" stroke-linecap="round"><line x1="20" y1="44" x2="20" y2="52" /><line x1="16" y1="48" x2="24" y2="48" /><line x1="34" y1="44" x2="34" y2="52" /><line x1="30" y1="48" x2="38" y2="48" /><line x1="48" y1="44" x2="48" y2="52" /><line x1="44" y1="48" x2="52" y2="48" /></g></svg>`
+            };
+            return icons[type] || icons.sunny;
+        };
+
+        // --- 3. 지도 마커 그리기 ---
+        function drawMapMarkers() {
+            const container = document.getElementById('mapContainer');
+            weatherData.forEach(city => {
+                const el = document.createElement('div');
+                el.className = 'marker';
+                el.style.top = city.top + '%';
+                el.style.left = city.left + '%';
+                const delay = (Math.random() * 2).toFixed(2);
+
+                el.innerHTML = `
+                    <div class="weather-svg" style="animation-delay: -${delay}s">
+                        ${getIconSvg(city.type)}
+                    </div>
+                    <div class="info-box">
+                        ${city.name} <span class="temp-low">${city.tempLow}°</span><span class="temp-separator">/</span><span class="temp-high">${city.tempHigh}°</span>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        // --- 4. 주간 예보 테이블 그리기 ---
+        function drawForecastTable() {
+            const tableHeaderRow = document.getElementById('tableHeaderRow');
+            const tableBody = document.getElementById('tableBody');
+            const tableBodyClone = document.getElementById('tableBodyClone');
+
+            // 헤더에 날짜 추가
+            if(weatherData.length > 0 && weatherData[0].weekly) {
+                weatherData[0].weekly.forEach(day => {
+                    const th = document.createElement('th');
+                    th.innerText = day.date;
+                    tableHeaderRow.appendChild(th);
+                });
+            }
+
+            // 테이블 행 생성 함수
+            function createRows(targetBody) {
+                weatherData.forEach(city => {
+                    const tr = document.createElement('tr');
+
+                    const tdName = document.createElement('td');
+                    tdName.className = 'region-name';
+                    tdName.innerText = city.name;
+                    tr.appendChild(tdName);
+
+                    if(city.weekly) {
+                        city.weekly.forEach(day => {
+                            const td = document.createElement('td');
+                            td.innerHTML = `
+                                <div class="forecast-cell">
+                                    <div class="mini-icon">${getIconSvg(day.type)}</div>
+                                    <div class="mini-temp"><span class="low">${day.tempLow}°</span>/<span class="high">${day.tempHigh}°</span></div>
+                                </div>
+                            `;
+                            tr.appendChild(td);
+                        });
+                    }
+                    targetBody.appendChild(tr);
+                });
+            }
+
+            // 원본과 복제본 모두 생성 (끊김없는 스크롤을 위해)
+            createRows(tableBody);
+            createRows(tableBodyClone);
+        }
+
+        drawMapMarkers();
+        drawForecastTable();
+    </script>
+</body>
+</html>
