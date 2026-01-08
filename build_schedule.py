@@ -268,7 +268,7 @@ def generate_html(employees, schedules, week_dates):
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="샤프트리서치">
     <style>
-        /* 기본 스타일 설정 */
+        /* 기본 스타일 설정 - 다크모드 */
         *, *::before, *::after {{
             box-sizing: border-box;
         }}
@@ -285,15 +285,15 @@ def generate_html(employees, schedules, week_dates):
             margin: 0;
             padding: 0;
             font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
             font-size: clamp(14px, 1.5vmin, 28px);
         }}
 
         .container {{
             width: 100%;
             height: 100vh;
-            background-color: #fff;
+            background-color: #2d2d2d;
             padding: clamp(10px, 1vmin, 30px);
             overflow: auto;
             display: flex;
@@ -307,7 +307,7 @@ def generate_html(employees, schedules, week_dates):
             align-items: center;
             flex-wrap: wrap;
             gap: clamp(5px, 0.8vmin, 15px);
-            border-bottom: 2px solid #0056b3;
+            border-bottom: 2px solid #64b5f6;
             padding-bottom: clamp(5px, 0.8vmin, 15px);
             flex-shrink: 0;
         }}
@@ -322,13 +322,13 @@ def generate_html(employees, schedules, week_dates):
         h1 {{
             margin: 0;
             font-size: clamp(18px, 2.2vmin, 36px);
-            color: #0056b3;
+            color: #64b5f6;
         }}
 
         .date-range {{
             font-size: clamp(12px, 1.8vmin, 26px);
             font-weight: bold;
-            color: #555;
+            color: #b0b0b0;
         }}
 
         /* 테이블 스타일 */
@@ -362,15 +362,15 @@ def generate_html(employees, schedules, week_dates):
         tbody tr {{
             flex: 1;
             display: flex;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #555555;
         }}
 
         tbody tr:last-child {{
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #555555;
         }}
 
         th, td {{
-            border-right: 1px solid #ddd;
+            border-right: 1px solid #555555;
             padding: clamp(8px, 1vmin, 16px);
             text-align: center;
             font-size: clamp(12px, 1.5vmin, 26px);
@@ -390,24 +390,24 @@ def generate_html(employees, schedules, week_dates):
         }}
 
         thead th {{
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #555555;
         }}
 
         th {{
-            background-color: #f1f3f5;
-            color: #495057;
+            background-color: #3a3a3a;
+            color: #c0c0c0;
             font-weight: bold;
             white-space: nowrap;
         }}
 
         th small {{
             font-weight: normal;
-            color: #888;
+            color: #a0a0a0;
         }}
 
         td:first-child {{
             font-weight: bold;
-            background-color: #fafafa;
+            background-color: #3a3a3a;
             flex-basis: 10%;
             width: 10%;
         }}
@@ -497,15 +497,15 @@ def generate_html(employees, schedules, week_dates):
 
         /* 오전 섹션 */
         .section.morning {{
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #555555;
         }}
 
         /* 오후 섹션이 있으면 위에 가로 구분선 추가 */
         .section.afternoon {{
-            border-top: 2px solid #ddd;
+            border-top: 2px solid #555555;
         }}
 
-        /* 상태별 라벨 스타일 */
+        /* 상태별 라벨 스타일 - 다크모드 */
         .status {{
             display: block;
             width: 100%;
@@ -516,26 +516,26 @@ def generate_html(employees, schedules, week_dates):
             margin-bottom: 3px;
         }}
 
-        .trip {{ background-color: #ffe3e3; color: #c92a2a; }}
-        .outside {{ background-color: #e3fafc; color: #1098ad; }}
-        .vacation {{ background-color: #f3f0ff; color: #7950f2; }}
-        .office {{ color: #868e96; font-size: clamp(12px, 1.2vmin, 22px); }}
+        .trip {{ background-color: #5a2c2c; color: #ff8080; }}
+        .outside {{ background-color: #2c4a52; color: #64b5f6; }}
+        .vacation {{ background-color: #4a3a5a; color: #b39ddb; }}
+        .office {{ color: #a0a0a0; font-size: clamp(12px, 1.2vmin, 22px); }}
 
         .desc {{
             display: block;
             font-size: clamp(10px, 1vmin, 18px);
-            color: #555;
+            color: #b0b0b0;
             margin-top: 2px;
         }}
 
         .position {{
             font-size: clamp(10px, 1vmin, 18px);
-            color: #888;
+            color: #a0a0a0;
         }}
 
-        /* 요일별 색상 */
-        .sunday {{ color: red; }}
-        .saturday {{ color: blue; }}
+        /* 요일별 색상 - 다크모드 */
+        .sunday {{ color: #ff6b6b; }}
+        .saturday {{ color: #74c0fc; }}
 
         /* 범례 */
         .legend {{
@@ -549,13 +549,13 @@ def generate_html(employees, schedules, week_dates):
         .update-time {{
             text-align: right;
             font-size: clamp(9px, 0.9vmin, 14px);
-            color: #999;
+            color: #888888;
             padding-top: 10px;
         }}
 
         @media print {{
-            body {{ background-color: #fff; padding: 0; }}
-            .container {{ box-shadow: none; max-width: 100%; }}
+            body {{ background-color: #fff; padding: 0; color: #333; }}
+            .container {{ box-shadow: none; max-width: 100%; background-color: #fff; }}
             .status {{ border: 1px solid #ccc; }}
         }}
     </style>
@@ -569,8 +569,8 @@ def generate_html(employees, schedules, week_dates):
             <div class="date-range">{date_range}</div>
         </div>
         <div class="legend">
-            <span style="color:#1098ad">■ 외근/오전외근/오후외근</span>
-            <span style="color:#7950f2">■ 휴가/연차/반차</span>
+            <span style="color:#64b5f6">■ 외근/오전외근/오후외근</span>
+            <span style="color:#b39ddb">■ 휴가/연차/반차</span>
         </div>
     </header>
 
