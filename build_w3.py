@@ -107,9 +107,9 @@ def generate_html(weather_data):
     <meta property="og:site_name" content="샤프트리서치">
 
     <style>
-        /* 1. 기본 환경 설정 */
+        /* 1. 기본 환경 설정 - 다크모드 */
         body {{
-            background-color: #eef2f5;
+            background-color: #1a1a1a;
             margin: 0;
             overflow: hidden;
             font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
@@ -117,25 +117,26 @@ def generate_html(weather_data):
             flex-direction: column;
             height: 100vh;
             position: relative;
+            color: #e0e0e0;
         }}
 
-        /* 2. 상단 헤더 */
+        /* 2. 상단 헤더 - 다크모드 */
         header {{
-            background: #ffffff;
+            background: #2d2d2d;
             height: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             z-index: 100;
             flex-shrink: 0;
         }}
 
-        .title {{ font-size: 2rem; font-weight: 900; color: #2c3e50; letter-spacing: -1px; }}
-        .clock-container {{ display: flex; align-items: center; gap: 15px; color: #555; }}
-        #currentDate {{ font-size: 1.3rem; font-weight: bold; color: #7f8c8d; }}
-        #currentTime {{ font-size: 2rem; font-weight: 900; color: #2c3e50; }}
+        .title {{ font-size: 2rem; font-weight: 900; color: #64b5f6; letter-spacing: -1px; }}
+        .clock-container {{ display: flex; align-items: center; gap: 15px; color: #b0b0b0; }}
+        #currentDate {{ font-size: 1.3rem; font-weight: bold; color: #a0a0a0; }}
+        #currentTime {{ font-size: 2rem; font-weight: 900; color: #e0e0e0; }}
 
         /* 3. 메인 컨텐츠 영역 (좌우 분할) */
         .main-content {{
@@ -146,15 +147,15 @@ def generate_html(weather_data):
             overflow: hidden;
         }}
 
-        /* 좌측: 지도 영역 */
+        /* 좌측: 지도 영역 - 다크모드 */
         .left-panel {{
             flex: 0.35;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #fff;
+            background: #2d2d2d;
             border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             position: relative;
             overflow: hidden;
         }}
@@ -169,29 +170,29 @@ def generate_html(weather_data):
             width: 100%;
             height: 100%;
             overflow: visible;
-            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.15));
+            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.4));
         }}
 
         .land {{
-            fill: #f8f9fa;
-            stroke: #cbd5e0;
+            fill: #3a3a3a;
+            stroke: #555555;
             stroke-width: 2;
             transition: fill 0.3s;
         }}
 
         .inset-box {{
-            fill: rgba(255, 255, 255, 0.8);
-            stroke: #cbd5e0;
+            fill: rgba(45, 45, 45, 0.8);
+            stroke: #555555;
             stroke-width: 2;
             stroke-dasharray: 5, 5;
         }}
 
-        /* 우측: 주간 예보 영역 */
+        /* 우측: 주간 예보 영역 - 다크모드 */
         .right-panel {{
             flex: 0.65;
-            background: #fff;
+            background: #2d2d2d;
             border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             padding: 20px;
@@ -201,10 +202,10 @@ def generate_html(weather_data):
         .panel-header {{
             font-size: 1.5rem;
             font-weight: 800;
-            color: #2c3e50;
+            color: #64b5f6;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #f1f2f6;
+            border-bottom: 2px solid #555555;
         }}
 
         .forecast-table-container {{
@@ -217,7 +218,7 @@ def generate_html(weather_data):
             position: sticky;
             top: 0;
             z-index: 20;
-            background: #fff;
+            background: #2d2d2d;
         }}
 
         .table-body-wrapper {{
@@ -246,11 +247,11 @@ def generate_html(weather_data):
         }}
 
         th {{
-            background: #fff;
+            background: #2d2d2d;
             padding: 8px 2px;
-            color: #7f8c8d;
+            color: #a0a0a0;
             font-weight: 700;
-            border-bottom: 2px solid #eef2f5;
+            border-bottom: 2px solid #555555;
         }}
 
         .table-header-wrapper table,
@@ -265,22 +266,22 @@ def generate_html(weather_data):
 
         td {{
             padding: 5px 2px;
-            border-bottom: 1px solid #f1f2f6;
+            border-bottom: 1px solid #555555;
             vertical-align: middle;
         }}
 
         tbody tr:nth-child(odd) {{
-            background-color: #f8f9fa;
+            background-color: #3a3a3a;
         }}
 
         tbody tr:nth-child(even) {{
-            background-color: #ffffff;
+            background-color: #2d2d2d;
         }}
 
         .region-name {{
             font-weight: 800;
             font-size: 1.2rem;
-            color: #2c3e50;
+            color: #e0e0e0;
             text-align: left;
             padding-left: 5px;
             white-space: nowrap;
@@ -296,14 +297,14 @@ def generate_html(weather_data):
 
         .mini-icon svg {{ width: 32px; height: 32px; }}
         .mini-temp {{ font-size: 0.95rem; font-weight: 600; }}
-        .mini-temp .low {{ color: #3498db; }}
-        .mini-temp .high {{ color: #e74c3c; }}
+        .mini-temp .low {{ color: #64b5f6; }}
+        .mini-temp .high {{ color: #ff8080; }}
 
         .forecast-table-container::-webkit-scrollbar {{ width: 6px; height: 6px; }}
         .forecast-table-container::-webkit-scrollbar-track {{ background: transparent; }}
-        .forecast-table-container::-webkit-scrollbar-thumb {{ background: #dcdcdc; border-radius: 3px; }}
+        .forecast-table-container::-webkit-scrollbar-thumb {{ background: #555555; border-radius: 3px; }}
 
-        /* 4. 마커 및 아이콘 (지도용) */
+        /* 4. 마커 및 아이콘 (지도용) - 다크모드 */
         .marker {{
             position: absolute;
             transform: translate(-50%, -50%);
@@ -317,40 +318,40 @@ def generate_html(weather_data):
             width: 45px;
             height: 45px;
             animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.4));
         }}
 
         .info-box {{
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #dde1e6;
+            background: rgba(45, 45, 45, 0.95);
+            border: 2px solid #555555;
             padding: 3px 12px;
             border-radius: 20px;
             margin-top: -2px;
             font-size: 1.1rem;
             font-weight: 900;
-            color: #333;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             white-space: nowrap;
         }}
 
-        .temp-low {{ color: #3498db; margin-left: 4px; }}
-        .temp-high {{ color: #e74c3c; margin-left: 2px; }}
-        .temp-separator {{ color: #999; margin: 0 1px; }}
+        .temp-low {{ color: #64b5f6; margin-left: 4px; }}
+        .temp-high {{ color: #ff8080; margin-left: 2px; }}
+        .temp-separator {{ color: #888888; margin: 0 1px; }}
 
-        /* 업데이트 시간 표시 */
+        /* 업데이트 시간 표시 - 다크모드 */
         .server-time {{
             position: absolute;
             bottom: 20px;
             left: 20px;
-            color: #95a5a6;
+            color: #888888;
             font-size: 0.8rem;
             font-weight: 600;
-            background: rgba(255,255,255,0.8);
+            background: rgba(45, 45, 45, 0.8);
             padding: 5px 10px;
             border-radius: 15px;
             z-index: 999;
             pointer-events: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }}
 
         @keyframes float {{
@@ -438,13 +439,13 @@ def generate_html(weather_data):
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 2. 아이콘 SVG ---
+        // --- 2. 아이콘 SVG - 다크모드 ---
         const getIconSvg = (type) => {{
             const icons = {{
                 sunny: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="14" fill="#ffb900" /><g stroke="#ffb900" stroke-width="5" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="9" /><line x1="32" y1="55" x2="32" y2="60" /><line x1="4" y1="32" x2="9" y2="32" /><line x1="55" y1="32" x2="60" y2="32" /><line x1="12" y1="12" x2="16" y2="16" /><line x1="48" y1="48" x2="52" y2="52" /><line x1="12" y1="52" x2="16" y2="48" /><line x1="48" y1="16" x2="52" y2="12" /></g></svg>`,
-                cloudy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M16,40 Q4,40 4,28 Q4,18 14,16 Q18,4 30,6 Q36,0 46,6 Q58,6 58,22 Q62,26 62,34 Q62,44 50,44 Z" /><path fill="#ecf0f1" d="M16,36 Q8,36 8,28 Q8,22 14,20 Q18,10 30,12 Q36,8 44,12 Q54,12 54,24 Q58,28 58,34 Q58,40 50,40 Z" /></svg>`,
-                rainy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g fill="#3498db"><path d="M20,42 L16,52 L24,52 Z" /><path d="M34,42 L30,52 L38,52 Z" /><path d="M48,42 L44,52 L52,52 Z" /></g></svg>`,
-                snowy: `<svg viewBox="0 0 64 64"><path fill="#bdc3c7" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g stroke="#3498db" stroke-width="3" stroke-linecap="round"><line x1="20" y1="44" x2="20" y2="52" /><line x1="16" y1="48" x2="24" y2="48" /><line x1="34" y1="44" x2="34" y2="52" /><line x1="30" y1="48" x2="38" y2="48" /><line x1="48" y1="44" x2="48" y2="52" /><line x1="44" y1="48" x2="52" y2="48" /></g></svg>`
+                cloudy: `<svg viewBox="0 0 64 64"><path fill="#7f8c8d" d="M16,40 Q4,40 4,28 Q4,18 14,16 Q18,4 30,6 Q36,0 46,6 Q58,6 58,22 Q62,26 62,34 Q62,44 50,44 Z" /><path fill="#95a5a6" d="M16,36 Q8,36 8,28 Q8,22 14,20 Q18,10 30,12 Q36,8 44,12 Q54,12 54,24 Q58,28 58,34 Q58,40 50,40 Z" /></svg>`,
+                rainy: `<svg viewBox="0 0 64 64"><path fill="#7f8c8d" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g fill="#64b5f6"><path d="M20,42 L16,52 L24,52 Z" /><path d="M34,42 L30,52 L38,52 Z" /><path d="M48,42 L44,52 L52,52 Z" /></g></svg>`,
+                snowy: `<svg viewBox="0 0 64 64"><path fill="#7f8c8d" d="M12,32 Q4,32 4,22 Q4,12 14,10 Q18,2 30,4 Q36,0 44,4 Q54,4 54,18 Q58,22 58,28 Q58,36 50,36 Z" /><g stroke="#64b5f6" stroke-width="3" stroke-linecap="round"><line x1="20" y1="44" x2="20" y2="52" /><line x1="16" y1="48" x2="24" y2="48" /><line x1="34" y1="44" x2="34" y2="52" /><line x1="30" y1="48" x2="38" y2="48" /><line x1="48" y1="44" x2="48" y2="52" /><line x1="44" y1="48" x2="52" y2="48" /></g></svg>`
             }};
             return icons[type] || icons.sunny;
         }};
