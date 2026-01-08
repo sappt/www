@@ -26,7 +26,7 @@ jobs:
         run: pip install requests
 
       - name: 주간 일정 HTML 생성
-        run: python build_schedule.py
+        run: python build_s1.py
 
       - name: 결과 커밋 및 푸시
         run: |
