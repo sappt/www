@@ -117,7 +117,7 @@ def get_status_class(schedule_type):
     elif "외근" in schedule_type or "미팅" in schedule_type:
         return "outside", "" + schedule_type
     elif "내근" in schedule_type:
-        return "office", "" + schedule_type
+        return "interior", "" + schedule_type
     else:
         return "office", "내근"
 
@@ -520,6 +520,7 @@ def generate_html(employees, schedules, week_dates):
 
         .trip {{ background-color: #5a2c2c; color: #ff8080; }}
         .outside {{ background-color: #2c4a52; color: #64b5f6; }}
+        .interior {{ background-color: #3a5a3a; color: #80d080; }}
         .vacation {{ background-color: #4a3a5a; color: #b39ddb; }}
         .office {{ color: #a0a0a0; font-size: clamp(12px, 1.2vmin, 22px); }}
 
@@ -572,7 +573,7 @@ def generate_html(employees, schedules, week_dates):
         </div>
         <div class="legend">
             <span style="color:#64b5f6">■ 외근/오전외근/오후외근</span>
-            <span style="color:#a0a0a0">■ 오전내근/오후내근</span>
+            <span style="color:#80d080">■ 오전내근/오후내근</span>
             <span style="color:#b39ddb">■ 휴가/연차/반차</span>
         </div>
     </header>
