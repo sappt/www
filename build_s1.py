@@ -153,22 +153,22 @@ def generate_cell_html(morning_schedule, afternoon_schedule=None, day_idx=None):
     # 오전만 있는 경우
     if morning_schedule is not None:
         css_class, label = get_status_class(morning_schedule["type"])
-
-        if css_class == "office":
-            return '<span class="office">내근</span>'
-
         reason = morning_schedule.get("reason", "")
 
         # 오전/오후 구분 여부 확인
         if "오전" in morning_schedule["type"]:
+            # "오전내근", "오전외근", "오전반차" 등 - 상단에 표시
             html = f'''<div class="morning-content">
                             <span class="status {css_class}">{label}</span>'''
             if reason:
                 html += f'\n                            <span class="desc">{reason}</span>'
             html += '\n                        </div>'
             return html
+        elif css_class == "office":
+            # 일반 "내근" (오전/오후 구분 없음) - 전체 표시
+            return '<span class="office">내근</span>'
         else:
-            # 오전/오후 구분 없는 일정 (연차, 출장 등)
+            # 오전/오후 구분 없는 일정 (연차, 출장 등) - 전체 표시
             html = f'<span class="status {css_class}">{label}</span>'
             if reason:
                 html += f'\n                        <span class="desc">{reason}</span>'
