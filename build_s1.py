@@ -116,6 +116,8 @@ def get_status_class(schedule_type):
         return "trip", "출장"
     elif "외근" in schedule_type or "미팅" in schedule_type:
         return "outside", "" + schedule_type
+    elif "내근" in schedule_type:
+        return "office", "" + schedule_type
     else:
         return "office", "내근"
 
@@ -570,6 +572,7 @@ def generate_html(employees, schedules, week_dates):
         </div>
         <div class="legend">
             <span style="color:#64b5f6">■ 외근/오전외근/오후외근</span>
+            <span style="color:#a0a0a0">■ 오전내근/오후내근</span>
             <span style="color:#b39ddb">■ 휴가/연차/반차</span>
         </div>
     </header>
