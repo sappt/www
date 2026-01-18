@@ -592,7 +592,7 @@ def generate_html(employees, schedules, week_dates):
         </table>
     </div>
 
-    <div class="update-time">Last Update: {update_time} (KST)</div>
+    <div class="update-time">Last Update: {update_time}</div>
 </div>
 
 </body>
