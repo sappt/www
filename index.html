@@ -96,41 +96,82 @@
 </head>
 
 <body>
-	<script type="text/javascript"> 
-	
+	<script type="text/javascript">
 
+		// 전역 데이터 저장소 (검색 후에도 상세보기가 동작하도록)
+		var gridDataMap = {};  // JSON id → 데이터 맵
+		var originalData = [];
+		var jsonUrl = 'https://www.sappt.co.kr/assets/json/sapptSicknessDic.json';
 
 		$(document).ready(function () {
 
+			// 먼저 JSON을 로드하여 전역 맵 생성
+			$.getJSON(jsonUrl, function(response) {
+				var data = response.rows || response;
+				originalData = data.slice();
+
+				// id를 키로 맵 생성
+				originalData.forEach(function(row) {
+					if (row.id) {
+						gridDataMap[row.id] = row;
+					}
+				});
+				console.log('gridDataMap 생성 완료:', Object.keys(gridDataMap).length + '개');
+
+				// jqGrid 초기화
 				$("#jqGrid").jqGrid({
-				url: 'https://www.sappt.co.kr/assets/json/sapptSicknessDic.json',
-				datatype: "json"
-				,colNames00000 : ['제목','Contents','File','FileUrl' ]
-				,colModel: [
-				     { label: '제목', name: 'TitleName' }
-					,{ label: '파일', name: 'FileUrl', width: 20,align : 'center',formatter: fileIcon }
-				]
-				,viewrecords: false 
-				//,autowidth: true
-				//,width : 500
-				,height: 200
-				,rowNum: 999999
-				//,loadonce: true // this is just for the demo
-				,rownumbers : true
-				,rownumWidth : 25
-				,pager: "#jqGridPager"
-			
+					data: originalData,
+					datatype: "local"
+					,colNames00000 : ['제목','Contents','File','FileUrl' ]
+					,colModel: [
+					     { label: '제목', name: 'TitleName' }
+						,{ label: '파일', name: 'FileUrl', width: 20,align : 'center',formatter: fileIcon }
+						,{ label: '상세', name: 'detail', width: 20, align: 'center', formatter: detailIcon, sortable: false }
+					]
+					,viewrecords: false
+					//,autowidth: true
+					//,width : 500
+					,height: 200
+					,rowNum: 999999
+					,loadonce: true
+					,rownumbers : true
+					,rownumWidth : 25
+					,pager: "#jqGridPager"
+				});
+
+				resizeJqGridWidth('jqGrid', 'gridContainer', $('#gridContainer').width(), true);
 			});
-	
-	        resizeJqGridWidth('jqGrid', 'gridContainer', $('#gridContainer').width(), true); //사이즈 조정 함수 . 아래 첨부
- 
-	
+
+			// 검색 기능 (검색대상: 제목, 병명, 분류, 설명)
+			$('#gridSearch').on('keyup', function() {
+				var searchText = $(this).val().toLowerCase();
+				var grid = $("#jqGrid");
+
+				if (searchText === '') {
+					grid.jqGrid('clearGridData').jqGrid('setGridParam', { data: originalData }).trigger('reloadGrid');
+				} else {
+					var filteredData = originalData.filter(function(row) {
+						var 제목 = row.TitleName ? row.TitleName.toLowerCase() : '';
+						var 병명 = row.title ? row.title.toLowerCase() : '';
+						var 분류 = row.category ? row.category.toLowerCase() : '';
+						var 설명 = row.summary ? row.summary.toLowerCase() : '';
+
+						return 제목.indexOf(searchText) > -1 ||
+							   병명.indexOf(searchText) > -1 ||
+							   분류.indexOf(searchText) > -1 ||
+							   설명.indexOf(searchText) > -1;
+					});
+					grid.jqGrid('clearGridData').jqGrid('setGridParam', { data: filteredData }).trigger('reloadGrid');
+				}
+			});
+
+
 			function fileIcon(cellValue, options, rowObject) {
 			 var pdfIconPath = "https://user-images.githubusercontent.com/47404350/107627749-14d67480-6ca3-11eb-9dcb-de1c3aa1fb23.png";
 			 var jpgIconPath = "https://user-images.githubusercontent.com/47404350/107630755-59fca580-6ca7-11eb-830f-61535ddeb797.png";
 
 			 var imageHtml = "";
-				
+
 			if ( cellValue.slice(-4, cellValue.length).toUpperCase() == ".PDF" ) {
 			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ pdfIconPath +"' alt='PDF 파일 다운로드' /></a>";
 			} else if ( cellValue.slice(-4, cellValue.length).toUpperCase() == ".JPG"  ) {
@@ -138,8 +179,15 @@
 			} else {
 			   imageHtml = "<a href='"+cellValue+"' target='_blank'><img src='"+ jpgIconPath +"' alt='파일 보기' /></a>";
 			}
-				
+
 			 return imageHtml;
+			}
+
+			function detailIcon(cellValue, options, rowObject) {
+				// JSON의 id를 사용하여 전역 맵에서 데이터 조회
+				var dataId = rowObject.id || '';
+				console.log('detailIcon - rowObject:', rowObject, 'id:', dataId);  // 디버깅
+				return "<a href='javascript:void(0);' onclick='showDetailModal(\"" + dataId + "\")' style='cursor:pointer;' title='상세보기'><i class='fa fa-search-plus' style='font-size:18px;color:#337ab7;'></i></a>";
 			}
 
 
@@ -168,8 +216,45 @@
             //});
 	
 		});
-	
-	
+
+		function showDetailModal(dataId) {
+			console.log('showDetailModal - dataId:', dataId, 'gridDataMap:', gridDataMap);  // 디버깅
+			// 전역 맵에서 ID로 데이터 조회
+			var rowData = gridDataMap[dataId];
+
+			if (!rowData) {
+				alert('데이터를 찾을 수 없습니다. (id: ' + dataId + ')');
+				return;
+			}
+
+			$('#modal-title').text(rowData.title || '-');
+			$('#modal-category').text(rowData.category || '-');
+
+			// summary에서 ' - ' 앞에 줄바꿈 처리
+			var summary = rowData.summary || '-';
+			summary = summary.replace(/ - /g, '\n- ');
+			$('#modal-summary').text(summary);
+
+			var fileUrl = rowData.FileUrl || '';
+			if (fileUrl) {
+				$('#modal-fileurl').html("<a href='" + fileUrl + "' target='_blank' title='이미지 보기'><i class='fa fa-file-image-o' style='font-size:24px;color:#337ab7;'></i></a>");
+			} else {
+				$('#modal-fileurl').text('-');
+			}
+
+			$('#detailModal').show();
+		}
+
+		function closeDetailModal() {
+			$('#detailModal').hide();
+		}
+
+		$(document).on('click', '#detailModal', function(e) {
+			if (e.target.id === 'detailModal') {
+				closeDetailModal();
+			}
+		});
+
 	 </script>
     <!-- 참고  -->
     <!-- https://demo.tutorialzine.com/2016/06/freebie-landing-page-template-with-flexbox   -->
@@ -230,7 +315,11 @@
     <!-- 게시판 -->	
 	<section class="board">
 		<h3 class="title">식물 병충해 도감</h3>
-		<div class="gridContainer"  id="gridContainer"  style="width:100%;"> 
+		<div style="margin-bottom:10px; text-align:right;">
+			<input type="text" id="gridSearch" placeholder="검색어를 입력하세요" style="padding:8px 12px; width:250px; border:1px solid #ccc; border-radius:4px; font-size:14px;">
+			<i class="fa fa-search" style="margin-left:-30px; color:#999;"></i>
+		</div>
+		<div class="gridContainer"  id="gridContainer"  style="width:100%;">
 			<table id="jqGrid"      style="width:100%;" ></table>
 			<div   id="jqGridPager" style="width:100%;" ></div>
 		</div>
@@ -277,6 +366,34 @@
 		  </script>
 		</div><!--.mobile_map -->
 	</section>
+
+	<!-- 상세보기 모달창 -->
+	<div id="detailModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+		<div style="background-color:#fff; margin:10% auto; padding:20px; border-radius:8px; width:90%; max-width:600px; max-height:70vh; overflow-y:auto; box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+			<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #337ab7; padding-bottom:10px; margin-bottom:15px;">
+				<h3 style="margin:0; color:#337ab7;">병해충 상세정보</h3>
+				<button onclick="closeDetailModal()" style="background:none; border:none; font-size:24px; cursor:pointer; color:#999;">&times;</button>
+			</div>
+			<table style="width:100%; border-collapse:collapse;">
+				<tr style="border-bottom:1px solid #eee;">
+					<th style="text-align:left; padding:10px; width:100px; background-color:#f5f5f5; color:#555;">병명</th>
+					<td id="modal-title" style="padding:10px; font-weight:bold;"></td>
+				</tr>
+				<tr style="border-bottom:1px solid #eee;">
+					<th style="text-align:left; padding:10px; width:100px; background-color:#f5f5f5; color:#555;">분류</th>
+					<td id="modal-category" style="padding:10px;"></td>
+				</tr>
+				<tr style="border-bottom:1px solid #eee;">
+					<th style="text-align:left; padding:10px; width:100px; background-color:#f5f5f5; color:#555; vertical-align:top;">설명</th>
+					<td id="modal-summary" style="padding:10px; line-height:1.6; white-space:pre-wrap;"></td>
+				</tr>
+				<tr>
+					<th style="text-align:left; padding:10px; width:100px; background-color:#f5f5f5; color:#555;">문서</th>
+					<td id="modal-fileurl" style="padding:10px; word-break:break-all;"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 
 	<!-- 페이지 footer -->
 	<footer>
