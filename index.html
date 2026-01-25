@@ -64,6 +64,9 @@
  	<!-- http://www.guriddo.net/demo/guriddojs/  -->
 	<!-- jqgrid  --  END -->
 
+	<!-- wordcloud2.js 라이브러리 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.1/wordcloud2.min.js"></script>
+
 	<!-- 구조화된 데이터 (JSON-LD) -->
 	<script type="application/ld+json">
 	{
@@ -140,7 +143,107 @@
 				});
 
 				resizeJqGridWidth('jqGrid', 'gridContainer', $('#gridContainer').width(), true);
+
+				// 워드클라우드 생성
+				generateWordCloud(originalData);
 			});
+
+			// 워드클라우드 생성 함수
+			function generateWordCloud(data) {
+				// 키워드 추출 및 빈도수 계산
+				var wordCount = {};
+
+				// 제외할 단어 리스트
+				var excludeWords = ['살충제', '살균제', '제초제'];
+
+				// 불용어 리스트
+				var stopWords = ['등', '및', '의', '에', '를', '이', '가', '는', '은', '에서', '으로', '로', '과', '와', '수', '때', '후', '중', '내', '외', '전', '상', '하', '좀', '더', '잘', '것', '경우', '정도', '이상', '이하', '또는', '그리고', '하여', '되어', '있다', '없다', '한다', '된다', '있는', '없는', '하는', '되는', '위해', '통해', '따라', '대한', '관한'];
+
+				// 제외 단어와 불용어 합치기
+				var allExcludeWords = stopWords.concat(excludeWords);
+
+				data.forEach(function(row) {
+					// title에서 키워드 추출
+					if (row.title) {
+						var titleWords = row.title.replace(/\([^)]*\)/g, '').trim().split(/\s+/);
+						titleWords.forEach(function(word) {
+							word = word.trim();
+							if (word.length >= 2 && allExcludeWords.indexOf(word) === -1) {
+								wordCount[word] = (wordCount[word] || 0) + 3; // 제목은 가중치 3
+							}
+						});
+					}
+
+					// category에서 키워드 추출
+					if (row.category) {
+						var cat = row.category.trim();
+						if (cat.length >= 2 && allExcludeWords.indexOf(cat) === -1) {
+							wordCount[cat] = (wordCount[cat] || 0) + 2; // 분류는 가중치 2
+						}
+					}
+
+					// summary에서 주요 키워드 추출 (병원균, 품종, 약제 등)
+					if (row.summary) {
+						// 병원균 추출
+						var pathogenMatch = row.summary.match(/병원균[:\s]*([^-]+)/);
+						if (pathogenMatch) {
+							var pathogens = pathogenMatch[1].split(/[,、]/);
+							pathogens.forEach(function(p) {
+								p = p.trim().split(/\s+/)[0]; // 첫 단어만
+								if (p.length >= 2 && stopWords.indexOf(p) === -1) {
+									wordCount[p] = (wordCount[p] || 0) + 1;
+								}
+							});
+						}
+
+						// 주요 단어 추출 (2글자 이상 한글 명사)
+						var keywords = row.summary.match(/[가-힣]{2,}[병균충해제]+/g);
+						if (keywords) {
+							keywords.forEach(function(word) {
+								if (word.length >= 2 && word.length <= 10 && stopWords.indexOf(word) === -1) {
+									wordCount[word] = (wordCount[word] || 0) + 1;
+								}
+							});
+						}
+					}
+				});
+
+				// 빈도수 기준 정렬 및 상위 100개 선택
+				var wordList = Object.keys(wordCount).map(function(word) {
+					return [word, wordCount[word]];
+				}).sort(function(a, b) {
+					return b[1] - a[1];
+				}).slice(0, 100);
+
+				console.log('워드클라우드 키워드:', wordList.slice(0, 20));
+
+				// 캔버스 크기 설정
+				var container = document.getElementById('wordcloudContainer');
+				var canvas = document.getElementById('wordcloudCanvas');
+				canvas.width = container.offsetWidth;
+				canvas.height = container.offsetHeight;
+
+				// 워드클라우드 생성
+				WordCloud(canvas, {
+					list: wordList,
+					gridSize: 8,
+					weightFactor: function(size) {
+						return Math.pow(size, 0.8) * 3;
+					},
+					fontFamily: 'Malgun Gothic, 맑은 고딕, sans-serif',
+					color: function(word, weight) {
+						var colors = ['#337ab7', '#5cb85c', '#f0ad4e', '#d9534f', '#5bc0de', '#777'];
+						return colors[Math.floor(Math.random() * colors.length)];
+					},
+					rotateRatio: 0.3,
+					rotationSteps: 2,
+					backgroundColor: '#f9f9f9',
+					click: function(item) {
+						// 워드클라우드 클릭 시 해당 키워드로 검색
+						$('#gridSearch').val(item[0]).trigger('keyup');
+					}
+				});
+			}
 
 			// 검색 기능 (검색대상: 제목, 병명, 분류, 설명)
 			$('#gridSearch').on('keyup', function() {
@@ -312,7 +415,7 @@
 		<p>항상 최선을 다하고 정직한 마음으로 시험을 수행할 것이며, 전문적인 지식과 기능을 갖춘 전문 인력 양성 및 지속가능한 농업 발전에 도움이 되도록 하겠습니다.</p>
 	</section>
 	
-    <!-- 게시판 -->	
+    <!-- 게시판 -->
 	<section class="board">
 		<h3 class="title">식물 병충해 도감</h3>
 		<div style="margin-bottom:10px; text-align:right;">
@@ -324,7 +427,15 @@
 			<div   id="jqGridPager" style="width:100%;" ></div>
 		</div>
 	</section>
-	
+
+	<!-- 워드클라우드 -->
+	<section class="board">
+		<h3 class="title">병해충 키워드 분석</h3>
+		<div id="wordcloudContainer" style="width:100%; height:400px; background:#f9f9f9; border-radius:8px; position:relative;">
+			<canvas id="wordcloudCanvas"></canvas>
+		</div>
+	</section>
+
 
     <!-- 찾아오시는길 -->
 	<section class="reviews">
