@@ -190,7 +190,7 @@
 							var pathogens = pathogenMatch[1].split(/[,、]/);
 							pathogens.forEach(function(p) {
 								p = p.trim().split(/\s+/)[0]; // 첫 단어만
-								if (p.length >= 2 && stopWords.indexOf(p) === -1) {
+								if (p.length >= 2 && allExcludeWords.indexOf(p) === -1) {
 									wordCount[p] = (wordCount[p] || 0) + 1;
 								}
 							});
@@ -200,7 +200,7 @@
 						var keywords = row.summary.match(/[가-힣]{2,}[병균충해제]+/g);
 						if (keywords) {
 							keywords.forEach(function(word) {
-								if (word.length >= 2 && word.length <= 10 && stopWords.indexOf(word) === -1) {
+								if (word.length >= 2 && word.length <= 10 && allExcludeWords.indexOf(word) === -1) {
 									wordCount[word] = (wordCount[word] || 0) + 1;
 								}
 							});
