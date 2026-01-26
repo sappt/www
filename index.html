@@ -165,6 +165,14 @@
 				// 제외 단어와 불용어 합치기
 				var allExcludeWords = stopWords.concat(excludeWords);
 
+				// 강제 포함 키워드 (항상 워드클라우드에 포함)
+				var forceIncludeWords = ['노린재', '나방', '총채벌레', '파리', '풍뎅이', '진딧물', '선충', '가루이', '응애', '잎벌레', '바구미', '면충'];
+
+				// 강제 포함 키워드 추가
+				forceIncludeWords.forEach(function(word) {
+					wordCount[word] = (wordCount[word] || 0) + 5;
+				});
+
 				data.forEach(function(row) {
 					// title에서 키워드 추출
 					if (row.title) {
