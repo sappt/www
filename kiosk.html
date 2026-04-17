@@ -28,25 +28,72 @@
         // 1. 순환할 파일 목록을 배열로 정의
         const pages = ['w3.html', 's1.html', 'image01.html'];
 
-        // 2. 현재 보여주고 있는 페이지의 인덱스 (0 = a.html)
+        // 2. 현재 보여주고 있는 페이지의 인덱스
         let currentIndex = 0;
 
         // 3. iframe 요소 가져오기
         const iframe = document.getElementById('pageViewer');
 
-        // 초기 페이지 로드 (캐시 무시를 위해 타임스탐프 추가)
-        iframe.src = pages[currentIndex] + '?t=' + Date.now();
+        // 순환 타이머 ID
+        let rotationTimer = null;
 
-        // 4. x초(x000ms)마다 실행되는 타이머 설정
-        setInterval(() => {
-            // 다음 인덱스 계산 (나머지 연산 % 을 사용하여 0, 1, 2, 0, 1, 2... 반복)
-            currentIndex = (currentIndex + 1) % pages.length;
+        // 마우스/키보드 감지로 s1.html 표시 중인지 여부
+        let isInteractionMode = false;
 
-            // iframe의 주소를 변경하여 다음 파일 로딩 (캐시 무시를 위해 타임스탬프 추가)
-            iframe.src = pages[currentIndex] + '?t=' + Date.now();
+        // 페이지 로드 함수
+        function loadPage(index) {
+            iframe.src = pages[index] + '?t=' + Date.now();
+            console.log(`이동함: ${pages[index]}`);
+        }
 
-            console.log(`이동함: ${pages[currentIndex]}`); // 개발자 도구 확인용
-        }, 20000);// x초(x000ms)마다 실행되는 타이머 설정
+        // 순환 타이머 시작
+        function startRotation() {
+            stopRotation();
+            rotationTimer = setInterval(() => {
+                currentIndex = (currentIndex + 1) % pages.length;
+                loadPage(currentIndex);
+            }, 20000); // 20초마다 순환
+        }
+
+        // 순환 타이머 중지
+        function stopRotation() {
+            if (rotationTimer) {
+                clearInterval(rotationTimer);
+                rotationTimer = null;
+            }
+        }
+
+        // 마우스/키보드 감지 시 s1.html 1분간 표시
+        function onUserInteraction() {
+            if (isInteractionMode) return; // 이미 인터랙션 모드이면 무시
+
+            isInteractionMode = true;
+            stopRotation();
+
+            // s1.html(주간 업무 및 출장현황) 로드
+            iframe.src = 's1.html?t=' + Date.now();
+            console.log('사용자 입력 감지: s1.html 1분간 표시');
+
+            // 1분(60초) 후 s1.html 다음 순서부터 정상 순환 재개
+            setTimeout(() => {
+                isInteractionMode = false;
+                // s1.html(인덱스 1)의 다음 페이지부터 재개
+                currentIndex = (pages.indexOf('s1.html') + 1) % pages.length;
+                loadPage(currentIndex);
+                startRotation();
+                console.log('정상 순환 재개');
+            }, 60000); // 1분
+        }
+
+        // 이벤트 리스너 등록 (마우스, 키보드, 터치)
+        document.addEventListener('mousemove', onUserInteraction);
+        document.addEventListener('mousedown', onUserInteraction);
+        document.addEventListener('keydown', onUserInteraction);
+        document.addEventListener('touchstart', onUserInteraction);
+
+        // 초기 페이지 로드 및 순환 시작
+        loadPage(currentIndex);
+        startRotation();
     </script>
 
 </body>
