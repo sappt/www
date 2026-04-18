@@ -37,8 +37,12 @@
         // 순환 타이머 ID
         let rotationTimer = null;
 
-        // 마우스/키보드 감지로 s1.html 표시 중인지 여부
+        // s1.html 1분 표시 중인지 여부
         let isInteractionMode = false;
+
+        // 더블 스페이스 감지 설정
+        let lastSpaceTime = 0;
+        const DOUBLE_SPACE_WINDOW = 500; // 500ms 이내 2회 입력
 
         // 페이지 로드 함수
         function loadPage(index) {
@@ -63,8 +67,8 @@
             }
         }
 
-        // 마우스/키보드 감지 시 s1.html 1분간 표시
-        function onUserInteraction() {
+        // 더블 스페이스 감지 시 s1.html 1분간 표시
+        function triggerInteractionMode() {
             if (isInteractionMode) return; // 이미 인터랙션 모드이면 무시
 
             isInteractionMode = true;
@@ -72,7 +76,7 @@
 
             // s1.html(주간 업무 및 출장현황) 로드
             iframe.src = 's1.html?t=' + Date.now();
-            console.log('사용자 입력 감지: s1.html 1분간 표시');
+            console.log('더블 스페이스 감지: s1.html 1분간 표시');
 
             // 1분(60초) 후 s1.html 다음 순서부터 정상 순환 재개
             setTimeout(() => {
@@ -85,11 +89,31 @@
             }, 60000); // 1분
         }
 
-        // 이벤트 리스너 등록 (마우스, 키보드, 터치)
-        document.addEventListener('mousemove', onUserInteraction);
-        document.addEventListener('mousedown', onUserInteraction);
-        document.addEventListener('keydown', onUserInteraction);
-        document.addEventListener('touchstart', onUserInteraction);
+        // 스페이스 입력 처리 (더블 클릭 판정)
+        function handleSpacePress() {
+            const now = Date.now();
+            if (now - lastSpaceTime <= DOUBLE_SPACE_WINDOW) {
+                lastSpaceTime = 0; // 연속 트리거 방지
+                triggerInteractionMode();
+            } else {
+                lastSpaceTime = now;
+            }
+        }
+
+        // 부모 문서(kiosk.html 자체)에서의 키보드 입력
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault();
+                handleSpacePress();
+            }
+        });
+
+        // iframe(자식 페이지)에서 전달된 메시지 처리
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.type === 'space-pressed') {
+                handleSpacePress();
+            }
+        });
 
         // 초기 페이지 로드 및 순환 시작
         loadPage(currentIndex);

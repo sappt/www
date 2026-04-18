@@ -813,6 +813,16 @@ def generate_w3_html(weather_data):
 
         drawMapMarkers();
         drawForecastTable();
+
+        // 부모(kiosk.html)로 스페이스 키 이벤트 전달
+        document.addEventListener('keydown', function(e) {{
+            if (e.code === 'Space' || e.key === ' ') {{
+                e.preventDefault();
+                if (window.parent !== window) {{
+                    window.parent.postMessage({{ type: 'space-pressed' }}, '*');
+                }}
+            }}
+        }});
     </script>
 </body>
 </html>
