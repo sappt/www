@@ -45,9 +45,8 @@
         // 현재 보여줄 레이어 (true면 img1, false면 img2)
         let isFirstImageActive = true;
 
-        // Unsplash 이미지 URL 캐시 (한 번에 30장씩 가져와 순환)
+        // Unsplash 이미지 URL 캐시 (한 번에 30장씩 가져오며, 사용한 이미지는 즉시 제거)
         let imageCache = [];
-        let cacheIndex = 0;
         let isFetching = false;
 
         async function fetchUnsplashImages() {
@@ -70,15 +69,14 @@
 
         function getNextImageUrl() {
             // 캐시에 남은 이미지가 5장 이하면 미리 추가 로드
-            if (imageCache.length - cacheIndex <= 5) {
+            if (imageCache.length <= 5) {
                 fetchUnsplashImages();
             }
-            if (cacheIndex < imageCache.length) {
-                return imageCache[cacheIndex++];
+            if (imageCache.length > 0) {
+                return imageCache.shift(); // 사용한 이미지 즉시 제거
             }
             // 캐시가 비어있을 경우 fallback (picsum)
-            const timestamp = Date.now();
-            return `https://picsum.photos/1920/1080?random=${timestamp}`;
+            return `https://picsum.photos/1920/1080?random=${Date.now()}`;
         }
 
         function changeImage() {
