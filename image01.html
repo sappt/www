@@ -46,20 +46,30 @@
         let isFirstImageActive = true;
 
         // Unsplash 이미지 URL 캐시 (한 번에 30장씩 가져오며, 사용한 이미지는 즉시 제거)
+        const QUERIES = ['wallpaper', 'nature', 'landscape', 'architecture', 'city', 'abstract'];
+        let queryIndex = 0;
         let imageCache = [];
+        let usedPhotoIds = new Set();
         let isFetching = false;
 
         async function fetchUnsplashImages() {
             if (isFetching) return;
             isFetching = true;
+            const query = QUERIES[queryIndex % QUERIES.length];
+            queryIndex++;
             try {
                 const res = await fetch(
-                    'https://api.unsplash.com/photos/random?query=wallpaper&orientation=landscape&count=30', {
+                    `https://api.unsplash.com/photos/random?query=${query}&orientation=landscape&count=30`, {
                     headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` }
                 });
                 if (!res.ok) throw new Error(`API 오류: ${res.status}`);
                 const data = await res.json();
-                const urls = data.map(photo => photo.urls.full + '&w=1920&h=1080&fit=crop');
+                const urls = data
+                    .filter(photo => !usedPhotoIds.has(photo.id))
+                    .map(photo => {
+                        usedPhotoIds.add(photo.id);
+                        return photo.urls.full + '&w=1920&h=1080&fit=crop';
+                    });
                 imageCache = imageCache.concat(urls);
             } catch (e) {
                 console.error('Unsplash API 호출 실패:', e);
