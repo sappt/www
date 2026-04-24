@@ -550,7 +550,7 @@ def generate_html(employees, schedules, week_dates):
 
         /* 업데이트 시간 */
         .update-time {{
-            text-align: right;
+            text-align: left;
             font-size: clamp(9px, 0.9vmin, 14px);
             color: #888888;
             padding-top: 10px;
