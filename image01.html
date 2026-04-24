@@ -47,10 +47,33 @@
 
         // Unsplash 이미지 URL 캐시 (한 번에 30장씩 가져오며, 사용한 이미지는 즉시 제거)
         const QUERIES = ['wallpaper', 'nature', 'landscape', 'architecture', 'city', 'abstract'];
+        const MAX_USED_IDS = 500; // 최근 500장만 유지
         let queryIndex = 0;
         let imageCache = [];
-        let usedPhotoIds = new Set();
+        let usedPhotoIds = loadUsedIds();
         let isFetching = false;
+
+        function loadUsedIds() {
+            try {
+                const stored = localStorage.getItem('unsplash_used_ids');
+                return stored ? new Set(JSON.parse(stored)) : new Set();
+            } catch (e) {
+                return new Set();
+            }
+        }
+
+        function saveUsedIds() {
+            try {
+                let ids = Array.from(usedPhotoIds);
+                if (ids.length > MAX_USED_IDS) {
+                    ids = ids.slice(ids.length - MAX_USED_IDS); // 오래된 항목 제거
+                    usedPhotoIds = new Set(ids);
+                }
+                localStorage.setItem('unsplash_used_ids', JSON.stringify(ids));
+            } catch (e) {
+                console.error('localStorage 저장 실패:', e);
+            }
+        }
 
         async function fetchUnsplashImages() {
             if (isFetching) return;
@@ -71,6 +94,7 @@
                         return photo.urls.full + '&w=1920&h=1080&fit=crop';
                     });
                 imageCache = imageCache.concat(urls);
+                saveUsedIds();
             } catch (e) {
                 console.error('Unsplash API 호출 실패:', e);
             }
