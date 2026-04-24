@@ -40,58 +40,69 @@
 
     <script>
         const CHANGE_INTERVAL = 8000; // 8초
-        
-        // 현재 보여줄 레이어 (true면 img1, false면 img2)
-        let isFirstImageActive = true; 
+        const UNSPLASH_ACCESS_KEY = 'UiahWY-rovmFo8sPNTLqCj0ZJiLaS1mqefnIVh_ZBl8';
 
-        function getNewImageUrl() {
-            // 'seed' 방식을 사용하면 없는 이미지가 걸릴 확률이 0%입니다.
-            // Math.random()을 사용하여 매번 다른 시드값을 생성합니다.
-            const randomSeed = Math.floor(Math.random() * 999999);
-            return `https://picsum.photos/seed/${randomSeed}/1920/1080`;
+        // 현재 보여줄 레이어 (true면 img1, false면 img2)
+        let isFirstImageActive = true;
+
+        // Unsplash 이미지 URL 캐시 (한 번에 30장씩 가져와 순환)
+        let imageCache = [];
+        let cacheIndex = 0;
+        let isFetching = false;
+
+        async function fetchUnsplashImages() {
+            if (isFetching) return;
+            isFetching = true;
+            try {
+                const res = await fetch(
+                    'https://api.unsplash.com/photos/random?query=wallpaper&orientation=landscape&count=30', {
+                    headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` }
+                });
+                if (!res.ok) throw new Error(`API 오류: ${res.status}`);
+                const data = await res.json();
+                const urls = data.map(photo => photo.urls.full + '&w=1920&h=1080&fit=crop');
+                imageCache = imageCache.concat(urls);
+            } catch (e) {
+                console.error('Unsplash API 호출 실패:', e);
+            }
+            isFetching = false;
         }
 
-        function getFHDBackgroundUrl() {
-            // FHD (1920x1080) 배경화면 이미지 불러오기
-            // 매번 다른 이미지를 받기 위해 시간 기반 쿼리 파라미터 추가
+        function getNextImageUrl() {
+            // 캐시에 남은 이미지가 5장 이하면 미리 추가 로드
+            if (imageCache.length - cacheIndex <= 5) {
+                fetchUnsplashImages();
+            }
+            if (cacheIndex < imageCache.length) {
+                return imageCache[cacheIndex++];
+            }
+            // 캐시가 비어있을 경우 fallback (picsum)
             const timestamp = Date.now();
             return `https://picsum.photos/1920/1080?random=${timestamp}`;
-        }
-
-        function getFHDUrl1() {
-            // FHD (1920x1080) 배경화면 이미지 불러오기
-			//LoremFlickr 사이트는 URL의 맨 뒷부분에 원하는 영어 키워드를 적어서 이미지의 주제를 정함
-			//"자연"(nature), 숲과 자연(forest,nature),산과 풍경(mountain,landscape),바다와 물(ocean,water)
-            // 매번 다른 이미지를 받기 위해 시간 기반 쿼리 파라미터 추가
-            const timestamp = Date.now();
-            return `https://loremflickr.com/1920/1080/nature,forest,mountain,landscape,ocean,water?t=${timestamp}`;
         }
 
         function changeImage() {
             const nextImageElement = isFirstImageActive ? document.getElementById('img2') : document.getElementById('img1');
             const currentImageElement = isFirstImageActive ? document.getElementById('img1') : document.getElementById('img2');
 
-            // 다음 이미지 로드 시작
-            nextImageElement.src = getFHDBackgroundUrl();
+            nextImageElement.src = getNextImageUrl();
 
-            // 이미지가 로딩 완료되면 페이드 효과 실행
             nextImageElement.onload = function() {
                 nextImageElement.classList.add('visible');
                 currentImageElement.classList.remove('visible');
-                
-                // 순서 교체
                 isFirstImageActive = !isFirstImageActive;
             };
 
-            // 만약 이미지 로드에 실패하면(네트워크 오류 등) 즉시 다시 시도
             nextImageElement.onerror = function() {
                 console.log("이미지 로드 실패, 재시도합니다.");
                 changeImage();
             };
         }
 
-        // 초기 실행: 첫 번째 이미지 로드
-        document.getElementById('img1').src = getFHDBackgroundUrl();
+        // 초기 실행: Unsplash 이미지 가져온 후 첫 이미지 표시
+        fetchUnsplashImages().then(() => {
+            document.getElementById('img1').src = getNextImageUrl();
+        });
 
         // 주기적 실행
         setInterval(changeImage, CHANGE_INTERVAL);
