@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="600">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>시험일정 현황 대시보드 - 샤프트리서치</title>
+  <meta name="description" content="샤프트리서치 SAPPT 시험일정 현황 대시보드">
+  <meta name="robots" content="index, follow">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; width: 100%; min-height: 100vh;
+      font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: #0f172a; color: #e2e8f0; font-size: 14px;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 2px solid #4f46e5; padding-bottom: 14px; margin-bottom: 20px;
+      flex-wrap: wrap; gap: 8px;
+    }
+    header h1 { margin: 0; font-size: 22px; color: #818cf8; font-weight: 800; }
+    .update-time { font-size: 11px; color: #64748b; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .kpi-card {
+      background: #1e293b; border-radius: 12px; padding: 16px 18px;
+      border: 1px solid #334155; display: flex; align-items: flex-start; justify-content: space-between;
+    }
+    .kpi-label { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+    .kpi-value { font-size: 32px; font-weight: 900; line-height: 1; }
+    .kpi-sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+    .kpi-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+    }
+    .chart-row { display: grid; gap: 12px; margin-bottom: 16px; }
+    .chart-row-2 { grid-template-columns: 1fr 1fr; }
+    .chart-card {
+      background: #1e293b; border-radius: 12px; padding: 16px;
+      border: 1px solid #334155;
+    }
+    .chart-title {
+      font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 10px;
+      border-bottom: 1px solid #334155; padding-bottom: 8px;
+    }
+    .footer { text-align: center; color: #475569; font-size: 11px; padding: 20px 0 8px; }
+    @media (max-width: 900px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .chart-row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📊 시험일정 현황 대시보드</h1>
+    <div class="update-time">Last Update: 2026-04-30 22:39:15 (KST)</div>
+  </header>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div>
+        <div class="kpi-label">전체 시험일정</div>
+        <div class="kpi-value" style="color:#818cf8">269</div>
+        <div class="kpi-sub">2026년 전체</div>
+      </div>
+      <div class="kpi-icon" style="background:#312e81;color:#818cf8">📋</div>
+    </div>
+    <div class="kpi-card">
+      <div>
+        <div class="kpi-label">진행중 시험</div>
+        <div class="kpi-value" style="color:#38bdf8">141</div>
+        <div class="kpi-sub">처리완료·조사·성적서 진행</div>
+      </div>
+      <div class="kpi-icon" style="background:#0c4a6e;color:#38bdf8">🔬</div>
+    </div>
+    <div class="kpi-card">
+      <div>
+        <div class="kpi-label">시작전 시험</div>
+        <div class="kpi-value" style="color:#94a3b8">128</div>
+        <div class="kpi-sub">처리 대기</div>
+      </div>
+      <div class="kpi-icon" style="background:#1e293b;color:#94a3b8">⏳</div>
+    </div>
+    <div class="kpi-card">
+      <div>
+        <div class="kpi-label">이번달 출장</div>
+        <div class="kpi-value" style="color:#34d399">81</div>
+        <div class="kpi-sub">2026년 4월</div>
+      </div>
+      <div class="kpi-icon" style="background:#064e3b;color:#34d399">🚗</div>
+    </div>
+  </div>
+
+  <div class="chart-row chart-row-2">
+    <div class="chart-card">
+      <div class="chart-title">진행상태별 현황</div>
+      <div id="chart-status" style="height:280px"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">구분별 시험현황</div>
+      <div id="chart-category" style="height:280px"></div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">월별 업무·출장 분석 (2026년)</div>
+      <div id="chart-monthly" style="height:240px"></div>
+    </div>
+  </div>
+
+  <div class="chart-row chart-row-2">
+    <div class="chart-card">
+      <div class="chart-title">구분별 처리 진행률</div>
+      <div id="chart-progress" style="height:200px"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">진행현황 (전체)</div>
+      <div id="chart-overall" style="height:200px"></div>
+    </div>
+  </div>
+
+  <div class="footer">SAPPT Dashboard · Last Update: 2026-04-30 22:39:15 (KST)</div>
+</div>
+
+<script>
+  const textColor = '#94a3b8', gridColor = '#334155';
+
+  function ec(id) { return echarts.init(document.getElementById(id)); }
+
+  // 1. 진행상태별 현황 (Donut)
+  ec('chart-status').setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'item', textStyle: { fontSize: 12 } },
+    legend: { orient: 'vertical', right: '5%', top: 'middle', textStyle: { color: textColor, fontSize: 11 } },
+    series: [{
+      type: 'pie', radius: ['42%', '68%'], center: ['38%', '50%'],
+      label: { show: true, formatter: '{b}\n{d}%', color: textColor, fontSize: 11 },
+      labelLine: { lineStyle: { color: gridColor } },
+      data: [{ value: 141, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 128, name: '시작전', itemStyle: { color: '#475569' } }],
+    }],
+  });
+
+  // 2. 구분별 시험현황 (Stacked Horizontal Bar)
+  ec('chart-category').setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, textStyle: { fontSize: 12 } },
+    grid: { left: '3%', right: '8%', bottom: '12%', top: '8%', containLabel: true },
+    xAxis: { type: 'value', axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } } },
+    yAxis: { type: 'category', data: ['살충', '살균', '제초제'], axisLabel: { color: textColor, fontSize: 12 } },
+    legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
+    series: [
+      {
+        name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36,
+        itemStyle: { color: '#3b82f6' },
+        label: { show: true, position: 'inside', color: '#fff', fontSize: 11 },
+        data: [76, 34, 19],
+      },
+      {
+        name: '시작전', type: 'bar', stack: 'total',
+        itemStyle: { color: '#475569', borderRadius: [0, 4, 4, 0] },
+        label: { show: true, position: 'inside', color: '#cbd5e1', fontSize: 11 },
+        data: [57, 64, 0],
+      },
+    ],
+  });
+
+  // 3. 월별 출장 (Bar)
+  ec('chart-monthly').setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', textStyle: { fontSize: 12 } },
+    grid: { left: '3%', right: '4%', bottom: '10%', top: '10%', containLabel: true },
+    xAxis: {
+      type: 'category', data: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      axisLabel: { color: textColor }, axisLine: { lineStyle: { color: gridColor } },
+    },
+    yAxis: { type: 'value', axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } } },
+    series: [{
+      name: '출장·외근 건수', type: 'bar', barMaxWidth: 52,
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#6366f1' }, { offset: 1, color: '#312e81' },
+        ]),
+        borderRadius: [4, 4, 0, 0],
+      },
+      label: { show: true, position: 'top', color: textColor, fontSize: 11 },
+      data: [31, 18, 36, 81, 19, 1, 0, 0, 0, 0, 0, 0],
+    }],
+    legend: { textStyle: { color: textColor }, bottom: 0 },
+  });
+
+  // 4. 구분별 처리 진행률
+  ec('chart-progress').setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', textStyle: { fontSize: 12 } },
+    grid: { left: '3%', right: '12%', bottom: '8%', top: '8%', containLabel: true },
+    xAxis: {
+      type: 'value', max: 100, axisLabel: { color: textColor, formatter: '{value}%' },
+      splitLine: { lineStyle: { color: gridColor } },
+    },
+    yAxis: { type: 'category', data: ['살충', '살균', '제초제'], axisLabel: { color: textColor, fontSize: 12 } },
+    series: [{
+      name: '처리완료율', type: 'bar', barMaxWidth: 30,
+      itemStyle: {
+        color: (params) => {
+          const p = params.data;
+          if (p >= 80) return '#10b981';
+          if (p >= 50) return '#f59e0b';
+          return '#3b82f6';
+        },
+        borderRadius: [0, 4, 4, 0],
+      },
+      label: { show: true, position: 'right', color: textColor, fontSize: 11, formatter: '{c}%' },
+      data: [57, 35, 100],
+    }],
+  });
+
+  // 5. 전체 진행현황 (누적 바)
+  ec('chart-overall').setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, textStyle: { fontSize: 12 } },
+    grid: { left: '3%', right: '5%', bottom: '12%', top: '18%', containLabel: true },
+    xAxis: {
+      type: 'value', max: 269,
+      axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } },
+    },
+    yAxis: { type: 'category', data: ['전체'], axisLabel: { color: textColor } },
+    legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
+    series: [
+      {
+        name: '진행중', type: 'bar', stack: 'a', barWidth: 40,
+        itemStyle: { color: '#3b82f6' },
+        label: { show: true, position: 'inside', color: '#fff', fontSize: 12, formatter: '진행중\n141' },
+        data: [141],
+      },
+      {
+        name: '시작전', type: 'bar', stack: 'a', barWidth: 40,
+        itemStyle: { color: '#475569', borderRadius: [0, 6, 6, 0] },
+        label: { show: true, position: 'inside', color: '#cbd5e1', fontSize: 12, formatter: '시작전\n128' },
+        data: [128],
+      },
+    ],
+  });
+
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('[id^="chart-"]').forEach(el => {
+      const inst = echarts.getInstanceByDom(el);
+      if (inst) inst.resize();
+    });
+  });
+</script>
+</body>
+</html>
