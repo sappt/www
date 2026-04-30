@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta http-equiv="refresh" content="600">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>시험일정 현황 대시보드 - 샤프트리서치</title>
@@ -49,6 +52,10 @@
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
       .chart-row-2 { grid-template-columns: 1fr; }
     }
+    @media (max-width: 600px) {
+      .kpi-row { grid-template-columns: 1fr; }
+      header h1 { font-size: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -64,7 +71,7 @@
         <div class="kpi-value" style="color:#818cf8">269</div>
         <div class="kpi-sub">2026년 전체</div>
       </div>
-      <div class="kpi-icon" style="background:#312e81;color:#818cf8">📋</div>
+      <div class="kpi-icon" style="background:#312e81;color:#818cf8" aria-label="전체 시험일정">📋</div>
     </div>
     <div class="kpi-card">
       <div>
@@ -72,7 +79,7 @@
         <div class="kpi-value" style="color:#38bdf8">141</div>
         <div class="kpi-sub">처리완료·조사·성적서 진행</div>
       </div>
-      <div class="kpi-icon" style="background:#0c4a6e;color:#38bdf8">🔬</div>
+      <div class="kpi-icon" style="background:#0c4a6e;color:#38bdf8" aria-label="진행중 시험">🔬</div>
     </div>
     <div class="kpi-card">
       <div>
@@ -80,7 +87,7 @@
         <div class="kpi-value" style="color:#94a3b8">128</div>
         <div class="kpi-sub">처리 대기</div>
       </div>
-      <div class="kpi-icon" style="background:#1e293b;color:#94a3b8">⏳</div>
+      <div class="kpi-icon" style="background:#1e293b;color:#94a3b8" aria-label="시작전 시험">⏳</div>
     </div>
     <div class="kpi-card">
       <div>
@@ -88,40 +95,40 @@
         <div class="kpi-value" style="color:#34d399">81</div>
         <div class="kpi-sub">2026년 4월</div>
       </div>
-      <div class="kpi-icon" style="background:#064e3b;color:#34d399">🚗</div>
+      <div class="kpi-icon" style="background:#064e3b;color:#34d399" aria-label="이번달 출장">🚗</div>
     </div>
   </div>
 
   <div class="chart-row chart-row-2">
     <div class="chart-card">
       <div class="chart-title">진행상태별 현황</div>
-      <div id="chart-status" style="height:280px"></div>
+      <div id="chart-status" style="height:280px" role="img" aria-label="진행상태별 현황 차트"></div>
     </div>
     <div class="chart-card">
       <div class="chart-title">구분별 시험현황</div>
-      <div id="chart-category" style="height:280px"></div>
+      <div id="chart-category" style="height:280px" role="img" aria-label="구분별 시험현황 차트"></div>
     </div>
   </div>
 
   <div class="chart-row">
     <div class="chart-card">
       <div class="chart-title">월별 업무·출장 분석 (2026년)</div>
-      <div id="chart-monthly" style="height:240px"></div>
+      <div id="chart-monthly" style="height:240px" role="img" aria-label="월별 출장 분석 차트"></div>
     </div>
   </div>
 
   <div class="chart-row chart-row-2">
     <div class="chart-card">
       <div class="chart-title">구분별 처리 진행률</div>
-      <div id="chart-progress" style="height:200px"></div>
+      <div id="chart-progress" style="height:200px" role="img" aria-label="구분별 처리 진행률 차트"></div>
     </div>
     <div class="chart-card">
       <div class="chart-title">진행현황 (전체)</div>
-      <div id="chart-overall" style="height:200px"></div>
+      <div id="chart-overall" style="height:200px" role="img" aria-label="전체 진행현황 차트"></div>
     </div>
   </div>
 
-  <div class="footer">Last Update: 2026-04-30 23:25:01 (KST)</div>
+  <div class="footer">Last Update: 2026-04-30 23:26:16 (KST)</div>
 </div>
 
 <script>
@@ -231,12 +238,22 @@
     ],
   });
 
-  window.addEventListener('resize', () => {
+  function resizeCharts() {
     document.querySelectorAll('[id^="chart-"]').forEach(el => {
       const inst = echarts.getInstanceByDom(el);
       if (inst) inst.resize();
     });
-  });
+  }
+
+  function disposeCharts() {
+    document.querySelectorAll('[id^="chart-"]').forEach(el => {
+      const inst = echarts.getInstanceByDom(el);
+      if (inst) inst.dispose();
+    });
+  }
+
+  window.addEventListener('resize', resizeCharts);
+  window.addEventListener('beforeunload', disposeCharts);
 </script>
 </body>
 </html>
