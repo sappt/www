@@ -121,7 +121,7 @@
     </div>
   </div>
 
-  <div class="footer">Last Update: 2026-04-30 23:05:01 (KST)</div>
+  <div class="footer">Last Update: 2026-04-30 23:06:01 (KST)</div>
 </div>
 
 <script>
@@ -138,7 +138,7 @@
       type: 'pie', radius: ['42%', '68%'], center: ['38%', '50%'],
       label: { show: true, formatter: '{b}\n{d}%', color: textColor, fontSize: 11 },
       labelLine: { lineStyle: { color: gridColor } },
-      data: [{ value: 141, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 128, name: '시작전', itemStyle: { color: '#475569' } }],
+      data: [{ value: 141, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 128, name: '시작전', itemStyle: { color: '#94a3b8' } }],
     }],
   });
 
@@ -150,20 +150,8 @@
     xAxis: { type: 'value', axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } } },
     yAxis: { type: 'category', data: ['살충', '살균', '제초제'], axisLabel: { color: textColor, fontSize: 12 } },
     legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
-    series: [
-      {
-        name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36,
-        itemStyle: { color: '#3b82f6' },
-        label: { show: true, position: 'inside', color: '#fff', fontSize: 11 },
-        data: [76, 34, 19],
-      },
-      {
-        name: '시작전', type: 'bar', stack: 'total',
-        itemStyle: { color: '#475569', borderRadius: [0, 4, 4, 0] },
-        label: { show: true, position: 'inside', color: '#cbd5e1', fontSize: 11 },
-        data: [57, 64, 0],
-      },
-    ],
+    series: [{ name: '시작전', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#94a3b8' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [57, 64, 0] },
+      { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [76, 34, 19] }],
   });
 
   // 3. 월별 출장 (Bar)
