@@ -117,18 +117,7 @@
     </div>
   </div>
 
-  <div class="chart-row chart-row-2">
-    <div class="chart-card">
-      <div class="chart-title">구분별 처리 진행률</div>
-      <div id="chart-progress" style="height:200px" role="img" aria-label="구분별 처리 진행률 차트"></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">진행현황 (전체)</div>
-      <div id="chart-overall" style="height:200px" role="img" aria-label="전체 진행현황 차트"></div>
-    </div>
-  </div>
-
-  <div class="footer">Last Update: 2026-05-03 16:20:01 (KST)</div>
+  <div class="footer">Last Update: 2026-05-03 16:23:18 (KST)</div>
 </div>
 
 <script>
@@ -143,7 +132,7 @@
     legend: { orient: 'vertical', right: '5%', top: 'middle', textStyle: { color: textColor, fontSize: 11 } },
     series: [{
       type: 'pie', radius: ['42%', '68%'], center: ['38%', '50%'],
-      label: { show: true, formatter: '{b}\n{d}%', color: textColor, fontSize: 11 },
+      label: { show: true, formatter: '{b}\n{c}건 ({d}%)', color: textColor, fontSize: 11 },
       labelLine: { lineStyle: { color: gridColor } },
       data: [{ value: 141, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 128, name: '시작전', itemStyle: { color: '#94a3b8' } }],
     }],
@@ -183,59 +172,6 @@
       data: [31, 18, 36, 81, 19, 1, 0, 0, 0, 0, 0, 0],
     }],
     legend: { textStyle: { color: textColor }, bottom: 0 },
-  });
-
-  // 4. 구분별 처리 진행률
-  ec('chart-progress').setOption({
-    backgroundColor: 'transparent',
-    tooltip: { trigger: 'axis', textStyle: { fontSize: 12 } },
-    grid: { left: '3%', right: '12%', bottom: '8%', top: '8%', containLabel: true },
-    xAxis: {
-      type: 'value', max: 100, axisLabel: { color: textColor, formatter: '{value}%' },
-      splitLine: { lineStyle: { color: gridColor } },
-    },
-    yAxis: { type: 'category', data: ['살충', '살균', '제초제'], axisLabel: { color: textColor, fontSize: 12 } },
-    series: [{
-      name: '처리완료율', type: 'bar', barMaxWidth: 30,
-      itemStyle: {
-        color: (params) => {
-          const p = params.data;
-          if (p >= 80) return '#10b981';
-          if (p >= 50) return '#f59e0b';
-          return '#3b82f6';
-        },
-        borderRadius: [0, 4, 4, 0],
-      },
-      label: { show: true, position: 'right', color: textColor, fontSize: 11, formatter: '{c}%' },
-      data: [57, 35, 100],
-    }],
-  });
-
-  // 5. 전체 진행현황 (누적 바)
-  ec('chart-overall').setOption({
-    backgroundColor: 'transparent',
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, textStyle: { fontSize: 12 } },
-    grid: { left: '3%', right: '5%', bottom: '12%', top: '18%', containLabel: true },
-    xAxis: {
-      type: 'value', max: 269,
-      axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } },
-    },
-    yAxis: { type: 'category', data: ['전체'], axisLabel: { color: textColor } },
-    legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
-    series: [
-      {
-        name: '진행중', type: 'bar', stack: 'a', barWidth: 40,
-        itemStyle: { color: '#3b82f6' },
-        label: { show: true, position: 'inside', color: '#fff', fontSize: 12, formatter: '진행중\n141' },
-        data: [141],
-      },
-      {
-        name: '시작전', type: 'bar', stack: 'a', barWidth: 40,
-        itemStyle: { color: '#475569', borderRadius: [0, 6, 6, 0] },
-        label: { show: true, position: 'inside', color: '#cbd5e1', fontSize: 12, formatter: '시작전\n128' },
-        data: [128],
-      },
-    ],
   });
 
   function resizeCharts() {
