@@ -14,47 +14,82 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 0; padding: 0; width: 100%; min-height: 100vh;
+      margin: 0; padding: 0; width: 100%; height: 100%;
       font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-      background: #0f172a; color: #e2e8f0; font-size: 14px;
+      background: #1a1a1a; color: #e0e0e0;
+      font-size: clamp(12px, 1.3vmin, 20px);
     }
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px 16px; }
+    .container {
+      width: 100%; height: 100vh;
+      background: #2d2d2d;
+      padding: clamp(10px, 1vmin, 20px);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
     header {
       display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 2px solid #4f46e5; padding-bottom: 14px; margin-bottom: 20px;
-      flex-wrap: wrap; gap: 8px;
+      border-bottom: 2px solid #64b5f6;
+      padding-bottom: clamp(6px, 0.8vmin, 14px);
+      margin-bottom: clamp(8px, 1vmin, 16px);
+      flex-wrap: wrap; gap: 8px; flex-shrink: 0;
     }
-    header h1 { margin: 0; font-size: 22px; color: #818cf8; font-weight: 800; }
-    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    header h1 {
+      margin: 0; font-size: clamp(16px, 2.2vmin, 32px);
+      color: #64b5f6; font-weight: 800;
+    }
+    .kpi-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: clamp(6px, 0.8vmin, 12px);
+      margin-bottom: clamp(8px, 1vmin, 14px); flex-shrink: 0;
+    }
     .kpi-card {
-      background: #1e293b; border-radius: 12px; padding: 16px 18px;
-      border: 1px solid #334155; display: flex; align-items: flex-start; justify-content: space-between;
+      background: #3a3a3a; border-radius: 12px;
+      padding: clamp(10px, 1vmin, 18px);
+      border: 1px solid #555555;
+      display: flex; align-items: flex-start; justify-content: space-between;
     }
-    .kpi-label { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
-    .kpi-value { font-size: 32px; font-weight: 900; line-height: 1; }
-    .kpi-sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+    .kpi-label { font-size: clamp(9px, 0.9vmin, 13px); color: #a0a0a0; margin-bottom: 6px; }
+    .kpi-value { font-size: clamp(22px, 3vmin, 40px); font-weight: 900; line-height: 1; }
+    .kpi-sub { font-size: clamp(9px, 0.9vmin, 13px); color: #888888; margin-top: 4px; }
     .kpi-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+      width: clamp(30px, 3.5vmin, 50px); height: clamp(30px, 3.5vmin, 50px);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(14px, 1.8vmin, 26px); flex-shrink: 0;
     }
-    .chart-row { display: grid; gap: 12px; margin-bottom: 16px; }
+    .chart-section {
+      flex: 1; display: flex; flex-direction: column;
+      gap: clamp(6px, 0.8vmin, 12px); min-height: 0;
+    }
+    .chart-row {
+      flex: 1; display: grid;
+      gap: clamp(6px, 0.8vmin, 12px); min-height: 0;
+    }
     .chart-row-2 { grid-template-columns: 1fr 1fr; }
+    .chart-row-1 { grid-template-columns: 1fr; }
     .chart-card {
-      background: #1e293b; border-radius: 12px; padding: 16px;
-      border: 1px solid #334155;
+      background: #3a3a3a; border-radius: 12px;
+      padding: clamp(10px, 1vmin, 16px);
+      border: 1px solid #555555;
+      display: flex; flex-direction: column; min-height: 0; overflow: hidden;
     }
     .chart-title {
-      font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 10px;
-      border-bottom: 1px solid #334155; padding-bottom: 8px;
+      font-size: clamp(11px, 1.1vmin, 16px); font-weight: 700; color: #c0c0c0;
+      margin-bottom: clamp(5px, 0.5vmin, 10px);
+      border-bottom: 1px solid #555555; padding-bottom: clamp(4px, 0.4vmin, 8px);
+      flex-shrink: 0;
     }
-    .footer { text-align: left; color: #888888; font-size: clamp(9px, 0.9vmin, 14px); padding-top: 10px; }
+    .chart-el { flex: 1; min-height: 0; }
+    .footer {
+      text-align: left; color: #888888;
+      font-size: clamp(9px, 0.9vmin, 14px);
+      padding-top: clamp(6px, 0.6vmin, 10px); flex-shrink: 0;
+    }
     @media (max-width: 900px) {
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
       .chart-row-2 { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .kpi-row { grid-template-columns: 1fr; }
-      header h1 { font-size: 16px; }
     }
   </style>
 </head>
@@ -68,60 +103,62 @@
     <div class="kpi-card">
       <div>
         <div class="kpi-label">전체 시험일정</div>
-        <div class="kpi-value" style="color:#818cf8">269</div>
+        <div class="kpi-value" style="color:#64b5f6">269</div>
         <div class="kpi-sub">2026년 전체</div>
       </div>
-      <div class="kpi-icon" style="background:#312e81;color:#818cf8" aria-label="전체 시험일정">📋</div>
+      <div class="kpi-icon" style="background:#1a3a5c;color:#64b5f6" aria-label="전체 시험일정">📋</div>
     </div>
     <div class="kpi-card">
       <div>
         <div class="kpi-label">진행중 시험</div>
-        <div class="kpi-value" style="color:#38bdf8">142</div>
+        <div class="kpi-value" style="color:#80d080">142</div>
         <div class="kpi-sub">처리완료·조사·성적서 진행</div>
       </div>
-      <div class="kpi-icon" style="background:#0c4a6e;color:#38bdf8" aria-label="진행중 시험">🔬</div>
+      <div class="kpi-icon" style="background:#1a3a1a;color:#80d080" aria-label="진행중 시험">🔬</div>
     </div>
     <div class="kpi-card">
       <div>
         <div class="kpi-label">시작전 시험</div>
-        <div class="kpi-value" style="color:#94a3b8">127</div>
+        <div class="kpi-value" style="color:#a0a0a0">127</div>
         <div class="kpi-sub">처리 대기</div>
       </div>
-      <div class="kpi-icon" style="background:#1e293b;color:#94a3b8" aria-label="시작전 시험">⏳</div>
+      <div class="kpi-icon" style="background:#3a3a3a;color:#a0a0a0" aria-label="시작전 시험">⏳</div>
     </div>
     <div class="kpi-card">
       <div>
         <div class="kpi-label">이번달 출장</div>
-        <div class="kpi-value" style="color:#34d399">26</div>
+        <div class="kpi-value" style="color:#ffb74d">26</div>
         <div class="kpi-sub">2026년 5월</div>
       </div>
-      <div class="kpi-icon" style="background:#064e3b;color:#34d399" aria-label="이번달 출장">🚗</div>
+      <div class="kpi-icon" style="background:#3a2a00;color:#ffb74d" aria-label="이번달 출장">🚗</div>
     </div>
   </div>
 
-  <div class="chart-row chart-row-2">
-    <div class="chart-card">
-      <div class="chart-title">진행상태별 현황</div>
-      <div id="chart-status" style="height:280px" role="img" aria-label="진행상태별 현황 차트"></div>
+  <div class="chart-section">
+    <div class="chart-row chart-row-2">
+      <div class="chart-card">
+        <div class="chart-title">진행상태별 현황</div>
+        <div id="chart-status" class="chart-el" role="img" aria-label="진행상태별 현황 차트"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">구분별 시험현황</div>
+        <div id="chart-category" class="chart-el" role="img" aria-label="구분별 시험현황 차트"></div>
+      </div>
     </div>
-    <div class="chart-card">
-      <div class="chart-title">구분별 시험현황</div>
-      <div id="chart-category" style="height:280px" role="img" aria-label="구분별 시험현황 차트"></div>
+
+    <div class="chart-row chart-row-1">
+      <div class="chart-card">
+        <div class="chart-title">월별 업무·출장 분석 (2026년)</div>
+        <div id="chart-monthly" class="chart-el" role="img" aria-label="월별 출장 분석 차트"></div>
+      </div>
     </div>
   </div>
 
-  <div class="chart-row">
-    <div class="chart-card">
-      <div class="chart-title">월별 업무·출장 분석 (2026년)</div>
-      <div id="chart-monthly" style="height:240px" role="img" aria-label="월별 출장 분석 차트"></div>
-    </div>
-  </div>
-
-  <div class="footer">Last Update: 2026-05-06 13:00:02 (KST)</div>
+  <div class="footer">Last Update: 2026-05-06 13:00:53 (KST)</div>
 </div>
 
 <script>
-  const textColor = '#94a3b8', gridColor = '#334155';
+  const textColor = '#a0a0a0', gridColor = '#555555';
 
   function ec(id) { return echarts.init(document.getElementById(id)); }
 
@@ -165,7 +202,7 @@
       name: '출장·외근 건수', type: 'bar', barMaxWidth: 52,
       itemStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          { offset: 0, color: '#6366f1' }, { offset: 1, color: '#312e81' },
+          { offset: 0, color: '#64b5f6' }, { offset: 1, color: '#1a3a5c' },
         ]),
         borderRadius: [4, 4, 0, 0],
       },
@@ -190,6 +227,7 @@
   }
 
   window.addEventListener('resize', resizeCharts);
+  window.addEventListener('load', () => { setTimeout(resizeCharts, 50); });
   window.addEventListener('beforeunload', disposeCharts);
 </script>
 </body>
