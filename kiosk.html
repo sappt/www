@@ -25,10 +25,12 @@
             border: none;
             display: block;
             opacity: 0;
-            transition: opacity 0.6s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
         }
         .page-frame.visible {
             opacity: 1;
+            z-index: 2;
         }
     </style>
 </head>
@@ -80,8 +82,8 @@
                 // 역할 교체
                 [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
 
-                // 전환 애니메이션(0.6s) 완료 후 플래그 해제
-                setTimeout(() => { isTransitioning = false; }, 700);
+                // 전환 애니메이션(1.5s) 완료 후 플래그 해제
+                setTimeout(() => { isTransitioning = false; }, 1600);
             };
             inactiveFrame.src = url;
         }
