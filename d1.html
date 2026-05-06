@@ -154,7 +154,7 @@
     </div>
   </div>
 
-  <div class="footer">Last Update: 2026-05-06 23:25:01 (KST)</div>
+  <div class="footer">Last Update: 2026-05-06 23:30:01 (KST)</div>
 </div>
 
 <script>
@@ -181,11 +181,11 @@
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, textStyle: { fontSize: 12 } },
     grid: { left: '3%', right: '8%', bottom: '12%', top: '8%', containLabel: true },
     xAxis: { type: 'value', axisLabel: { color: textColor }, splitLine: { lineStyle: { color: gridColor } } },
-    yAxis: { type: 'category', data: ['살충', '살균', '제초제'], axisLabel: { color: textColor, fontSize: 12 } },
+    yAxis: { type: 'category', data: ['살충', '살균', '제초제', '기초시험'], axisLabel: { color: textColor, fontSize: 12 } },
     legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
-    series: [{ name: '시작전', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#94a3b8' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [56, 64, 0] },
-      { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [76, 34, 19] },
-      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [1, 0, 0] }],
+    series: [{ name: '시작전', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#94a3b8' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [56, 64, 0, 3] },
+      { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [76, 34, 19, 0] },
+      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [1, 0, 0, 0] }],
   });
 
   // 3. 월별 출장 (Bar)
