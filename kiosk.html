@@ -8,25 +8,35 @@
     <meta http-equiv="Expires" content="0">
     <title>페이지 자동 순환(20sec)</title>
     <style>
-        /* 화면에 꽉 차게 보이도록 스타일 설정 */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* 스크롤바 숨김 */
+            overflow: hidden;
+            background: #000; /* 흰 번쩍임 방지용 검정 배경 */
         }
-        iframe {
+        .page-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border: none; /* 테두리 제거 */
+            border: none;
             display: block;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+        .page-frame.visible {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-    <iframe id="pageViewer"></iframe>
+    <iframe id="frameA" class="page-frame"></iframe>
+    <iframe id="frameB" class="page-frame"></iframe>
+
     <script>
         // 1. 순환할 파일 목록을 배열로 정의
         const pages = Object.freeze(['w3.html', 's1.html', 'd1.html', 'image01.html']);
@@ -34,8 +44,11 @@
         // 2. 현재 보여주고 있는 페이지의 인덱스
         let currentIndex = 0;
 
-        // 3. iframe 요소 가져오기
-        const iframe = document.getElementById('pageViewer');
+        // 3. 두 iframe 요소 (크로스페이드용 더블 버퍼)
+        const frameA = document.getElementById('frameA');
+        const frameB = document.getElementById('frameB');
+        let activeFrame   = frameA; // 현재 화면에 보이는 iframe
+        let inactiveFrame = frameB; // 백그라운드에서 로드 대기 중인 iframe
 
         // 순환 타이머 ID
         let rotationTimer = null;
@@ -43,14 +56,43 @@
         // s1.html 1분 표시 중인지 여부
         let isInteractionMode = false;
 
+        // 전환 중 중복 실행 방지
+        let isTransitioning = false;
+
         // 더블 스페이스 감지 설정
         let lastSpaceTime = 0;
         const DOUBLE_SPACE_WINDOW = 500; // 500ms 이내 2회 입력
 
-        // 페이지 로드 함수
+        // 페이지 로드 함수 (크로스페이드)
         function loadPage(index) {
-            iframe.src = pages[index] + '?t=' + Date.now();
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            const url = pages[index] + '?t=' + Date.now();
             console.log(`이동함: ${pages[index]}`);
+
+            // 비활성 iframe에 새 페이지를 미리 로드
+            inactiveFrame.onload = () => {
+                // 새 페이지 페이드 인, 이전 페이지 페이드 아웃
+                inactiveFrame.classList.add('visible');
+                activeFrame.classList.remove('visible');
+
+                // 역할 교체
+                [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
+
+                // 전환 애니메이션(0.6s) 완료 후 플래그 해제
+                setTimeout(() => { isTransitioning = false; }, 700);
+            };
+            inactiveFrame.src = url;
+        }
+
+        // 초기 첫 페이지는 activeFrame에 직접 로드 (배경이 검정이므로 번쩍임 없음)
+        function loadFirstPage(index) {
+            activeFrame.onload = () => {
+                activeFrame.classList.add('visible');
+                isTransitioning = false;
+            };
+            activeFrame.src = pages[index] + '?t=' + Date.now();
         }
 
         // 순환 타이머 시작
@@ -72,19 +114,18 @@
 
         // 더블 스페이스 감지 시 s1.html 1분간 표시
         function triggerInteractionMode() {
-            if (isInteractionMode) return; // 이미 인터랙션 모드이면 무시
+            if (isInteractionMode) return;
 
             isInteractionMode = true;
             stopRotation();
 
-            // s1.html(주간 업무 및 출장현황) 로드
-            iframe.src = 's1.html?t=' + Date.now();
+            const s1Index = pages.indexOf('s1.html');
+            loadPage(s1Index);
             console.log('더블 스페이스 감지: s1.html 1분간 표시');
 
             // 1분(60초) 후 s1.html 다음 순서부터 정상 순환 재개
             setTimeout(() => {
                 isInteractionMode = false;
-                // s1.html(인덱스 1)의 다음 페이지부터 재개
                 currentIndex = (pages.indexOf('s1.html') + 1) % pages.length;
                 loadPage(currentIndex);
                 startRotation();
@@ -120,7 +161,8 @@
         });
 
         // 초기 페이지 로드 및 순환 시작
-        loadPage(currentIndex);
+        isTransitioning = true;
+        loadFirstPage(currentIndex);
         startRotation();
     </script>
 
