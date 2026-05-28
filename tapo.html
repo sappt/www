@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TAPO 온습도 모니터링 대시보드</title>
+<title>TAPO 3개 지점 온습도 모니터링 — 문서보관실 · 사육실 · 시약실</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
   :root{
@@ -17,6 +17,10 @@
     --warn:#fbbf24;
     --danger:#f87171;
     --accent:#60a5fa;
+    /* 실별 고유 색상 */
+    --doc:#60a5fa;   /* 문서보관실 - 파랑 */
+    --lab:#34d399;   /* 사육실 - 녹색 */
+    --chm:#a78bfa;   /* 시약실 - 보라 */
     --shadow:0 4px 12px rgba(0,0,0,.35), 0 1px 2px rgba(0,0,0,.4);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -26,12 +30,14 @@
     background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;
     display:flex;flex-direction:column;
   }
+
+  /* 헤더 */
   .header{
     flex:0 0 auto;
     background:var(--panel);border-bottom:1px solid var(--border);
-    padding:12px 24px;display:flex;justify-content:space-between;align-items:center;
+    padding:10px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;
   }
-  .header h1{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:10px;white-space:nowrap}
   .logo-dot{
     width:10px;height:10px;border-radius:50%;background:var(--good);
     box-shadow:0 0 0 4px rgba(52,211,153,.2);
@@ -41,84 +47,172 @@
     0%,100%{box-shadow:0 0 0 4px rgba(52,211,153,.2)}
     50%{box-shadow:0 0 0 6px rgba(52,211,153,.35)}
   }
-  .header-meta{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:13px}
-  .header-meta strong{color:var(--text);font-weight:500}
-  .badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;border:1px solid transparent}
-  .badge-good{background:rgba(52,211,153,.12);color:var(--good);border-color:rgba(52,211,153,.25)}
-  .badge-warn{background:rgba(251,191,36,.12);color:var(--warn);border-color:rgba(251,191,36,.25)}
+  .header-time{color:var(--muted);font-size:12.5px;white-space:nowrap}
+  .header-time strong{color:var(--text);font-weight:500}
 
+  /* 3개 실 상태 카드 (헤더 내부) */
+  .room-strip{display:flex;gap:10px;flex:1;justify-content:center;max-width:900px;margin:0 20px}
+  .room-pill{
+    flex:1;min-width:0;
+    background:var(--panel-2);
+    border:1px solid var(--border);border-left:3px solid;
+    border-radius:8px;padding:8px 12px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .room-pill.doc{border-left-color:var(--doc)}
+  .room-pill.lab{border-left-color:var(--lab)}
+  .room-pill.chm{border-left-color:var(--chm)}
+  .room-pill .icon{font-size:18px}
+  .room-pill .info{flex:1;min-width:0}
+  .room-pill .name{font-size:12px;color:var(--muted);margin-bottom:1px}
+  .room-pill .vals{display:flex;gap:10px;align-items:baseline}
+  .room-pill .temp{font-size:18px;font-weight:600;color:var(--text)}
+  .room-pill .humid{font-size:13px;color:var(--muted)}
+  .room-pill .status{
+    width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;flex-shrink:0;
+  }
+  .status-ok{background:rgba(52,211,153,.15);color:var(--good);border:1px solid rgba(52,211,153,.35)}
+  .status-warn{background:rgba(251,191,36,.15);color:var(--warn);border:1px solid rgba(251,191,36,.35)}
+  .status-crit{background:rgba(248,113,113,.15);color:var(--danger);border:1px solid rgba(248,113,113,.35);
+               animation:blink 1.5s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+
+  /* 차트 그리드 */
   .grid{
     flex:1 1 auto;
     display:grid;
     grid-template-columns:1fr 1fr;
     grid-template-rows:1fr 1fr;
-    gap:12px;
-    padding:12px;
+    gap:10px;
+    padding:10px;
     min-height:0;
   }
   .panel{
     background:var(--panel);border:1px solid var(--border);border-radius:10px;
     box-shadow:var(--shadow);
-    padding:14px 18px;
+    padding:12px 16px;
     display:flex;flex-direction:column;
     min-height:0;min-width:0;
   }
   .panel-title{
     flex:0 0 auto;
-    font-size:14px;font-weight:600;
+    font-size:13px;font-weight:600;
     display:flex;justify-content:space-between;align-items:center;
-    padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:8px;
+    padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:6px;
   }
-  .panel-title .sub{font-size:12px;color:var(--muted);font-weight:400}
+  .panel-title .sub{font-size:11.5px;color:var(--muted);font-weight:400}
+  .panel-title .legend{display:flex;gap:10px;font-size:11px;color:var(--muted)}
+  .panel-title .legend span{display:flex;align-items:center;gap:4px}
+  .panel-title .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
   .chart{flex:1 1 auto;width:100%;min-height:0}
+
+  @media(max-width:1100px){
+    .room-strip{display:none}
+    .grid{grid-template-columns:1fr;grid-template-rows:repeat(4,1fr)}
+  }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1><span class="logo-dot"></span>TAPO 온습도 모니터링 대시보드</h1>
-  <div class="header-meta">
-    <span>최근 갱신: <strong id="lastUpdate">2026-05-28 14:32:10</strong></span>
-    <span class="badge badge-good">● Hub 연결 정상</span>
-    <span class="badge badge-warn">알람 1건</span>
+  <h1><span class="logo-dot"></span>TAPO 3개 지점 온습도 모니터링</h1>
+
+  <div class="room-strip">
+    <div class="room-pill doc" id="pill-doc">
+      <span class="icon">📁</span>
+      <div class="info">
+        <div class="name">문서보관실 · T315-DOC</div>
+        <div class="vals">
+          <span class="temp"><span id="pill-doc-t">22.1</span>°C</span>
+          <span class="humid">습도 <span id="pill-doc-h">48</span>%</span>
+        </div>
+      </div>
+      <span class="status status-ok" id="pill-doc-s">✓</span>
+    </div>
+
+    <div class="room-pill lab" id="pill-lab">
+      <span class="icon">🐭</span>
+      <div class="info">
+        <div class="name">사육실 · T315-LAB</div>
+        <div class="vals">
+          <span class="temp"><span id="pill-lab-t">25.3</span>°C</span>
+          <span class="humid">습도 <span id="pill-lab-h">55</span>%</span>
+        </div>
+      </div>
+      <span class="status status-warn" id="pill-lab-s">!</span>
+    </div>
+
+    <div class="room-pill chm" id="pill-chm">
+      <span class="icon">🧪</span>
+      <div class="info">
+        <div class="name">시약실 · T315-CHM</div>
+        <div class="vals">
+          <span class="temp"><span id="pill-chm-t">21.7</span>°C</span>
+          <span class="humid">습도 <span id="pill-chm-h">45</span>%</span>
+        </div>
+      </div>
+      <span class="status status-ok" id="pill-chm-s">✓</span>
+    </div>
+  </div>
+
+  <div class="header-time">
+    Hub: <strong>H200 · 192.168.10.50</strong> &nbsp;·&nbsp;
+    최근 갱신: <strong id="lastUpdate">2026-05-28 14:32:10</strong>
   </div>
 </div>
 
 <div class="grid">
+  <!-- ① 24시간 온습도 추이 (3개 실 비교) -->
   <div class="panel">
     <div class="panel-title">
-      24시간 온습도 추이
-      <span class="sub">2분 간격 · 다중 센서 비교</span>
+      <span>24시간 온습도 추이 · 3개 지점 비교</span>
+      <span class="sub">실선 = 온도 · 점선 = 습도</span>
     </div>
     <div id="chartTrend" class="chart"></div>
   </div>
 
+  <!-- ② 실시간 게이지 (3개 실 병렬) -->
   <div class="panel">
     <div class="panel-title">
-      실시간 현재값
-      <span class="sub">서버실 (T315)</span>
+      <span>실시간 현재값 · 3개 지점 게이지</span>
+      <span class="sub">실별 안전구간 표시</span>
     </div>
     <div id="chartGauge" class="chart"></div>
   </div>
 
+  <!-- ③ 7일 평균 히트맵 (3개 실 × 24시간) -->
   <div class="panel">
     <div class="panel-title">
-      7일 × 24시간 온도 히트맵
-      <span class="sub">시간대별 평균 (°C)</span>
+      <span>7일 × 24시간 평균 온도 히트맵</span>
+      <span class="sub">실별 시간대 패턴</span>
     </div>
     <div id="chartHeatmap" class="chart"></div>
   </div>
 
+  <!-- ④ 안전구간 산점도 (3개 실 색상 + 임계 영역) -->
   <div class="panel">
     <div class="panel-title">
-      센서별 온·습도 분포
-      <span class="sub">현재값 산점도 · 안전구간 표시</span>
+      <span>온·습도 분포 · 실별 안전구간</span>
+      <span class="sub">현재값 vs 권장 범위</span>
     </div>
     <div id="chartScatter" class="chart"></div>
   </div>
 </div>
 
 <script>
+const ROOM = {
+  doc: { name:'문서보관실', color:'#60a5fa', icon:'📁',
+         tempRange:[18,22], humRange:[40,55], tempMax:24,
+         current:{t:22.1, h:48} },
+  lab: { name:'사육실',     color:'#34d399', icon:'🐭',
+         tempRange:[20,26], humRange:[30,70], tempMax:26,
+         current:{t:25.3, h:55} },
+  chm: { name:'시약실',     color:'#a78bfa', icon:'🧪',
+         tempRange:[15,25], humRange:[40,60], tempMax:28,
+         current:{t:21.7, h:45} }
+};
+
 const darkAxis = {
   axisLine:{lineStyle:{color:'#334155'}},
   axisLabel:{color:'#94a3b8', fontSize:11},
@@ -130,35 +224,78 @@ const darkTooltip = {
   textStyle:{color:'#e2e8f0'}
 };
 
-/* ---------- 1. 시계열 추이 ---------- */
+/* ============ ① 24시간 추이 (3실 온도+습도) ============ */
 const trendChart = echarts.init(document.getElementById('chartTrend'));
 const hours = Array.from({length:144}, (_,i)=>{
   const d = new Date(Date.now() - (143-i)*10*60*1000);
   return d.toTimeString().slice(0,5);
 });
 function genTemp(base, amp){
-  return hours.map((_,i)=> +(base + amp*Math.sin(i/12) + (Math.random()-0.5)*0.6).toFixed(1));
+  return hours.map((_,i)=> +(base + amp*Math.sin(i/12) + (Math.random()-0.5)*0.5).toFixed(1));
 }
 function genHumid(base, amp){
   return hours.map((_,i)=> +(base + amp*Math.cos(i/14) + (Math.random()-0.5)*2).toFixed(1));
 }
+/* 범례 아이콘 SVG path — 메트릭 종류를 시각적으로 구분 */
+const ICON_SOLID  = 'path://M0,4 L26,4 L26,7 L0,7 Z';                                     // 실선 막대
+const ICON_DASHED = 'path://M0,4 L6,4 L6,7 L0,7 Z M10,4 L16,4 L16,7 L10,7 Z M20,4 L26,4 L26,7 L20,7 Z'; // 점선 막대
+
 trendChart.setOption({
-  color:['#60a5fa','#34d399','#fbbf24','#a78bfa','#22d3ee'],
+  color:[ROOM.doc.color, ROOM.lab.color, ROOM.chm.color,
+         ROOM.doc.color, ROOM.lab.color, ROOM.chm.color],
   tooltip:{trigger:'axis', ...darkTooltip,
            axisPointer:{type:'cross', lineStyle:{color:'#475569'},
                         crossStyle:{color:'#475569'}}},
-  legend:{data:['서버실','창고A','사무실','서버실 습도','창고A 습도'],
-          textStyle:{color:'#cbd5e1'}, top:0, itemWidth:14, itemHeight:8},
-  grid:{left:50, right:55, top:35, bottom:50},
+
+  /* ─── 메트릭별 그룹 헤더 (graphic 텍스트 + 세로 구분선) ─── */
+  graphic:[
+    { type:'text', left:'2%', top:8,
+      style:{text:'🌡 온도', fill:'#fbbf24', fontSize:12, fontWeight:600,
+             fontFamily:'Segoe UI, Malgun Gothic, sans-serif'}},
+    { type:'rect', left:'48%', top:6,
+      shape:{width:1, height:18},
+      style:{fill:'rgba(148,163,184,0.25)'}},
+    { type:'text', left:'52%', top:8,
+      style:{text:'💧 습도', fill:'#60a5fa', fontSize:12, fontWeight:600,
+             fontFamily:'Segoe UI, Malgun Gothic, sans-serif'}}
+  ],
+
+  /* ─── 두 개의 범례를 좌(온도) / 우(습도)로 분리 ─── */
+  legend:[
+    {
+      top:6, left:'10%',
+      data:[
+        {name:'문서 온도', icon:ICON_SOLID},
+        {name:'사육 온도', icon:ICON_SOLID},
+        {name:'시약 온도', icon:ICON_SOLID}
+      ],
+      textStyle:{color:'#cbd5e1', fontSize:11},
+      itemWidth:26, itemHeight:11, itemGap:14,
+      formatter:name => name.replace(' 온도','')
+    },
+    {
+      top:6, left:'60%',
+      data:[
+        {name:'문서 습도', icon:ICON_DASHED},
+        {name:'사육 습도', icon:ICON_DASHED},
+        {name:'시약 습도', icon:ICON_DASHED}
+      ],
+      textStyle:{color:'#cbd5e1', fontSize:11},
+      itemWidth:26, itemHeight:11, itemGap:14,
+      formatter:name => name.replace(' 습도','')
+    }
+  ],
+
+  grid:{left:48, right:55, top:42, bottom:48},
   xAxis:{type:'category', data:hours, boundaryGap:false, ...darkAxis,
          axisLabel:{...darkAxis.axisLabel, interval:23}},
   yAxis:[
-    {type:'value', name:'°C', min:18, max:30, ...darkAxis,
-     nameTextStyle:{color:'#94a3b8', fontSize:11}},
-    {type:'value', name:'%', min:30, max:80, ...darkAxis,
-     nameTextStyle:{color:'#94a3b8', fontSize:11}}
+    {type:'value', name:'🌡 °C', min:14, max:30, ...darkAxis,
+     nameTextStyle:{color:'#fbbf24', fontSize:11, fontWeight:600}},
+    {type:'value', name:'💧 %RH', min:25, max:75, ...darkAxis,
+     nameTextStyle:{color:'#60a5fa', fontSize:11, fontWeight:600}}
   ],
-  dataZoom:[{type:'inside'}, {type:'slider', height:14, bottom:6,
+  dataZoom:[{type:'inside'}, {type:'slider', height:12, bottom:6,
             borderColor:'#334155', fillerColor:'rgba(96,165,250,.18)',
             backgroundColor:'rgba(148,163,184,.06)',
             handleStyle:{color:'#475569'},
@@ -166,137 +303,258 @@ trendChart.setOption({
             dataBackground:{lineStyle:{color:'#475569'},
                             areaStyle:{color:'rgba(96,165,250,.1)'}}}],
   series:[
-    {name:'서버실', type:'line', data:genTemp(22,1.2), smooth:true, symbol:'none', lineStyle:{width:2}},
-    {name:'창고A', type:'line', data:genTemp(26,1.6), smooth:true, symbol:'none', lineStyle:{width:2}},
-    {name:'사무실', type:'line', data:genTemp(24,0.9), smooth:true, symbol:'none', lineStyle:{width:2}},
-    {name:'서버실 습도', type:'line', yAxisIndex:1, data:genHumid(48,4),
-     smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed'}},
-    {name:'창고A 습도', type:'line', yAxisIndex:1, data:genHumid(60,5),
-     smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed'}}
+    /* 온도: 굵은 실선 (주 메트릭 강조) */
+    {name:'문서 온도', type:'line', data:genTemp(21,1.0), smooth:true, symbol:'none',
+     lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
+    {name:'사육 온도', type:'line', data:genTemp(25,1.2), smooth:true, symbol:'none',
+     lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
+    {name:'시약 온도', type:'line', data:genTemp(22,0.8), smooth:true, symbol:'none',
+     lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
+    /* 습도: 점선 + 낮은 투명도 (보조 메트릭) */
+    {name:'문서 습도', type:'line', yAxisIndex:1, data:genHumid(48,3),
+     smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
+     emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}},
+    {name:'사육 습도', type:'line', yAxisIndex:1, data:genHumid(55,4),
+     smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
+     emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}},
+    {name:'시약 습도', type:'line', yAxisIndex:1, data:genHumid(45,3),
+     smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
+     emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}}
   ]
 });
 
-/* ---------- 2. 게이지 ---------- */
+/* ============ ② 3실 게이지 (병렬) ============ */
 const gaugeChart = echarts.init(document.getElementById('chartGauge'));
+
+/* 습도 레벨별 이모지 매핑
+   <30: 🏜️ 매우건조 / 30~45: 🌵 건조 / 45~60: 💧 적정
+   60~75: 🌧️ 다습 / >75: 🌊 매우다습 */
+function humidityFormatter(h){
+  const ico = h < 30 ? '🏜️'
+            : h < 45 ? '🌵'
+            : h < 60 ? '💧'
+            : h < 75 ? '🌧️'
+            : '🌊';
+  return `{ico|${ico}} {val|${h}%}`;
+}
+const humidityRich = {
+  ico: { fontSize: 26, padding:[0,4,0,0] },
+  val: { fontSize: 18, color: '#f1f5f9', fontWeight: 700, padding:[0,0,0,2] }
+};
+
+function makeGauge(centerX, room, key){
+  return [
+    {
+      type:'gauge', center:[centerX,'52%'], radius:'58%',
+      min:0, max:40, splitNumber:8,
+      axisLine:{lineStyle:{width:10,
+        color:[
+          [room.tempRange[0]/40, '#60a5fa'],
+          [room.tempRange[1]/40, '#34d399'],
+          [room.tempMax/40,      '#fbbf24'],
+          [1,                    '#f87171']
+        ]}},
+      pointer:{itemStyle:{color:'auto'}, length:'62%', width:3},
+      axisTick:{length:4, lineStyle:{color:'auto'}},
+      splitLine:{length:8, lineStyle:{color:'auto'}},
+      axisLabel:{color:'#94a3b8', fontSize:9, distance:-22},
+      title:{offsetCenter:[0,'92%'], color:room.color, fontSize:12, fontWeight:600},
+      detail:{offsetCenter:[0,'58%'], formatter:'{value}°C',
+              fontSize:18, color:'#f1f5f9', fontWeight:600},
+      data:[{value:room.current.t, name:room.icon+' '+room.name}]
+    }
+  ];
+}
 gaugeChart.setOption({
   series:[
+    ...makeGauge('17%', ROOM.doc, 'doc'),
+    ...makeGauge('50%', ROOM.lab, 'lab'),
+    ...makeGauge('83%', ROOM.chm, 'chm'),
+    /* 습도 표시 (하단) — 레벨별 이모지 + 큰 폰트 */
     {
-      type:'gauge', center:['28%','55%'], radius:'80%',
-      min:0, max:40, splitNumber:8,
-      axisLine:{lineStyle:{width:16,
-        color:[[0.45,'#60a5fa'],[0.7,'#34d399'],[1,'#f87171']]}},
-      pointer:{itemStyle:{color:'auto'}, length:'70%', width:5},
-      axisTick:{length:6, lineStyle:{color:'auto'}},
-      splitLine:{length:12, lineStyle:{color:'auto'}},
-      axisLabel:{color:'#94a3b8', fontSize:10, distance:-32},
-      title:{offsetCenter:[0,'78%'], color:'#cbd5e1', fontSize:13},
-      detail:{offsetCenter:[0,'45%'], formatter:'{value}°C',
-              fontSize:24, color:'#f1f5f9', fontWeight:600},
-      data:[{value:22.1, name:'온도'}]
+      type:'pie', center:['17%','94%'], radius:['0','1%'],
+      label:{show:true, position:'center',
+             formatter: humidityFormatter(ROOM.doc.current.h),
+             rich: humidityRich},
+      data:[{value:1}], silent:true, itemStyle:{color:'transparent'}
     },
     {
-      type:'gauge', center:['72%','55%'], radius:'80%',
-      min:0, max:100, splitNumber:10,
-      axisLine:{lineStyle:{width:16,
-        color:[[0.4,'#fbbf24'],[0.7,'#34d399'],[1,'#60a5fa']]}},
-      pointer:{itemStyle:{color:'auto'}, length:'70%', width:5},
-      axisTick:{length:6, lineStyle:{color:'auto'}},
-      splitLine:{length:12, lineStyle:{color:'auto'}},
-      axisLabel:{color:'#94a3b8', fontSize:10, distance:-32},
-      title:{offsetCenter:[0,'78%'], color:'#cbd5e1', fontSize:13},
-      detail:{offsetCenter:[0,'45%'], formatter:'{value}%',
-              fontSize:24, color:'#f1f5f9', fontWeight:600},
-      data:[{value:48, name:'습도'}]
+      type:'pie', center:['50%','94%'], radius:['0','1%'],
+      label:{show:true, position:'center',
+             formatter: humidityFormatter(ROOM.lab.current.h),
+             rich: humidityRich},
+      data:[{value:1}], silent:true, itemStyle:{color:'transparent'}
+    },
+    {
+      type:'pie', center:['83%','94%'], radius:['0','1%'],
+      label:{show:true, position:'center',
+             formatter: humidityFormatter(ROOM.chm.current.h),
+             rich: humidityRich},
+      data:[{value:1}], silent:true, itemStyle:{color:'transparent'}
     }
   ]
 });
 
-/* ---------- 3. 히트맵 ---------- */
+/* ============ ③ 7일 × 24시간 히트맵 (3실 비교) ============ */
 const heatmapChart = echarts.init(document.getElementById('chartHeatmap'));
 const days = ['월','화','수','목','금','토','일'];
+const yLabels = [];
 const heatData = [];
-for(let d=0; d<7; d++){
-  for(let h=0; h<24; h++){
-    const base = 22 + 3*Math.sin((h-14)/4) + (d>=5?1:0);
-    heatData.push([h, d, +(base + (Math.random()-0.5)*1.5).toFixed(1)]);
-  }
-}
+['doc','lab','chm'].forEach((roomKey, roomIdx) => {
+  const room = ROOM[roomKey];
+  const baseT = (room.tempRange[0]+room.tempRange[1])/2;
+  days.forEach((day, dIdx) => {
+    yLabels.push(`${room.icon} ${day}`);
+    const yPos = roomIdx*7 + dIdx;
+    for(let h=0; h<24; h++){
+      const val = +(baseT + 1.5*Math.sin((h-14)/4) +
+                    (dIdx>=5?0.5:0) + (Math.random()-0.5)*1.2).toFixed(1);
+      heatData.push([h, yPos, val]);
+    }
+  });
+});
 heatmapChart.setOption({
-  tooltip:{position:'top', formatter:p=>`${days[p.value[1]]} ${p.value[0]}시<br/><b>${p.value[2]}°C</b>`,
+  tooltip:{position:'top',
+           formatter:p=>`${yLabels[p.value[1]]} ${p.value[0]}시<br/><b>${p.value[2]}°C</b>`,
            ...darkTooltip},
-  grid:{left:40, right:20, top:15, bottom:60},
+  grid:{left:55, right:15, top:10, bottom:48},
   xAxis:{type:'category', data:[...Array(24).keys()], ...darkAxis,
-         axisLabel:{...darkAxis.axisLabel, formatter:'{value}시', fontSize:10},
+         axisLabel:{...darkAxis.axisLabel, formatter:'{value}시', fontSize:9, interval:1},
          splitArea:{show:false}},
-  yAxis:{type:'category', data:days, ...darkAxis, splitArea:{show:false}},
-  visualMap:{min:18, max:28, calculable:true, orient:'horizontal',
-             left:'center', bottom:8, itemWidth:14, itemHeight:140,
-             textStyle:{color:'#94a3b8', fontSize:11},
+  yAxis:{type:'category', data:yLabels, ...darkAxis,
+         axisLabel:{...darkAxis.axisLabel, fontSize:9.5},
+         splitArea:{show:false}},
+  visualMap:{min:16, max:28, calculable:true, orient:'horizontal',
+             left:'center', bottom:4, itemWidth:11, itemHeight:120,
+             textStyle:{color:'#94a3b8', fontSize:10},
              inRange:{color:['#1e40af','#0891b2','#059669','#d97706','#dc2626']}},
   series:[{type:'heatmap', data:heatData,
-           label:{show:true, fontSize:9, color:'#f1f5f9'},
+           label:{show:false},
            itemStyle:{borderColor:'#131c2e', borderWidth:1}}]
 });
 
-/* ---------- 4. 산점도 ---------- */
+/* ============ ④ 산점도 (3실 안전구간) ============ */
 const scatterChart = echarts.init(document.getElementById('chartScatter'));
-const sensors = [
-  {name:'서버실', t:22.1, h:48},
-  {name:'창고A', t:26.8, h:61},
-  {name:'창고B', t:23.4, h:55},
-  {name:'사무실', t:24.5, h:50},
-  {name:'회의실', t:23.9, h:53},
-  {name:'전산실#2', t:21.7, h:45},
-  {name:'자료보관실', t:22.8, h:38},
-  {name:'휴게실', t:24.1, h:57}
-];
+function genScatterPoints(room, n){
+  const pts = [];
+  for(let i=0; i<n; i++){
+    pts.push([
+      +(room.current.t + (Math.random()-0.5)*2.5).toFixed(1),
+      +(room.current.h + (Math.random()-0.5)*8).toFixed(1)
+    ]);
+  }
+  return pts;
+}
 scatterChart.setOption({
-  tooltip:{formatter:p=>`<b>${p.data.name}</b><br/>온도: ${p.data.value[0]}°C<br/>습도: ${p.data.value[1]}%`,
-           ...darkTooltip},
-  grid:{left:55, right:30, top:25, bottom:50},
-  xAxis:{type:'value', name:'온도 (°C)', min:18, max:30, ...darkAxis,
-         nameTextStyle:{color:'#94a3b8', fontSize:11}, nameLocation:'middle', nameGap:30},
-  yAxis:{type:'value', name:'습도 (%)', min:30, max:80, ...darkAxis,
-         nameTextStyle:{color:'#94a3b8', fontSize:11}, nameLocation:'middle', nameGap:38},
-  series:[{
-    type:'scatter', symbolSize:26,
-    data:sensors.map(s=>({name:s.name, value:[s.t, s.h]})),
-    label:{show:true, formatter:p=>p.data.name, position:'right',
-           color:'#cbd5e1', fontSize:11},
-    itemStyle:{
-      color:p=>{
-        const [t,h]=p.data.value;
-        if(t>26 || h<40 || h>65) return '#f87171';
-        if(t>25 || h<45) return '#fbbf24';
-        return '#34d399';
-      },
-      opacity:0.9, borderColor:'#0b1220', borderWidth:2,
-      shadowBlur:8, shadowColor:'rgba(0,0,0,.4)'
+  tooltip:{
+    formatter:p=>`<b>${p.seriesName}</b><br/>온도: ${p.data[0]}°C<br/>습도: ${p.data[1]}%`,
+    ...darkTooltip
+  },
+  legend:{
+    data:['📁 문서보관실','🐭 사육실','🧪 시약실'],
+    textStyle:{color:'#cbd5e1', fontSize:11}, top:0, itemWidth:12, itemHeight:7
+  },
+  grid:{left:48, right:20, top:30, bottom:42},
+  xAxis:{type:'value', name:'온도 (°C)', min:14, max:32, ...darkAxis,
+         nameTextStyle:{color:'#94a3b8', fontSize:11}, nameLocation:'middle', nameGap:26},
+  yAxis:{type:'value', name:'습도 (%)', min:25, max:80, ...darkAxis,
+         nameTextStyle:{color:'#94a3b8', fontSize:11}, nameLocation:'middle', nameGap:32},
+  series:[
+    {
+      name:'📁 문서보관실', type:'scatter', symbolSize:8,
+      data:genScatterPoints(ROOM.doc, 30),
+      itemStyle:{color:ROOM.doc.color, opacity:0.7,
+                 borderColor:'#0b1220', borderWidth:1},
+      markArea:{
+        silent:true,
+        itemStyle:{color:'rgba(96,165,250,.10)',
+                   borderColor:'rgba(96,165,250,.35)', borderWidth:1},
+        label:{show:true, position:'insideTop', color:ROOM.doc.color, fontSize:10,
+               formatter:'문서 안전'},
+        data:[[{xAxis:ROOM.doc.tempRange[0], yAxis:ROOM.doc.humRange[0]},
+               {xAxis:ROOM.doc.tempRange[1], yAxis:ROOM.doc.humRange[1]}]]
+      }
     },
-    markArea:{
-      silent:true,
-      itemStyle:{color:'rgba(52,211,153,.08)',
-                 borderColor:'rgba(52,211,153,.25)', borderWidth:1},
-      label:{show:true, position:'insideTopLeft', color:'#34d399',
-             fontSize:11, formatter:'안전 구간'},
-      data:[[{xAxis:20, yAxis:45},{xAxis:25, yAxis:60}]]
+    {
+      name:'🐭 사육실', type:'scatter', symbolSize:8,
+      data:genScatterPoints(ROOM.lab, 30),
+      itemStyle:{color:ROOM.lab.color, opacity:0.7,
+                 borderColor:'#0b1220', borderWidth:1},
+      markArea:{
+        silent:true,
+        itemStyle:{color:'rgba(52,211,153,.08)',
+                   borderColor:'rgba(52,211,153,.35)', borderWidth:1},
+        label:{show:true, position:'insideTopRight', color:ROOM.lab.color, fontSize:10,
+               formatter:'사육 안전'},
+        data:[[{xAxis:ROOM.lab.tempRange[0], yAxis:ROOM.lab.humRange[0]},
+               {xAxis:ROOM.lab.tempRange[1], yAxis:ROOM.lab.humRange[1]}]]
+      }
+    },
+    {
+      name:'🧪 시약실', type:'scatter', symbolSize:8,
+      data:genScatterPoints(ROOM.chm, 30),
+      itemStyle:{color:ROOM.chm.color, opacity:0.7,
+                 borderColor:'#0b1220', borderWidth:1},
+      markArea:{
+        silent:true,
+        itemStyle:{color:'rgba(167,139,250,.08)',
+                   borderColor:'rgba(167,139,250,.35)', borderWidth:1},
+        label:{show:true, position:'insideBottomLeft', color:ROOM.chm.color, fontSize:10,
+               formatter:'시약 안전'},
+        data:[[{xAxis:ROOM.chm.tempRange[0], yAxis:ROOM.chm.humRange[0]},
+               {xAxis:ROOM.chm.tempRange[1], yAxis:ROOM.chm.humRange[1]}]]
+      }
     }
-  }]
+  ]
 });
 
-/* ---------- 반응형 ---------- */
+/* ============ 반응형 ============ */
 const charts = [trendChart, gaugeChart, heatmapChart, scatterChart];
 window.addEventListener('resize', ()=> charts.forEach(c=>c.resize()));
 
-/* ---------- 실시간 갱신 시뮬레이션 ---------- */
+/* ============ 실시간 갱신 시뮬레이션 ============ */
+function evalStatus(roomKey, t, h){
+  const r = ROOM[roomKey];
+  if(t > r.tempMax + 2 || h > r.humRange[1] + 5 || h < r.humRange[0] - 5) return 'crit';
+  if(t > r.tempMax || h > r.humRange[1] || h < r.humRange[0]) return 'warn';
+  return 'ok';
+}
+function updatePill(roomKey, t, h){
+  document.getElementById(`pill-${roomKey}-t`).textContent = t.toFixed(1);
+  document.getElementById(`pill-${roomKey}-h`).textContent = Math.round(h);
+  const s = evalStatus(roomKey, t, h);
+  const el = document.getElementById(`pill-${roomKey}-s`);
+  el.className = `status status-${s}`;
+  el.textContent = s === 'ok' ? '✓' : (s === 'warn' ? '!' : '⚠');
+}
+
 setInterval(()=>{
   const now = new Date();
   document.getElementById('lastUpdate').textContent =
     now.toISOString().slice(0,19).replace('T',' ');
-  const newTemp = +(22 + Math.random()*1.5).toFixed(1);
-  const newHumid = Math.round(45 + Math.random()*8);
-  gaugeChart.setOption({series:[{data:[{value:newTemp, name:'온도'}]},
-                                {data:[{value:newHumid, name:'습도'}]}]});
+
+  const newVals = {
+    doc: { t: +(21 + Math.random()*1.5).toFixed(1), h: Math.round(45 + Math.random()*8) },
+    lab: { t: +(24 + Math.random()*2.5).toFixed(1), h: Math.round(50 + Math.random()*15) },
+    chm: { t: +(21 + Math.random()*2).toFixed(1),   h: Math.round(43 + Math.random()*10) }
+  };
+
+  Object.entries(newVals).forEach(([k,v]) => {
+    ROOM[k].current = v;
+    updatePill(k, v.t, v.h);
+  });
+
+  /* 게이지 갱신 */
+  gaugeChart.setOption({
+    series:[
+      {data:[{value:newVals.doc.t, name:'📁 문서보관실'}]},
+      {data:[{value:newVals.lab.t, name:'🐭 사육실'}]},
+      {data:[{value:newVals.chm.t, name:'🧪 시약실'}]},
+      {label:{formatter: humidityFormatter(newVals.doc.h), rich: humidityRich}},
+      {label:{formatter: humidityFormatter(newVals.lab.h), rich: humidityRich}},
+      {label:{formatter: humidityFormatter(newVals.chm.h), rich: humidityRich}}
+    ]
+  });
 }, 5000);
 </script>
 </body>
