@@ -132,7 +132,7 @@
     </div>
 
     <div class="room-pill lab" id="pill-lab">
-      <span class="icon">🐭</span>
+      <span class="icon">🧬</span>
       <div class="info">
         <div class="name">사육실 · T315-LAB</div>
         <div class="vals">
@@ -205,7 +205,7 @@ const ROOM = {
   doc: { name:'문서보관실', color:'#60a5fa', icon:'📁',
          tempRange:[18,22], humRange:[40,55], tempMax:24,
          current:{t:22.1, h:48} },
-  lab: { name:'사육실',     color:'#34d399', icon:'🐭',
+  lab: { name:'사육실',     color:'#34d399', icon:'🧬',
          tempRange:[20,26], humRange:[30,70], tempMax:26,
          current:{t:25.3, h:55} },
   chm: { name:'시약실',     color:'#a78bfa', icon:'🧪',
@@ -451,7 +451,7 @@ scatterChart.setOption({
     ...darkTooltip
   },
   legend:{
-    data:['📁 문서보관실','🐭 사육실','🧪 시약실'],
+    data:['📁 문서보관실','🧬 사육실','🧪 시약실'],
     textStyle:{color:'#cbd5e1', fontSize:11}, top:0, itemWidth:12, itemHeight:7
   },
   grid:{left:48, right:20, top:30, bottom:42},
@@ -476,7 +476,7 @@ scatterChart.setOption({
       }
     },
     {
-      name:'🐭 사육실', type:'scatter', symbolSize:8,
+      name:'🧬 사육실', type:'scatter', symbolSize:8,
       data:genScatterPoints(ROOM.lab, 30),
       itemStyle:{color:ROOM.lab.color, opacity:0.7,
                  borderColor:'#0b1220', borderWidth:1},
@@ -548,7 +548,7 @@ setInterval(()=>{
   gaugeChart.setOption({
     series:[
       {data:[{value:newVals.doc.t, name:'📁 문서보관실'}]},
-      {data:[{value:newVals.lab.t, name:'🐭 사육실'}]},
+      {data:[{value:newVals.lab.t, name:'🧬 사육실'}]},
       {data:[{value:newVals.chm.t, name:'🧪 시약실'}]},
       {label:{formatter: humidityFormatter(newVals.doc.h), rich: humidityRich}},
       {label:{formatter: humidityFormatter(newVals.lab.h), rich: humidityRich}},
