@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAPO 3개 지점 온습도 모니터링 — 문서보관실 · 사육실 · 시약실</title>
+<!-- TAPO DB sync: 2026-05-29 10:18:48 KST · rooms=3 · trend_points=144 -->
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
   :root{
@@ -204,13 +205,13 @@
 const ROOM = {
   doc: { name:'문서보관실', color:'#60a5fa', icon:'📁',
          tempRange:[18,22], humRange:[40,55], tempMax:24,
-         current:{t:24.8, h:41} },
+         current:{t:24.8, h:44} },
   lab: { name:'사육실',     color:'#34d399', icon:'🧬',
          tempRange:[20,26], humRange:[30,70], tempMax:26,
-         current:{t:25.7, h:61} },
+         current:{t:25.8, h:61} },
   chm: { name:'시약실',     color:'#a78bfa', icon:'🧪',
          tempRange:[15,25], humRange:[40,60], tempMax:28,
-         current:{t:24.6, h:63} }
+         current:{t:24.2, h:65} }
 };
 
 const darkAxis = {
@@ -526,6 +527,7 @@ function updatePill(roomKey, t, h){
 }
 
 setInterval(()=>{
+  return; /* tapo.py: demo loop disabled (see HTML head sync marker) */
   return; /* TAPO DB sync: demo loop disabled */
   const now = new Date();
   document.getElementById('lastUpdate').textContent =
