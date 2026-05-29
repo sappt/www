@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAPO 3개 지점 온습도 모니터링 — 문서보관실 · 사육실 · 시약실</title>
-<!-- TAPO DB sync: 2026-05-29 11:25:01 KST · rooms=3 · trend_points=144 -->
+<!-- TAPO DB sync: 2026-05-29 11:25:47 KST · rooms=3 · trend_points=144 -->
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
   :root{
@@ -28,7 +28,7 @@
   html,body{height:100%;overflow:hidden}
   body{
     font-family:"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
-    background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;
+    background:var(--bg);color:var(--text);font-size:clamp(13px,1.35vmin,22px);line-height:1.45;
     display:flex;flex-direction:column;
   }
 
@@ -38,7 +38,7 @@
     background:var(--panel);border-bottom:1px solid var(--border);
     padding:10px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;
   }
-  .header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .header h1{font-size:clamp(17px,1.85vmin,30px);font-weight:700;display:flex;align-items:center;gap:10px;white-space:nowrap}
   .logo-dot{
     width:10px;height:10px;border-radius:50%;background:var(--good);
     box-shadow:0 0 0 4px rgba(52,211,153,.2);
@@ -48,11 +48,11 @@
     0%,100%{box-shadow:0 0 0 4px rgba(52,211,153,.2)}
     50%{box-shadow:0 0 0 6px rgba(52,211,153,.35)}
   }
-  .header-time{color:var(--muted);font-size:12.5px;white-space:nowrap}
+  .header-time{color:var(--muted);font-size:clamp(12.5px,1.25vmin,20px);white-space:nowrap}
   .header-time strong{color:var(--text);font-weight:500}
 
   /* 3개 실 상태 카드 (헤더 내부) */
-  .room-strip{display:flex;gap:10px;flex:1;justify-content:center;max-width:900px;margin:0 20px}
+  .room-strip{display:flex;gap:14px;flex:1;justify-content:center;max-width:1400px;margin:0 28px}
   .room-pill{
     flex:1;min-width:0;
     background:var(--panel-2);
@@ -63,25 +63,18 @@
   .room-pill.doc{border-left-color:var(--doc)}
   .room-pill.lab{border-left-color:var(--lab)}
   .room-pill.chm{border-left-color:var(--chm)}
-  .room-pill .icon{font-size:22px}
+  .room-pill .icon{font-size:clamp(22px,2.4vmin,40px)}
   .room-pill .info{flex:1;min-width:0}
-  .room-pill .name{font-size:11.5px;color:var(--muted);margin-bottom:2px;letter-spacing:.2px}
+  .room-pill .name{font-size:clamp(11.5px,1.2vmin,20px);color:var(--muted);margin-bottom:3px;letter-spacing:.2px;font-weight:500}
   .room-pill .vals{display:flex;gap:14px;align-items:center}
   /* 습도 = 메인: 크고 굵고 실별 색상 */
-  .room-pill .humid{
-    font-size:24px;font-weight:700;letter-spacing:-.3px;
-    display:inline-flex;align-items:center;gap:5px;line-height:1;
-  }
+  .room-pill .humid{font-size:clamp(24px,3.2vmin,52px);font-weight:800;letter-spacing:-.6px;display:inline-flex;align-items:center;gap:6px;line-height:1;}
   .room-pill.doc .humid{color:var(--doc)}
   .room-pill.lab .humid{color:var(--lab)}
   .room-pill.chm .humid{color:var(--chm)}
   .room-pill .humid .h-unit{font-size:13px;font-weight:600;opacity:.75;margin-left:1px}
   /* 온도 = 보조: 작고 흐리고 단위 강조 */
-  .room-pill .temp{
-    font-size:13px;font-weight:500;color:var(--muted);
-    display:inline-flex;align-items:center;gap:3px;line-height:1;
-    padding-left:12px;border-left:1px solid var(--border);
-  }
+  .room-pill .temp{font-size:clamp(13px,1.5vmin,24px);font-weight:600;color:var(--muted);display:inline-flex;align-items:center;gap:4px;line-height:1;padding-left:14px;border-left:1px solid var(--border);}
   .room-pill .temp .t-unit{font-size:11px;opacity:.75;margin-left:1px}
   .room-pill .status{
     width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -89,6 +82,27 @@
   }
   .status-ok{background:rgba(52,211,153,.15);color:var(--good);border:1px solid rgba(52,211,153,.35)}
   .status-warn{background:rgba(251,191,36,.15);color:var(--warn);border:1px solid rgba(251,191,36,.35)}
+  
+  /* === 80인치 TV 가시성: 상태별 배경 신호 (습도 위험도 기반) === */
+  .room-pill{transition:background .4s ease, box-shadow .4s ease}
+  .room-pill[data-bg="ok"]{
+    background:linear-gradient(135deg, rgba(52,211,153,.18) 0%, var(--panel-2) 70%);
+    box-shadow:0 0 0 1px rgba(52,211,153,.25) inset;
+  }
+  .room-pill[data-bg="warn"]{
+    background:linear-gradient(135deg, rgba(251,191,36,.20) 0%, var(--panel-2) 70%);
+    box-shadow:0 0 0 1px rgba(251,191,36,.30) inset;
+  }
+  .room-pill[data-bg="crit"]{
+    background:linear-gradient(135deg, rgba(248,113,113,.22) 0%, var(--panel-2) 70%);
+    box-shadow:0 0 0 1px rgba(248,113,113,.35) inset;
+    animation: pulseCrit 2.4s ease-in-out infinite;
+  }
+  @keyframes pulseCrit{
+    0%,100%{box-shadow:0 0 0 1px rgba(248,113,113,.35) inset, 0 0 0 0 rgba(248,113,113,.0);}
+    50%{box-shadow:0 0 0 1px rgba(248,113,113,.55) inset, 0 0 18px 4px rgba(248,113,113,.25);}
+  }
+
   .status-crit{background:rgba(248,113,113,.15);color:var(--danger);border:1px solid rgba(248,113,113,.35);
                animation:blink 1.5s infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
@@ -110,13 +124,8 @@
     display:flex;flex-direction:column;
     min-height:0;min-width:0;
   }
-  .panel-title{
-    flex:0 0 auto;
-    font-size:13px;font-weight:600;
-    display:flex;justify-content:space-between;align-items:center;
-    padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:6px;
-  }
-  .panel-title .sub{font-size:11.5px;color:var(--muted);font-weight:400}
+  .panel-title{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:clamp(13.5px,1.5vmin,24px);font-weight:700;letter-spacing:.2px;flex-shrink:0;}
+  .panel-title .sub{color:var(--muted);font-size:clamp(11px,1.1vmin,18px);font-weight:500;}
   .panel-title .legend{display:flex;gap:10px;font-size:11px;color:var(--muted)}
   .panel-title .legend span{display:flex;align-items:center;gap:4px}
   .panel-title .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
@@ -134,37 +143,37 @@
   <h1><span class="logo-dot"></span>TAPO 3개 지점 온습도 모니터링</h1>
 
   <div class="room-strip">
-    <div class="room-pill doc" id="pill-doc">
+    <div class="room-pill doc" id="pill-doc" data-bg="warn">
       <span class="icon">📁</span>
       <div class="info">
         <div class="name">문서보관실 · T315-DOC</div>
         <div class="vals">
-          <span class="humid">💧<span id="pill-doc-h">42</span><span class="h-unit">%RH</span></span>
-          <span class="temp">🌡<span id="pill-doc-t">25.6</span><span class="t-unit">°C</span></span>
+          <span class="humid">💧<span id="pill-doc-h">40</span><span class="h-unit">%RH</span></span>
+          <span class="temp">🌡<span id="pill-doc-t">25.1</span><span class="t-unit">°C</span></span>
         </div>
       </div>
       <span class="status status-ok" id="pill-doc-s">✓</span>
     </div>
 
-    <div class="room-pill lab" id="pill-lab">
+    <div class="room-pill lab" id="pill-lab" data-bg="warn">
       <span class="icon">🧬</span>
       <div class="info">
         <div class="name">사육실 · T315-LAB</div>
         <div class="vals">
-          <span class="humid">💧<span id="pill-lab-h">59</span><span class="h-unit">%RH</span></span>
-          <span class="temp">🌡<span id="pill-lab-t">26.3</span><span class="t-unit">°C</span></span>
+          <span class="humid">💧<span id="pill-lab-h">60</span><span class="h-unit">%RH</span></span>
+          <span class="temp">🌡<span id="pill-lab-t">25.7</span><span class="t-unit">°C</span></span>
         </div>
       </div>
       <span class="status status-warn" id="pill-lab-s">!</span>
     </div>
 
-    <div class="room-pill chm" id="pill-chm">
+    <div class="room-pill chm" id="pill-chm" data-bg="warn">
       <span class="icon">🧪</span>
       <div class="info">
         <div class="name">시약실 · T315-CHM</div>
         <div class="vals">
-          <span class="humid">💧<span id="pill-chm-h">63</span><span class="h-unit">%RH</span></span>
-          <span class="temp">🌡<span id="pill-chm-t">24.8</span><span class="t-unit">°C</span></span>
+          <span class="humid">💧<span id="pill-chm-h">65</span><span class="h-unit">%RH</span></span>
+          <span class="temp">🌡<span id="pill-chm-t">24.4</span><span class="t-unit">°C</span></span>
         </div>
       </div>
       <span class="status status-ok" id="pill-chm-s">✓</span>
@@ -173,7 +182,7 @@
 
   <div class="header-time">
     Hub: <strong>H200 · 192.168.10.110</strong> &nbsp;·&nbsp;
-    최근 갱신: <strong id="lastUpdate">2026-05-29 11:25:01</strong>
+    최근 갱신: <strong id="lastUpdate">2026-05-29 11:25:47</strong>
   </div>
 </div>
 
@@ -219,13 +228,13 @@
 const ROOM = {
   doc: { name:'문서보관실', color:'#60a5fa', icon:'📁',
          tempRange:[18,22], humRange:[40,55], tempMax:24,
-         current:{t:25.6, h:42} },
+         current:{t:25.1, h:40} },
   lab: { name:'사육실',     color:'#34d399', icon:'🧬',
          tempRange:[20,26], humRange:[30,70], tempMax:26,
-         current:{t:26.3, h:59} },
+         current:{t:25.7, h:60} },
   chm: { name:'시약실',     color:'#a78bfa', icon:'🧪',
          tempRange:[15,25], humRange:[40,60], tempMax:28,
-         current:{t:24.8, h:63} }
+         current:{t:24.4, h:65} }
 };
 
 const darkAxis = {
@@ -316,20 +325,20 @@ trendChart.setOption({
                             areaStyle:{color:'rgba(96,165,250,.1)'}}}],
   series:[
     /* 온도: 굵은 실선 (주 메트릭 강조) */
-    {name:'문서 온도', type:'line', data: [25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.6,25.0,25.1,25.2,25.2,25.1,25.1,25.0,25.0], smooth:true, symbol:'none',
+    {name:'문서 온도', type:'line', data: [25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.1,25.0,25.1,25.2,25.2,25.1,25.1,25.0,25.0], smooth:true, symbol:'none',
      lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
-    {name:'사육 온도', type:'line', data: [26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,26.3,25.7,25.7,25.6,25.9,26.0,25.9,25.9,25.7], smooth:true, symbol:'none',
+    {name:'사육 온도', type:'line', data: [25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.7,25.6,25.9,26.0,25.9,25.9,25.7], smooth:true, symbol:'none',
      lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
-    {name:'시약 온도', type:'line', data: [24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.8,24.4,24.6,24.7,24.6,24.7,24.6,24.5,24.5], smooth:true, symbol:'none',
+    {name:'시약 온도', type:'line', data: [24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.4,24.6,24.7,24.6,24.7,24.6,24.5,24.5], smooth:true, symbol:'none',
      lineStyle:{width:2.5}, emphasis:{focus:'series', lineStyle:{width:3.5}}},
     /* 습도: 점선 + 낮은 투명도 (보조 메트릭) */
-    {name:'문서 습도', type:'line', yAxisIndex:1, data: [42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,42.1,41.9,42.6,42.1,42.7,42.1,42.0,41.8,41.7],
+    {name:'문서 습도', type:'line', yAxisIndex:1, data: [40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,40.0,41.9,42.6,42.1,42.7,42.1,42.0,41.8,41.4],
      smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
      emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}},
-    {name:'사육 습도', type:'line', yAxisIndex:1, data: [58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,58.9,59.8,61.0,59.8,59.8,59.8,60.0,59.9,59.6],
+    {name:'사육 습도', type:'line', yAxisIndex:1, data: [60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,60.2,59.8,61.0,59.8,59.8,59.8,60.0,59.9,59.7],
      smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
      emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}},
-    {name:'시약 습도', type:'line', yAxisIndex:1, data: [63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.1,63.9,64.2,64.1,64.5,63.7,64.2,64.1,63.7],
+    {name:'시약 습도', type:'line', yAxisIndex:1, data: [64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,64.8,63.9,64.2,64.1,64.5,63.7,64.2,64.1,63.9],
      smooth:true, symbol:'none', lineStyle:{width:1.5, type:'dashed', opacity:0.85},
      emphasis:{focus:'series', lineStyle:{width:2.5, opacity:1}}}
   ]
