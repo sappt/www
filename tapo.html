@@ -61,31 +61,31 @@
     position:relative;
     background:var(--panel-2);
     border:1px solid var(--border);border-top:4px solid;
-    border-radius:12px;padding:14px 20px;
-    display:flex;align-items:center;gap:18px;
+    border-radius:12px;padding:24px 28px;
+    display:flex;align-items:center;gap:24px;
     box-shadow:var(--shadow);
     transition:background .4s ease, box-shadow .4s ease;
-    min-height:96px;
+    min-height:192px;
   }
   .room-pill.doc{border-top-color:var(--doc)}
   .room-pill.lab{border-top-color:var(--lab)}
   .room-pill.chm{border-top-color:var(--chm)}
-  .room-pill .icon{font-size:clamp(30px,4vmin,64px);line-height:1}
+  .room-pill .icon{font-size:clamp(44px,6vmin,96px);line-height:1}
   .room-pill .info{flex:1;min-width:0}
   .room-pill .name{
-    font-size:clamp(13px,1.5vmin,24px);color:var(--muted);
-    margin-bottom:8px;letter-spacing:.2px;font-weight:600;
+    font-size:clamp(16px,2vmin,32px);color:var(--muted);
+    margin-bottom:16px;letter-spacing:.2px;font-weight:600;
     display:flex;align-items:center;gap:8px;
   }
   .room-pill.doc .name .tag{color:var(--doc)}
   .room-pill.lab .name .tag{color:var(--lab)}
   .room-pill.chm .name .tag{color:var(--chm)}
   /* 온도/습도 메트릭 — 둘 다 크게 병렬 표시 */
-  .room-pill .metrics{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap}
-  .room-pill .metric{display:flex;flex-direction:column;gap:1px}
-  .room-pill .metric .m-label{font-size:clamp(10px,1.05vmin,16px);color:var(--muted);font-weight:500;letter-spacing:.3px}
-  .room-pill .metric .m-val{font-size:clamp(28px,3.8vmin,60px);font-weight:800;letter-spacing:-1px;line-height:1;display:inline-flex;align-items:baseline;gap:3px}
-  .room-pill .metric .m-unit{font-size:clamp(12px,1.2vmin,18px);font-weight:600;opacity:.7}
+  .room-pill .metrics{display:flex;gap:44px;align-items:flex-end;flex-wrap:wrap}
+  .room-pill .metric{display:flex;flex-direction:column;gap:4px}
+  .room-pill .metric .m-label{font-size:clamp(13px,1.45vmin,22px);color:var(--muted);font-weight:500;letter-spacing:.3px}
+  .room-pill .metric .m-val{font-size:clamp(42px,5.8vmin,96px);font-weight:800;letter-spacing:-1px;line-height:1;display:inline-flex;align-items:baseline;gap:3px}
+  .room-pill .metric .m-unit{font-size:clamp(15px,1.7vmin,28px);font-weight:600;opacity:.7}
   /* 온도 = 주황 계열, 습도 = 실별 색상 */
   .room-pill .metric.temp .m-val{color:#fcd34d}
   .room-pill.doc .metric.humid .m-val{color:var(--doc)}
@@ -112,8 +112,8 @@
   }
   /* 상태 점 (카드 우상단) — data-bg 색상과 연동 */
   .room-pill .status{
-    position:absolute;top:12px;right:14px;
-    width:12px;height:12px;border-radius:50%;background:var(--muted);
+    position:absolute;top:18px;right:20px;
+    width:16px;height:16px;border-radius:50%;background:var(--muted);
   }
   .room-pill[data-bg="ok"]   .status{background:var(--good);box-shadow:0 0 0 4px rgba(52,211,153,.18)}
   .room-pill[data-bg="warn"] .status{background:var(--warn);box-shadow:0 0 0 4px rgba(251,191,36,.18)}
