@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAPO 3개 지점 온습도 모니터링 — 문서보관실 · 사육실 · 시약실</title>
-<!-- TAPO DB sync: 2026-06-06 16:50:01 KST · rooms=3 · trend_points=144 -->
+<!-- TAPO DB sync: 2026-06-06 16:55:01 KST · rooms=3 · trend_points=144 -->
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
   :root{
@@ -152,7 +152,7 @@
   <h1><span class="logo-dot"></span>TAPO 3개 지점 온습도 모니터링</h1>
   <div class="header-time">
     Hub: <strong>H200 · 192.168.10.110</strong> &nbsp;·&nbsp;
-    최근 갱신: <strong id="lastUpdate">2026-06-06 16:50:01</strong>
+    최근 갱신: <strong id="lastUpdate">2026-06-06 16:55:01</strong>
   </div>
 </div>
 
@@ -201,7 +201,7 @@
       <div class="metrics">
         <div class="metric temp">
           <span class="m-label">🌡 온도</span>
-          <span class="m-val"><span id="pill-chm-t">27.0</span><span class="m-unit">°C</span></span>
+          <span class="m-val"><span id="pill-chm-t">26.9</span><span class="m-unit">°C</span></span>
         </div>
         <div class="metric humid">
           <span class="m-label">💧 습도</span>
@@ -242,7 +242,7 @@ const ROOM = {
          current:{t:27.3, h:42} },
   chm: { name:'시약실',     color:'#a78bfa', icon:'🧪',
          tempRange:[15,25], humRange:[40,60], tempMax:28,
-         current:{t:27.0, h:42} }
+         current:{t:26.9, h:42} }
 };
 
 const darkAxis = {
