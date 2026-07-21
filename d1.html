@@ -154,7 +154,7 @@
     </div>
   </div>
 
-  <div class="footer">Last Update: 2026-07-21 22:35:01 (KST)</div>
+  <div class="footer">Last Update: 2026-07-21 22:40:01 (KST)</div>
 </div>
 
 <script>
@@ -171,7 +171,7 @@
       type: 'pie', radius: ['42%', '68%'], center: ['38%', '50%'],
       label: { show: true, formatter: '{b}\n{c}건 ({d}%)', color: textColor, fontSize: 11 },
       labelLine: { lineStyle: { color: gridColor } },
-      data: [{ value: 145, name: '조사완료', itemStyle: { color: '#f59e0b' } }, { value: 84, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 42, name: '시작전', itemStyle: { color: '#94a3b8' } }, { value: 1, name: '성적서작성중', itemStyle: { color: '#8b5cf6' } }, { value: 1, name: '성적서완료', itemStyle: { color: '#10b981' } }],
+      data: [{ value: 144, name: '조사완료', itemStyle: { color: '#f59e0b' } }, { value: 84, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 42, name: '시작전', itemStyle: { color: '#94a3b8' } }, { value: 2, name: '성적서작성중', itemStyle: { color: '#8b5cf6' } }, { value: 1, name: '성적서완료', itemStyle: { color: '#10b981' } }],
     }],
   });
 
@@ -185,8 +185,8 @@
     legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
     series: [{ name: '시작전', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#94a3b8' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [10, 31, 0, 0] },
       { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [43, 39, 1, 1] },
-      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [84, 41, 16, 4] },
-      { name: '성적서작성중', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#8b5cf6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [0, 0, 1, 0] },
+      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [84, 41, 16, 3] },
+      { name: '성적서작성중', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#8b5cf6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [0, 0, 1, 1] },
       { name: '성적서완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#10b981' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [0, 1, 0, 0] }],
   });
 
