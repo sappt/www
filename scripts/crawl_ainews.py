@@ -1,7 +1,7 @@
 """
 AI뉴스 자동 크롤러 — Google News RSS 기반 (누적 축적 방식)
 실행: python scripts/crawl_ainews.py
-결과: data/ainews.json  (신규 뉴스를 기존 데이터에 누적 추가, 최대 MAX_TOTAL건 보관)
+결과: assets/json/ainews.json  (신규 뉴스를 기존 데이터에 누적 추가, 최대 MAX_TOTAL건 보관)
 """
 
 MAX_TOTAL = 500   # 최대 누적 보관 건수 (초과 시 오래된 것부터 제거)
