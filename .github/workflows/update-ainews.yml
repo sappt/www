@@ -1,0 +1,44 @@
+name: 🤖 AI뉴스 자동 크롤링
+
+on:
+  schedule:
+    # 매일 KST 06:00 실행 (UTC 21:00 전날)
+    - cron: '0 21 * * *'
+  # GitHub UI에서 수동 실행 가능
+  workflow_dispatch:
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 결과 파일 커밋 권한
+
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Python 3.11 설정
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: 📦 의존성 설치
+        run: pip install feedparser requests
+
+      - name: 🕷️ AI뉴스 크롤링 실행
+        run: python scripts/crawl_ainews.py
+
+      - name: 💾 변경사항 커밋 & 푸시
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ainews.json
+          if git diff --cached --quiet; then
+            echo "변경사항 없음 — 스킵"
+          else
+            KST=$(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST')
+            git commit -m "🤖 AI뉴스 자동 업데이트: ${KST}"
+            git push
+          fi
