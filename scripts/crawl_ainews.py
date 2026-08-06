@@ -166,7 +166,7 @@ def crawl_all() -> list:
 
 def accumulate(new_items: list) -> list:
     """신규 뉴스를 기존 누적 데이터에 추가 (중복 제목 제외)"""
-    path = "data/ainews.json"
+    path = "assets/json/ainews.json"
     existing: list = []
 
     if os.path.exists(path):
