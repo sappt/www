@@ -1,4 +1,4 @@
-name: 🤖 AI뉴스 자동 크롤링
+name: 🤖 농업뉴스 자동 크롤링
 
 on:
   schedule:
