@@ -1,10 +1,14 @@
 name: W3 Weather Update (전국10개도시)
 
 on:
-  schedule:
-    # 매시 정각(0분)마다 실행 (예: 1시 00분, 2시 00분...)
-    - cron: '0 * * * *'
-  workflow_dispatch: # 수동 실행 버튼 추가
+  # 2026-08-07: schedule 비활성화. 로컬 크론(run_update.sh → w3.py)이 매시 정각에
+  # w3.html 을 생성·푸시하도록 이관했다. 두 writer 가 같은 master 에 push 하면서
+  # 최근 100회 중 15회가 push 스텝에서 실패했기 때문(writer 단일화).
+  # 이 워크플로는 로컬 크론 장애 시 쓰는 수동 백업으로만 남긴다.
+  # 다시 켜려면 아래 두 줄의 주석을 풀고 로컬 w3.py 호출을 먼저 제거할 것.
+  # schedule:
+  #   - cron: '0 * * * *'
+  workflow_dispatch: # 수동 실행 버튼
 
 permissions:
   contents: write
