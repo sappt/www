@@ -1,0 +1,6 @@
+# 로컬 크론(w3.py)이 build_w3.py 를 import 할 때 생성됨 — 커밋 대상 아님
+__pycache__/
+*.pyc
+
+# 수동 백업 파일
+*.bak.*
