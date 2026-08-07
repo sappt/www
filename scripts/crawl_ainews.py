@@ -90,7 +90,8 @@ SIGNAL_PATTERN = re.compile(
 
 # ── 감점 1: 지자체 홍보 기사 (전체의 약 15%를 차지) ───────────────────
 LOCALGOV_PATTERN = re.compile(
-    r"^[가-힣]{2,4}(시|군|구|도)\s*[,·]"          # "청양군, ...", "경기도, ..."
+    # "청양군, ...", "경기도, ...", "전남광주특별시, ..." — 앞자리를 넉넉히 잡는다
+    r"^[가-힣]{2,7}(시|군|구|도)\s*[,·]"
     r"|[가-힣]{2,4}(시|군)\s*[가-힣]{1,3}(읍|면|동)"  # "의성군 단북면"
     r"|농업기술센터|농기센터|[가-힣]{2,3}농협"
 )
@@ -294,14 +295,23 @@ def accumulate(new_items: list) -> list:
     by_title = {item["title"]: item for item in existing}
     added = 0
     for item in new_items:
-        if item["title"] in by_title:
-            # 이미 있는 기사는 점수만 최신 규칙으로 갱신 (임계값 튜닝 반영)
-            by_title[item["title"]]["score"] = item["score"]
-            by_title[item["title"]]["hidden"] = item["hidden"]
-        else:
+        if item["title"] not in by_title:
             by_title[item["title"]] = item
             added += 1
     print(f"  신규 추가: {added}건")
+
+    # 누적분 전체를 매번 다시 채점한다.
+    # 이번 수집에 다시 잡힌 기사만 갱신하면, 규칙을 바꿔도 옛 기사는 옛 점수로 남는다
+    # (구글 뉴스는 같은 기사를 매번 돌려주지 않는다).
+    rescored = 0
+    for item in by_title.values():
+        score = score_article(item["title"], item.get("source", ""))
+        if item.get("score") != score:
+            rescored += 1
+        item["score"] = score
+        item["hidden"] = score < MIN_SCORE
+    if rescored:
+        print(f"  재채점 변경: {rescored}건")
 
     merged = sorted(by_title.values(), key=lambda x: x["date"], reverse=True)
     if len(merged) > MAX_TOTAL:

@@ -16,8 +16,8 @@
   "source": "곡성투데이",
   "publisher": "http://www.gogsung.com",
   "link": "https://news.google.com/rss/articles/CBMiQkFVX3lxTE1nTzdTQnoxcnduVVN3Q3p1NVFXZm1OREExNXpicEU5c01JSmRoUVZxZ2RDYTVpZ1ZCTENDWG1uSFpXZw?oc=5",
-  "score": 2,
-  "hidden": false
+  "score": -1,
+  "hidden": true
  },
  {
   "date": "2026-08-05",
@@ -797,7 +797,7 @@
   "publisher": "https://www.newsfm.kr",
   "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE41YkF0dnoxTk9rZXU5QVlJMXFPNy1hLTh1N3Z1TGt6QWlnclY4Y1AwOHdPX2d4dkIzaF8tME9JbWVGcEFLYjBXTXFlUTlqaV93QVhfaXZrT2ZweHRv?oc=5",
   "score": 1,
-  "hidden": true
+  "hidden": false
  },
  {
   "date": "2026-03-28",
