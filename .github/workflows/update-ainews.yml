@@ -7,6 +7,11 @@ on:
   # GitHub UI에서 수동 실행 가능
   workflow_dispatch:
 
+# 동일 워크플로 중복 실행 방지 (진행 중인 실행은 끝까지 보장)
+concurrency:
+  group: update-ainews
+  cancel-in-progress: false
+
 jobs:
   crawl:
     runs-on: ubuntu-latest
@@ -18,6 +23,8 @@ jobs:
         uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # shallow(depth 1)면 rebase 병합기준을 못 찾음 – 재시도용 여유분 확보
+          fetch-depth: 50
 
       - name: 🐍 Python 3.11 설정
         uses: actions/setup-python@v6
@@ -37,8 +44,26 @@ jobs:
           git add -A assets/json/ainews.json assets/json/ainews_meta.json
           if git diff --cached --quiet; then
             echo "변경사항 없음 — 스킵"
-          else
-            KST=$(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST')
-            git commit -m "🤖 AI뉴스 자동 업데이트: ${KST}"
-            git push
+            exit 0
           fi
+          KST=$(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST')
+          git commit -m "🤖 AI뉴스 자동 업데이트: ${KST}"
+
+          # 로컬 cron(5분 주기)이 같은 브랜치에 push 하므로 거부는 상시 발생.
+          # ainews*.json은 이 워크플로 전용 파일이라 rebase 내용 충돌은 나지 않음.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "push 성공 (시도 $i)"
+              exit 0
+            fi
+            echo "push 거부 – rebase 후 재시도 ($i/5)"
+            git fetch origin master
+            if ! git rebase origin/master; then
+              git rebase --abort || true
+              echo "::error::rebase 충돌 – 중단"
+              exit 1
+            fi
+            sleep $(( (RANDOM % 10) + 3 ))
+          done
+          echo "::error::5회 재시도 후에도 push 실패"
+          exit 1

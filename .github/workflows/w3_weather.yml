@@ -9,15 +9,23 @@ on:
 permissions:
   contents: write
 
+# 동일 워크플로 중복 실행 방지 (진행 중인 실행은 끝까지 보장)
+concurrency:
+  group: w3-weather
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: 저장소 체크아웃
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          # shallow(depth 1)면 rebase 병합기준을 못 찾음 – 재시도용 여유분 확보
+          fetch-depth: 50
 
       - name: 파이썬 설정
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
@@ -33,4 +41,22 @@ jobs:
           git config --global user.email 'bot@noreply.github.com'
           git add w3.html
           git commit -m "Update w3 weather: $(date)" || exit 0
-          git push
+
+          # 로컬 cron(5분 주기)이 같은 브랜치에 push 하므로 거부는 상시 발생.
+          # w3.html은 이 워크플로 전용 파일이라 rebase 내용 충돌은 나지 않음.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "push 성공 (시도 $i)"
+              exit 0
+            fi
+            echo "push 거부 – rebase 후 재시도 ($i/5)"
+            git fetch origin master
+            if ! git rebase origin/master; then
+              git rebase --abort || true
+              echo "::error::rebase 충돌 – 중단"
+              exit 1
+            fi
+            sleep $(( (RANDOM % 10) + 3 ))
+          done
+          echo "::error::5회 재시도 후에도 push 실패"
+          exit 1
