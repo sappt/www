@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-07 09:42 KST",
+ "updated": "2026-08-07 13:28 KST",
  "stats": {
-  "total": 93,
-  "visible": 45,
+  "total": 94,
+  "visible": 46,
   "hidden": 48,
   "sources": 58,
   "oldest": "2026-02-10",
-  "newest": "2026-08-06"
+  "newest": "2026-08-07"
  },
  "settings": {
   "recent_days": 180,
@@ -67,12 +67,12 @@
   },
   {
    "word": "작물보호제",
-   "count": 10,
+   "count": 11,
    "type": "주제"
   },
   {
    "word": "지침서",
-   "count": 10,
+   "count": 11,
    "type": "제도"
   },
   {
@@ -606,7 +606,7 @@
    },
    {
     "word": "작물보호제",
-    "count": 10
+    "count": 11
    },
    {
     "word": "병해충",
@@ -714,7 +714,7 @@
   "제도": [
    {
     "word": "지침서",
-    "count": 10
+    "count": 11
    },
    {
     "word": "직권등록",
