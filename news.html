@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics  --  START -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135186223-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-135186223-1');
+	</script>
+	<!-- Global site tag (gtag.js) - Google Analytics  --  END -->
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>농업뉴스 - 샤프트리서치</title>
+
+	<meta name="description" content="농약 등록·시험, 잔류허용기준(PLS), 병해충 발생, 작물보호 산업 동향을 매일 자동으로 모아 보여드립니다. 샤프트리서치 농업뉴스.">
+	<meta name="keywords" content="농업뉴스, 농약뉴스, 작물보호제, 병해충, 잔류허용기준, PLS, 농촌진흥청, 샤프트리서치">
+	<meta name="author" content="샤프트리서치">
+	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="https://www.sappt.co.kr/news.html">
+
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="농업뉴스 - 샤프트리서치">
+	<meta property="og:description" content="농약 등록·시험, 병해충 발생, 작물보호 산업 동향을 매일 자동으로 모아 보여드립니다.">
+	<meta property="og:url" content="https://www.sappt.co.kr/news.html">
+	<meta property="og:image" content="https://www.sappt.co.kr/assets/img/sappt01.png">
+	<meta property="og:locale" content="ko_KR">
+	<meta property="og:site_name" content="샤프트리서치">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/styles.css">
+	<link rel="shortcut icon" href="assets/ico/sappt.ico" type="image/x-icon">
+	<link rel="icon"          href="assets/ico/sappt.ico" type="image/x-icon">
+
+<style>
+/* ── 농업뉴스 페이지 전용 스타일 ─────────────────────────────────── */
+:root{
+	--nw-green:#2f5d45;
+	--nw-green-dark:#244836;
+	--nw-ink:#2b3430;
+	--nw-ink2:#5d6862;
+	--nw-ink3:#8d968f;
+	--nw-line:#dfe4df;
+	--nw-bg:#f6f8f5;
+}
+body.newspage{ background:var(--nw-bg); margin:0; }
+
+/* 히어로가 없는 페이지라 헤더를 단색 바로 고정한다 (index.html 은 이미지 위 흰 글씨) */
+body.newspage header.nw-head{
+	position:static; background:var(--nw-green); color:#fff;
+	padding:14px 40px; display:flex; align-items:center;
+	justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.nw-head h2{ margin:0; font-family:'Open Sans',sans-serif; }
+.nw-head nav{ display:flex; list-style:none; margin:0; padding:0; }
+.nw-head nav li{ margin:0 14px; }
+.nw-head nav li:last-child{ margin-right:0; }
+.nw-head nav a{ color:#fff; text-decoration:none; font-size:15px; opacity:.88; }
+.nw-head nav a:hover, .nw-head nav a:focus-visible{ opacity:1; text-decoration:underline; }
+
+.nw-wrap{ max-width:1080px; margin:0 auto; padding:36px 24px 64px; }
+
+/* 페이지 타이틀 */
+.nw-title{ border-bottom:2px solid var(--nw-green); padding-bottom:14px; margin-bottom:22px; }
+.nw-title h1{
+	margin:0; font:bold 30px 'Open Sans',sans-serif; color:var(--nw-ink);
+	letter-spacing:-.02em;
+}
+.nw-title p{ margin:8px 0 0; color:var(--nw-ink2); font-size:14.5px; line-height:1.7; }
+.nw-stat{ margin-top:10px; font-size:13px; color:var(--nw-ink3); }
+.nw-stat b{ color:var(--nw-green); font-weight:700; }
+
+/* 추천검색어 */
+.nw-kw{
+	background:#fff; border:1px solid var(--nw-line); border-radius:8px;
+	padding:14px 16px; margin-bottom:16px;
+}
+.nw-kw-h{
+	font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--nw-ink3);
+	text-transform:uppercase; margin-bottom:10px;
+}
+.nw-chips{ display:flex; flex-wrap:wrap; gap:7px; }
+.nw-chip{
+	font-size:13.5px; padding:5px 12px; border-radius:999px; cursor:pointer;
+	border:1px solid var(--nw-line); background:#f8faf8; color:var(--nw-ink2);
+	display:inline-flex; align-items:center; gap:6px; font-family:inherit;
+}
+.nw-chip:hover{ border-color:var(--nw-green); color:var(--nw-green); }
+.nw-chip:focus-visible{ outline:2px solid var(--nw-green); outline-offset:2px; }
+.nw-chip.on{ background:var(--nw-green); border-color:var(--nw-green); color:#fff; }
+.nw-chip small{ font-size:11px; opacity:.7; }
+
+/* 필터 바 */
+.nw-bar{
+	display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+	justify-content:space-between; margin-bottom:16px;
+}
+.nw-filters{ display:flex; flex-wrap:wrap; gap:6px; }
+.nw-fbtn{
+	font-size:13.5px; padding:7px 14px; border-radius:6px; cursor:pointer;
+	border:1px solid var(--nw-line); background:#fff; color:var(--nw-ink2);
+	font-family:inherit;
+}
+.nw-fbtn:hover{ border-color:var(--nw-green); color:var(--nw-green); }
+.nw-fbtn:focus-visible{ outline:2px solid var(--nw-green); outline-offset:2px; }
+.nw-fbtn.on{ background:var(--nw-green); border-color:var(--nw-green); color:#fff; }
+.nw-search{
+	padding:8px 12px; width:230px; max-width:100%; font-size:14px; font-family:inherit;
+	border:1px solid var(--nw-line); border-radius:6px; background:#fff; color:var(--nw-ink);
+}
+.nw-search:focus-visible{ outline:2px solid var(--nw-green); outline-offset:1px; }
+
+/* 카드 그리드 */
+.nw-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+@media (max-width:760px){ .nw-grid{ grid-template-columns:1fr; } }
+.nw-card{
+	background:#fff; border:1px solid var(--nw-line); border-radius:10px;
+	padding:16px 18px; display:flex; flex-direction:column; gap:9px;
+	text-decoration:none; color:inherit;
+	transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+}
+.nw-card:hover, .nw-card:focus-visible{
+	box-shadow:0 6px 18px rgba(47,93,69,.13); transform:translateY(-2px);
+	border-color:#c3d2c7;
+}
+.nw-card:focus-visible{ outline:2px solid var(--nw-green); outline-offset:2px; }
+.nw-card-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.nw-badge{
+	font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:4px; white-space:nowrap;
+}
+.nw-date{ font-size:12.5px; color:var(--nw-ink3); white-space:nowrap; }
+.nw-card h3{
+	margin:0; font-size:16px; font-weight:700; line-height:1.5; color:var(--nw-ink);
+	letter-spacing:-.01em;
+}
+.nw-meta{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--nw-ink2); }
+.nw-src{ font-weight:600; }
+.nw-go{ color:var(--nw-ink3); font-size:12px; margin-left:auto; }
+
+/* 카테고리 배지 색상 */
+.cat-농약{ background:#dcfce7; color:#15803d; }
+.cat-정책{ background:#ede9fe; color:#6d28d9; }
+.cat-병해충{ background:#fee2e2; color:#b91c1c; }
+.cat-시험{ background:#fef3c7; color:#a16207; }
+.cat-산업{ background:#dbeafe; color:#1d4ed8; }
+
+/* 페이지네이션 / 빈 상태 */
+.nw-pag{ display:flex; justify-content:center; align-items:center; gap:8px; margin-top:26px; }
+.nw-pag button{
+	padding:7px 13px; border:1px solid var(--nw-line); background:#fff; border-radius:6px;
+	cursor:pointer; font-size:14px; color:var(--nw-ink2); font-family:inherit;
+}
+.nw-pag button:hover:not(:disabled){ border-color:var(--nw-green); color:var(--nw-green); }
+.nw-pag button:focus-visible{ outline:2px solid var(--nw-green); outline-offset:2px; }
+.nw-pag button:disabled{ opacity:.4; cursor:default; }
+.nw-pag span{ font-size:14px; color:var(--nw-ink2); min-width:88px; text-align:center; }
+.nw-empty{
+	background:#fff; border:1px dashed var(--nw-line); border-radius:10px;
+	padding:44px 20px; text-align:center; color:var(--nw-ink3); font-size:15px;
+}
+.nw-foot-note{
+	margin-top:26px; padding-top:14px; border-top:1px solid var(--nw-line);
+	font-size:12.5px; color:var(--nw-ink3); line-height:1.8;
+}
+.nw-toggle{
+	display:inline-flex; align-items:center; gap:6px; font-size:13px;
+	color:var(--nw-ink2); cursor:pointer; user-select:none;
+}
+.nw-toggle input{ accent-color:var(--nw-green); }
+
+/* ── 수집 기준 패널 ─────────────────────────────────────────────── */
+.nw-spec{
+	margin-top:28px; background:#fff; border:1px solid var(--nw-line);
+	border-radius:10px; overflow:hidden;
+}
+.nw-spec > summary{
+	cursor:pointer; padding:14px 18px; font-size:14.5px; font-weight:700;
+	color:var(--nw-ink); list-style:none; display:flex; align-items:center;
+	justify-content:space-between; gap:12px;
+}
+.nw-spec > summary::-webkit-details-marker{ display:none; }
+.nw-spec > summary::after{ content:'▾'; color:var(--nw-ink3); font-size:13px; }
+.nw-spec[open] > summary{ border-bottom:1px solid var(--nw-line); }
+.nw-spec[open] > summary::after{ content:'▴'; }
+.nw-spec > summary:hover{ color:var(--nw-green); }
+.nw-spec > summary:focus-visible{ outline:2px solid var(--nw-green); outline-offset:-2px; }
+.nw-spec summary small{ font-weight:400; color:var(--nw-ink3); font-size:12.5px; }
+.nw-spec-body{ padding:18px; display:flex; flex-direction:column; gap:22px; }
+
+.nw-sec-h{
+	font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+	color:var(--nw-green); margin:0 0 4px;
+}
+.nw-sec-d{ font-size:13px; color:var(--nw-ink2); margin:0 0 10px; line-height:1.7; }
+
+/* 검색어 목록 */
+.nw-q-row{
+	display:flex; gap:12px; padding:9px 0; border-bottom:1px solid #eef1ee;
+	flex-wrap:wrap; align-items:baseline;
+}
+.nw-q-row:last-child{ border-bottom:none; }
+.nw-q-cat{ font-size:13px; font-weight:700; color:var(--nw-ink); min-width:112px; }
+.nw-q-list{ display:flex; flex-wrap:wrap; gap:6px; flex:1 1 260px; }
+.nw-q{
+	font-size:12.5px; padding:3px 9px; border-radius:4px; background:#f2f6f2;
+	border:1px solid #e2e9e3; color:var(--nw-ink2);
+	font-family:'Consolas','Menlo',monospace; word-break:keep-all;
+}
+
+/* 어휘 목록 */
+.nw-vocab{ display:flex; flex-direction:column; gap:12px; }
+.nw-v-row{ display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; }
+.nw-v-type{ font-size:13px; font-weight:700; color:var(--nw-ink); min-width:96px; }
+.nw-v-words{ display:flex; flex-wrap:wrap; gap:5px; flex:1 1 260px; }
+.nw-w{
+	font-size:12.5px; padding:3px 8px; border-radius:4px;
+	border:1px solid #e2e9e3; background:#f8faf8; color:var(--nw-ink3);
+}
+.nw-w.hit{ background:#e8f3ec; border-color:#c9e0d3; color:#1f5c3d; font-weight:600; }
+.nw-w.hit b{ font-weight:700; opacity:.65; font-size:11px; margin-left:2px; }
+.nw-more{
+	font-size:12.5px; color:var(--nw-ink3); background:none; border:none;
+	cursor:pointer; padding:3px 6px; text-decoration:underline; font-family:inherit;
+}
+.nw-more:focus-visible{ outline:2px solid var(--nw-green); outline-offset:2px; }
+
+/* 스코어링 표 */
+.nw-tw{ overflow-x:auto; }
+.nw-score{ border-collapse:collapse; width:100%; min-width:420px; font-size:13px; }
+.nw-score th{
+	text-align:left; padding:7px 12px 7px 0; font-size:11px; letter-spacing:.05em;
+	text-transform:uppercase; color:var(--nw-ink3); border-bottom:1px solid var(--nw-line);
+	white-space:nowrap;
+}
+.nw-score td{ padding:8px 12px 8px 0; border-bottom:1px solid #eef1ee; color:var(--nw-ink2); }
+.nw-score tr:last-child td{ border-bottom:none; }
+.nw-score td.d{ font-weight:700; white-space:nowrap; font-family:'Consolas','Menlo',monospace; }
+.nw-score td.d.plus{ color:#15803d; }
+.nw-score td.d.minus{ color:#b91c1c; }
+.nw-score td.r{ font-weight:600; color:var(--nw-ink); white-space:nowrap; }
+
+/* 설정 요약 */
+.nw-set{ display:flex; flex-wrap:wrap; gap:10px 26px; }
+.nw-set div{ display:flex; flex-direction:column; gap:1px; }
+.nw-set b{ font-size:17px; color:var(--nw-ink); font-weight:700; }
+.nw-set span{ font-size:11.5px; color:var(--nw-ink3); }
+
+@media (prefers-reduced-motion:reduce){ .nw-card{ transition:none; } }
+@media (max-width:600px){
+	body.newspage header.nw-head{ padding:12px 20px; }
+	.nw-wrap{ padding:24px 16px 48px; }
+	.nw-title h1{ font-size:24px; }
+}
+</style>
+</head>
+
+<body class="newspage">
+
+<!-- 페이지 header -->
+<header class="nw-head">
+	<h2><a href="index.html">
+		<img height="46" width="154" src="assets/img/sappt01.png" alt="샤프트리서치 로고">
+	</a></h2>
+	<nav>
+		<li><a href="index.html">홈</a></li>
+		<li><a href="news.html">농업뉴스</a></li>
+		<li><a href="w3.html">날씨</a></li>
+	</nav>
+</header>
+
+<div class="nw-wrap">
+
+	<div class="nw-title">
+		<h1>농업뉴스</h1>
+		<p>
+			농약 등록·시험, 잔류허용기준(PLS), 병해충 발생, 작물보호 산업 동향을
+			매일 아침 자동으로 모읍니다. 제목을 누르면 원문으로 이동합니다.
+		</p>
+		<div class="nw-stat" id="nwStat">불러오는 중…</div>
+	</div>
+
+	<!-- 추천검색어 -->
+	<div class="nw-kw" id="nwKwBox" hidden>
+		<div class="nw-kw-h">추천 검색어</div>
+		<div class="nw-chips" id="nwChips"></div>
+	</div>
+
+	<!-- 필터 -->
+	<div class="nw-bar">
+		<div class="nw-filters" id="nwFilters">
+			<button type="button" class="nw-fbtn on" data-cat="">전체</button>
+			<button type="button" class="nw-fbtn" data-cat="농약·작물보호">농약·작물보호</button>
+			<button type="button" class="nw-fbtn" data-cat="정책·제도">정책·제도</button>
+			<button type="button" class="nw-fbtn" data-cat="병해충 발생">병해충 발생</button>
+			<button type="button" class="nw-fbtn" data-cat="시험·연구">시험·연구</button>
+			<button type="button" class="nw-fbtn" data-cat="산업·기업">산업·기업</button>
+		</div>
+		<input type="search" class="nw-search" id="nwSearch" placeholder="제목 검색" aria-label="뉴스 제목 검색">
+	</div>
+
+	<div class="nw-grid" id="nwGrid"></div>
+
+	<div class="nw-pag" id="nwPag" hidden>
+		<button type="button" id="nwFirst" aria-label="첫 페이지">«</button>
+		<button type="button" id="nwPrev" aria-label="이전 페이지">이전</button>
+		<span id="nwPage">1 / 1</span>
+		<button type="button" id="nwNext" aria-label="다음 페이지">다음</button>
+		<button type="button" id="nwLast" aria-label="마지막 페이지">»</button>
+	</div>
+
+	<div class="nw-foot-note">
+		<label class="nw-toggle">
+			<input type="checkbox" id="nwShowAll">
+			지자체 방제 소식도 함께 보기
+		</label>
+		<p style="margin:8px 0 0">
+			구글 뉴스에서 제목·매체·발행일만 수집하며 기사 본문은 저장하지 않습니다.
+			저작권은 각 매체에 있으며, 카드를 누르면 해당 매체의 원문으로 이동합니다.
+		</p>
+	</div>
+
+	<!-- 수집 기준: 어떤 검색어로 긁고 어떤 어휘로 뽑는지 그대로 공개 -->
+	<details class="nw-spec" id="nwSpec">
+		<summary>
+			<span>수집 기준 — 검색어와 추출 키워드 <small id="nwSpecSub"></small></span>
+		</summary>
+		<div class="nw-spec-body" id="nwSpecBody">
+			<p style="color:#8d968f;font-size:13px;margin:0">불러오는 중…</p>
+		</div>
+	</details>
+</div>
+
+<!-- 페이지 footer -->
+<footer>
+	<ul>
+		<img height="60" width="200" src="assets/img/sappt.png" alt="샤프트리서치 로고">
+	</ul>
+	<p>샤프트리서치 | 김대호</p>
+	<p>경기 용인시 처인구 양지면 남평로 326번길 28 (17163)</p>
+	<p>tel : 031-336-3973  |  fax : 031-336-3972  |  sappt@sappt.co.kr</p>
+</footer>
+
+<script>
+(function () {
+	'use strict';
+
+	var PAGE_SIZE = 20;
+	var CAT_CLASS = {
+		'농약·작물보호': 'cat-농약',
+		'정책·제도':     'cat-정책',
+		'병해충 발생':   'cat-병해충',
+		'시험·연구':     'cat-시험',
+		'산업·기업':     'cat-산업'
+	};
+
+	var allNews = [];
+	var filtered = [];
+	var page = 0;
+	var activeCat = '';
+	var activeChip = '';
+
+	var grid    = document.getElementById('nwGrid');
+	var stat    = document.getElementById('nwStat');
+	var search  = document.getElementById('nwSearch');
+	var pag     = document.getElementById('nwPag');
+	var pageLbl = document.getElementById('nwPage');
+	var showAll = document.getElementById('nwShowAll');
+
+	function esc(s) {
+		return String(s == null ? '' : s)
+			.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	}
+
+	function formatDate(iso) {
+		var p = String(iso || '').split('-');
+		if (p.length !== 3) { return iso || ''; }
+		return p[0].slice(2) + '.' + p[1] + '.' + p[2];
+	}
+
+	function applyFilter() {
+		var q = search.value.trim().toLowerCase();
+		var includeHidden = showAll.checked;
+
+		filtered = allNews.filter(function (n) {
+			if (!includeHidden && n.hidden) { return false; }
+			if (activeCat && n.cat !== activeCat) { return false; }
+			if (activeChip && n.title.indexOf(activeChip) === -1) { return false; }
+			if (q && n.title.toLowerCase().indexOf(q) === -1) { return false; }
+			return true;
+		});
+
+		page = 0;
+		render();
+	}
+
+	function render() {
+		var total = filtered.length;
+		var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+		if (page >= pages) { page = pages - 1; }
+
+		if (total === 0) {
+			grid.innerHTML = '<div class="nw-empty" style="grid-column:1/-1">' +
+				'조건에 맞는 기사가 없습니다. 검색어나 필터를 바꿔 보세요.</div>';
+			pag.hidden = true;
+			stat.innerHTML = '<b>0</b>건';
+			return;
+		}
+
+		var slice = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+		grid.innerHTML = slice.map(function (n) {
+			var cls = CAT_CLASS[n.cat] || 'cat-농약';
+			return '' +
+			'<a class="nw-card" href="' + esc(n.link) + '" target="_blank" rel="noopener noreferrer">' +
+				'<div class="nw-card-top">' +
+					'<span class="nw-badge ' + cls + '">' + esc(n.cat) + '</span>' +
+					'<span class="nw-date">' + formatDate(n.date) + '</span>' +
+				'</div>' +
+				'<h3>' + esc(n.title) + '</h3>' +
+				'<div class="nw-meta">' +
+					'<span class="nw-src">' + esc(n.source) + '</span>' +
+					'<span class="nw-go">원문 보기 <i class="fa fa-external-link" aria-hidden="true"></i></span>' +
+				'</div>' +
+			'</a>';
+		}).join('');
+
+		pag.hidden = pages <= 1;
+		pageLbl.textContent = (page + 1) + ' / ' + pages;
+		document.getElementById('nwFirst').disabled = (page === 0);
+		document.getElementById('nwPrev').disabled  = (page === 0);
+		document.getElementById('nwNext').disabled  = (page >= pages - 1);
+		document.getElementById('nwLast').disabled  = (page >= pages - 1);
+
+		var newest = allNews.length ? allNews[0].date : '';
+		stat.innerHTML = '<b>' + total + '</b>건 표시 · 누적 ' + allNews.length +
+			'건 · 최신 ' + formatDate(newest);
+	}
+
+	function renderChips(chips) {
+		if (!chips.length) { return; }
+		var box = document.getElementById('nwKwBox');
+		var wrap = document.getElementById('nwChips');
+		wrap.innerHTML = chips.map(function (c) {
+			return '<button type="button" class="nw-chip" data-word="' + esc(c.word) + '">' +
+				esc(c.word) + ' <small>' + c.count + '</small></button>';
+		}).join('');
+		box.hidden = false;
+
+		wrap.addEventListener('click', function (e) {
+			var btn = e.target.closest('.nw-chip');
+			if (!btn) { return; }
+			var word = btn.dataset.word;
+			var turningOff = (activeChip === word);
+			activeChip = turningOff ? '' : word;
+			Array.prototype.forEach.call(wrap.querySelectorAll('.nw-chip'), function (b) {
+				b.classList.toggle('on', !turningOff && b === btn);
+			});
+			applyFilter();
+		});
+	}
+
+	// 필터 버튼
+	document.getElementById('nwFilters').addEventListener('click', function (e) {
+		var btn = e.target.closest('.nw-fbtn');
+		if (!btn) { return; }
+		activeCat = btn.dataset.cat;
+		Array.prototype.forEach.call(this.querySelectorAll('.nw-fbtn'), function (b) {
+			b.classList.toggle('on', b === btn);
+		});
+		applyFilter();
+	});
+
+	search.addEventListener('input', applyFilter);
+	showAll.addEventListener('change', applyFilter);
+
+	document.getElementById('nwFirst').addEventListener('click', function () { page = 0; render(); scrollTop(); });
+	document.getElementById('nwPrev').addEventListener('click',  function () { if (page > 0) { page--; render(); scrollTop(); } });
+	document.getElementById('nwNext').addEventListener('click',  function () { page++; render(); scrollTop(); });
+	document.getElementById('nwLast').addEventListener('click',  function () { page = Math.ceil(filtered.length / PAGE_SIZE) - 1; render(); scrollTop(); });
+
+	function scrollTop() {
+		var box = document.querySelector('.nw-bar');
+		if (box) { box.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+	}
+
+	// ── 수집 기준 패널 ──────────────────────────────────────────────
+	var VOCAB_PREVIEW = 24;   // 어휘가 길면 이만큼만 먼저 보여준다
+
+	function renderVocabWords(words) {
+		return words.map(function (w) {
+			var hit = w.count > 0;
+			return '<span class="nw-w' + (hit ? ' hit' : '') + '">' + esc(w.word) +
+				(hit ? ' <b>' + w.count + '</b>' : '') + '</span>';
+		}).join('');
+	}
+
+	function renderSpec(meta) {
+		var body = document.getElementById('nwSpecBody');
+		if (!meta || !meta.feeds) {
+			body.innerHTML = '<p style="color:#8d968f;font-size:13px;margin:0">' +
+				'수집 기준 정보를 불러오지 못했습니다.</p>';
+			return;
+		}
+
+		var vocabTotal = 0;
+		Object.keys(meta.vocabulary || {}).forEach(function (k) {
+			vocabTotal += meta.vocabulary[k].length;
+		});
+		var queryTotal = meta.feeds.reduce(function (n, f) { return n + f.queries.length; }, 0);
+		document.getElementById('nwSpecSub').textContent =
+			'검색어 ' + queryTotal + '개 · 어휘 ' + vocabTotal + '개';
+
+		var html = '';
+
+		// 1. 검색어
+		html += '<div>' +
+			'<p class="nw-sec-h">1. 수집 검색어</p>' +
+			'<p class="nw-sec-d">구글 뉴스에 아래 검색어로 질의합니다. 카테고리는 검색어 묶음과 1:1로 대응합니다.</p>' +
+			meta.feeds.map(function (f) {
+				return '<div class="nw-q-row">' +
+					'<span class="nw-q-cat">' + esc(f.cat) + '</span>' +
+					'<span class="nw-q-list">' + f.queries.map(function (q) {
+						return '<span class="nw-q">' + esc(q) + '</span>';
+					}).join('') + '</span></div>';
+			}).join('') + '</div>';
+
+		// 2. 추출 키워드 어휘
+		html += '<div>' +
+			'<p class="nw-sec-h">2. 추출 키워드 어휘</p>' +
+			'<p class="nw-sec-d">추천 검색어는 아래 어휘 안에서만 뽑습니다. 빈도만으로 뽑으면 ' +
+			'‘시험’ ‘발생’ ‘등록’ 같은 일반명사가 상위를 차지하기 때문입니다. ' +
+			'작물·병해충 어휘는 이 사이트의 병해충 사전에서 가져옵니다. ' +
+			'초록색이 실제 기사에 걸린 어휘이고, 옆 숫자가 매칭 건수입니다 ' +
+			'(' + meta.settings.keyword_min_hits + '건 이상이면 추천 검색어로 노출).</p>' +
+			'<div class="nw-vocab">' +
+			Object.keys(meta.vocabulary).map(function (type, i) {
+				var words = meta.vocabulary[type];
+				var head = words.slice(0, VOCAB_PREVIEW);
+				var rest = words.slice(VOCAB_PREVIEW);
+				var id = 'nwVocabRest' + i;
+				return '<div class="nw-v-row">' +
+					'<span class="nw-v-type">' + esc(type) + ' <small style="color:#8d968f;font-weight:400">' +
+						words.length + '</small></span>' +
+					'<span class="nw-v-words">' + renderVocabWords(head) +
+						(rest.length
+							? '<span id="' + id + '" hidden>' + renderVocabWords(rest) + '</span>' +
+							  '<button type="button" class="nw-more" data-target="' + id + '">' +
+							  '+' + rest.length + '개 더보기</button>'
+							: '') +
+					'</span></div>';
+			}).join('') + '</div></div>';
+
+		// 3. 스코어링 규칙
+		html += '<div>' +
+			'<p class="nw-sec-h">3. 노출 판정 규칙</p>' +
+			'<p class="nw-sec-d">제목에 아래 규칙으로 점수를 매겨 ' + meta.settings.min_score +
+			'점 미만이면 기본 목록에서 감춥니다. 지우지는 않으므로 아래 체크박스로 함께 볼 수 있습니다.</p>' +
+			'<div class="nw-tw"><table class="nw-score">' +
+			'<thead><tr><th>규칙</th><th>점수</th><th>대상</th></tr></thead><tbody>' +
+			meta.scoring.map(function (s) {
+				var cls = s.delta.charAt(0) === '-' ? 'minus' : 'plus';
+				return '<tr><td class="r">' + esc(s.rule) + '</td>' +
+					'<td class="d ' + cls + '">' + esc(s.delta) + '</td>' +
+					'<td>' + esc(s.detail) + '</td></tr>';
+			}).join('') + '</tbody></table></div></div>';
+
+		// 4. 수집 설정
+		var st = meta.stats, se = meta.settings;
+		html += '<div>' +
+			'<p class="nw-sec-h">4. 수집 설정과 현황</p>' +
+			'<div class="nw-set">' +
+			'<div><b>' + se.recent_days + '일</b><span>수집 기간</span></div>' +
+			'<div><b>' + se.max_total + '건</b><span>보관 상한</span></div>' +
+			'<div><b>' + st.total + '건</b><span>누적</span></div>' +
+			'<div><b>' + st.visible + '건</b><span>노출</span></div>' +
+			'<div><b>' + st.hidden + '건</b><span>감춤</span></div>' +
+			'<div><b>' + st.sources + '곳</b><span>매체</span></div>' +
+			'<div><b>' + esc(meta.updated) + '</b><span>마지막 수집</span></div>' +
+			'</div></div>';
+
+		body.innerHTML = html;
+
+		body.addEventListener('click', function (e) {
+			var btn = e.target.closest('.nw-more');
+			if (!btn) { return; }
+			document.getElementById(btn.dataset.target).hidden = false;
+			btn.remove();
+		});
+	}
+
+	function loadJSON(path, fallback) {
+		return fetch(path + '?_=' + Date.now()).then(function (r) {
+			return r.ok ? r.json() : fallback;
+		}).catch(function () { return fallback; });
+	}
+
+	loadJSON('assets/json/ainews.json', []).then(function (data) {
+		allNews = Array.isArray(data) ? data : [];
+		if (!allNews.length) {
+			grid.innerHTML = '<div class="nw-empty" style="grid-column:1/-1">' +
+				'아직 수집된 기사가 없습니다. 매일 아침 자동으로 채워집니다.</div>';
+			stat.textContent = '';
+		} else {
+			applyFilter();
+		}
+		return loadJSON('assets/json/ainews_meta.json', null).then(function (meta) {
+			if (meta && meta.chips) { renderChips(meta.chips); }
+			renderSpec(meta);
+		});
+	});
+})();
+</script>
+
+</body>
+</html>
