@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-09 06:36 KST",
+ "updated": "2026-08-10 06:39 KST",
  "stats": {
-  "total": 100,
-  "visible": 47,
-  "hidden": 53,
-  "sources": 62,
+  "total": 114,
+  "visible": 49,
+  "hidden": 65,
+  "sources": 69,
   "oldest": "2026-02-10",
-  "newest": "2026-08-07"
+  "newest": "2026-08-09"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 28,
+   "count": 29,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 17,
+   "count": 18,
    "type": "주제"
   },
   {
@@ -598,11 +598,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 28
+    "count": 29
    },
    {
     "word": "방제",
-    "count": 17
+    "count": 18
    },
    {
     "word": "작물보호제",
@@ -629,6 +629,10 @@
     "count": 1
    },
    {
+    "word": "잔류농약",
+    "count": 1
+   },
+   {
     "word": "친환경",
     "count": 1
    },
@@ -650,10 +654,6 @@
    },
    {
     "word": "예찰",
-    "count": 0
-   },
-   {
-    "word": "잔류농약",
     "count": 0
    },
    {
