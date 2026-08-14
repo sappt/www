@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-14 06:53 KST",
+ "updated": "2026-08-15 06:30 KST",
  "stats": {
-  "total": 138,
-  "visible": 54,
-  "hidden": 84,
-  "sources": 83,
+  "total": 147,
+  "visible": 59,
+  "hidden": 88,
+  "sources": 86,
   "oldest": "2026-02-10",
-  "newest": "2026-08-13"
+  "newest": "2026-08-14"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 29,
+   "count": 31,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 22,
+   "count": 25,
    "type": "주제"
   },
   {
@@ -92,8 +92,13 @@
   },
   {
    "word": "벼",
-   "count": 3,
+   "count": 4,
    "type": "작물"
+  },
+  {
+   "word": "진딧물",
+   "count": 2,
+   "type": "병해충"
   },
   {
    "word": "화상병",
@@ -115,7 +120,7 @@
   "작물": [
    {
     "word": "벼",
-    "count": 3
+    "count": 4
    },
    {
     "word": "참깨",
@@ -492,6 +497,10 @@
   ],
   "병해충": [
    {
+    "word": "진딧물",
+    "count": 2
+   },
+   {
     "word": "화상병",
     "count": 2
    },
@@ -501,10 +510,6 @@
    },
    {
     "word": "선충",
-    "count": 1
-   },
-   {
-    "word": "진딧물",
     "count": 1
    },
    {
@@ -603,11 +608,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 29
+    "count": 31
    },
    {
     "word": "방제",
-    "count": 22
+    "count": 25
    },
    {
     "word": "작물보호제",
@@ -626,6 +631,10 @@
     "count": 1
    },
    {
+    "word": "돌발해충",
+    "count": 1
+   },
+   {
     "word": "살충제",
     "count": 1
    },
@@ -640,10 +649,6 @@
    {
     "word": "친환경",
     "count": 1
-   },
-   {
-    "word": "돌발해충",
-    "count": 0
    },
    {
     "word": "드론방제",
