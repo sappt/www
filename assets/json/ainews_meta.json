@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-16 06:27 KST",
+ "updated": "2026-08-18 06:31 KST",
  "stats": {
-  "total": 150,
-  "visible": 59,
-  "hidden": 91,
-  "sources": 89,
+  "total": 159,
+  "visible": 63,
+  "hidden": 96,
+  "sources": 92,
   "oldest": "2026-02-10",
-  "newest": "2026-08-14"
+  "newest": "2026-08-17"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 31,
+   "count": 32,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 25,
+   "count": 27,
    "type": "주제"
   },
   {
@@ -77,7 +77,7 @@
   },
   {
    "word": "병해충",
-   "count": 6,
+   "count": 7,
    "type": "주제"
   },
   {
@@ -96,17 +96,22 @@
    "type": "작물"
   },
   {
+   "word": "화상병",
+   "count": 3,
+   "type": "병해충"
+  },
+  {
+   "word": "생물농약",
+   "count": 3,
+   "type": "주제"
+  },
+  {
    "word": "진딧물",
    "count": 2,
    "type": "병해충"
   },
   {
-   "word": "화상병",
-   "count": 2,
-   "type": "병해충"
-  },
-  {
-   "word": "생물농약",
+   "word": "제초제",
    "count": 2,
    "type": "주제"
   },
@@ -497,11 +502,11 @@
   ],
   "병해충": [
    {
-    "word": "진딧물",
-    "count": 2
+    "word": "화상병",
+    "count": 3
    },
    {
-    "word": "화상병",
+    "word": "진딧물",
     "count": 2
    },
    {
@@ -608,11 +613,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 31
+    "count": 32
    },
    {
     "word": "방제",
-    "count": 25
+    "count": 27
    },
    {
     "word": "작물보호제",
@@ -620,10 +625,14 @@
    },
    {
     "word": "병해충",
-    "count": 6
+    "count": 7
    },
    {
     "word": "생물농약",
+    "count": 3
+   },
+   {
+    "word": "제초제",
     "count": 2
    },
    {
@@ -665,10 +674,6 @@
    {
     "word": "예찰",
     "count": 0
-   },
-   {
-    "word": "제초제",
-    "count": 0
    }
   ],
   "기관·기업": [
@@ -689,15 +694,15 @@
     "count": 2
    },
    {
+    "word": "농관원",
+    "count": 1
+   },
+   {
     "word": "식약처",
     "count": 1
    },
    {
     "word": "경농",
-    "count": 0
-   },
-   {
-    "word": "농관원",
     "count": 0
    },
    {
