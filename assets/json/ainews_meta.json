@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-18 06:31 KST",
+ "updated": "2026-08-19 06:30 KST",
  "stats": {
-  "total": 159,
-  "visible": 63,
-  "hidden": 96,
-  "sources": 92,
+  "total": 169,
+  "visible": 64,
+  "hidden": 105,
+  "sources": 97,
   "oldest": "2026-02-10",
-  "newest": "2026-08-17"
+  "newest": "2026-08-18"
  },
  "settings": {
   "recent_days": 180,
@@ -101,6 +101,11 @@
    "type": "병해충"
   },
   {
+   "word": "제초제",
+   "count": 3,
+   "type": "주제"
+  },
+  {
    "word": "생물농약",
    "count": 3,
    "type": "주제"
@@ -109,11 +114,6 @@
    "word": "진딧물",
    "count": 2,
    "type": "병해충"
-  },
-  {
-   "word": "제초제",
-   "count": 2,
-   "type": "주제"
   },
   {
    "word": "농촌진흥청",
@@ -633,7 +633,7 @@
    },
    {
     "word": "제초제",
-    "count": 2
+    "count": 3
    },
    {
     "word": "농자재",
