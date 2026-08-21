@@ -1,10 +1,10 @@
 {
- "updated": "2026-08-21 06:34 KST",
+ "updated": "2026-08-22 06:30 KST",
  "stats": {
-  "total": 182,
-  "visible": 70,
-  "hidden": 112,
-  "sources": 106,
+  "total": 185,
+  "visible": 71,
+  "hidden": 114,
+  "sources": 109,
   "oldest": "2026-02-10",
   "newest": "2026-08-20"
  },
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 33,
+   "count": 34,
    "type": "주제"
   },
   {
@@ -613,7 +613,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 33
+    "count": 34
    },
    {
     "word": "방제",
@@ -690,15 +690,15 @@
     "count": 3
    },
    {
+    "word": "식약처",
+    "count": 2
+   },
+   {
     "word": "팜한농",
     "count": 2
    },
    {
     "word": "농관원",
-    "count": 1
-   },
-   {
-    "word": "식약처",
     "count": 1
    },
    {
