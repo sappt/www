@@ -1,8 +1,8 @@
 {
- "updated": "2026-08-23 06:27 KST",
+ "updated": "2026-08-24 06:27 KST",
  "stats": {
-  "total": 186,
-  "visible": 71,
+  "total": 190,
+  "visible": 75,
   "hidden": 115,
   "sources": 109,
   "oldest": "2026-02-10",
@@ -62,12 +62,12 @@
   },
   {
    "word": "방제",
-   "count": 29,
+   "count": 30,
    "type": "주제"
   },
   {
    "word": "작물보호제",
-   "count": 11,
+   "count": 12,
    "type": "주제"
   },
   {
@@ -77,7 +77,7 @@
   },
   {
    "word": "병해충",
-   "count": 8,
+   "count": 9,
    "type": "주제"
   },
   {
@@ -126,6 +126,10 @@
    {
     "word": "벼",
     "count": 4
+   },
+   {
+    "word": "잔디",
+    "count": 1
    },
    {
     "word": "참깨",
@@ -396,10 +400,6 @@
     "count": 0
    },
    {
-    "word": "잔디",
-    "count": 0
-   },
-   {
     "word": "점박이응애",
     "count": 0
    },
@@ -617,15 +617,15 @@
    },
    {
     "word": "방제",
-    "count": 29
+    "count": 30
    },
    {
     "word": "작물보호제",
-    "count": 11
+    "count": 12
    },
    {
     "word": "병해충",
-    "count": 8
+    "count": 9
    },
    {
     "word": "제초제",
@@ -636,15 +636,15 @@
     "count": 3
    },
    {
+    "word": "살충제",
+    "count": 2
+   },
+   {
     "word": "농자재",
     "count": 1
    },
    {
     "word": "돌발해충",
-    "count": 1
-   },
-   {
-    "word": "살충제",
     "count": 1
    },
    {
@@ -698,16 +698,16 @@
     "count": 2
    },
    {
+    "word": "경농",
+    "count": 1
+   },
+   {
     "word": "농관원",
     "count": 1
    },
    {
     "word": "인바이오",
     "count": 1
-   },
-   {
-    "word": "경농",
-    "count": 0
    },
    {
     "word": "농업과학원",
