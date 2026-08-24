@@ -1,5 +1,65 @@
 [
  {
+  "date": "2026-08-24",
+  "cat": "농약·작물보호",
+  "title": "장흥군 \"고온다습 환경 지속, 병해충 예찰·적기 방제해야\"",
+  "source": "프레시안",
+  "publisher": "https://www.pressian.com",
+  "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBzdGczSTlLM2lzYkxEVG1nd2RoOWw1NGRSM1ZlMnRpTEt3SWNOcEE0bTFRdUJob2NySTNSV3RsX0F1X0dERGUxOU9OLVhOak03TEs3eDdveHNteVlGOV9fYzJrd2ZnRXVVQlB3?oc=5",
+  "score": 0,
+  "hidden": true
+ },
+ {
+  "date": "2026-08-24",
+  "cat": "정책·제도",
+  "title": "농진청, 일손 덜어줄 ‘연무‧연막’ 농약 사용 제도화에 속도",
+  "source": "한국농촌경제신문",
+  "publisher": "https://kenews.co.kr",
+  "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1VWjQxQnBSMXY0Wi04cXpzWUVkanYybEZ1elNNRHdWNVBYNXBpTVc3RUNLa19IZUVXQW5yeExSa3dWa19JQXZlSldaUXh0V0FYcTZSWUVBNUlWZVE?oc=5",
+  "score": 0,
+  "hidden": true
+ },
+ {
+  "date": "2026-08-24",
+  "cat": "정책·제도",
+  "title": "농진청, 연무·연막 농약 등록기준 마련…11월 고시 개정",
+  "source": "데일리안",
+  "publisher": "https://www.dailian.co.kr",
+  "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFA5c0s2dTFzeUNmWHNPVUE1U3VfZ25sLWxKVm8wdWF3dkR1VnZlLWY2cjRpWWZJd1c0bmtZMHJ6NWhPckp1M1VFNm0yZlZGc3g1MXFfNTRSSQ?oc=5",
+  "score": 8,
+  "hidden": false
+ },
+ {
+  "date": "2026-08-24",
+  "cat": "정책·제도",
+  "title": "시설하우스 농약도 안개처럼 뿌린다…전용 제품 1~2년 내 보급",
+  "source": "뉴시스",
+  "publisher": "https://mobile.newsis.com",
+  "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE01d29ZSG9UMTduUHRjQTVCR3Ywc0Jadm9NX29RRXNYdDV1V05aT0RMVm1PV3M1U3ZCZVg1RnVxWGt2VzZIOEtPaG5ZTW1CNWZsaW04YzNLOHRYdDdZbFBJWGFsUldOYkZsNWQ1bDJwak1kTFNUMXJlVtIBeEFVX3lxTE01d29ZSG9UMTduUHRjQTVCR3Ywc0Jadm9NX29RRXNYdDV1V05aT0RMVm1PV3M1U3ZCZVg1RnVxWGt2VzZIOEtPaG5ZTW1CNWZsaW04YzNLOHRYdDdZbFBJWGFsUldOYkZsNWQ1bDJwak1kTFNUMXJlVg?oc=5",
+  "score": 3,
+  "hidden": false
+ },
+ {
+  "date": "2026-08-24",
+  "cat": "정책·제도",
+  "title": "시설하우스 농약 살포 부담 줄인다…‘연무·연막 전용’ 등록기준 마련",
+  "source": "서울뉴스통신",
+  "publisher": "http://www.snakorea.com",
+  "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBZX2VZT2xBSFRveldZeHlVMWhrMFZTc2E4WFVXd0Q0UjhnNTJIbWp6MEVtNkFfNU8wT193bDVrNkd6SGQ2TVB4SjBnanpYdlpocHhULWRzSDdzb3Bja2pjVDdTc0h1bTRjSDQw?oc=5",
+  "score": 4,
+  "hidden": false
+ },
+ {
+  "date": "2026-08-24",
+  "cat": "정책·제도",
+  "title": "‘연무·연막’ 농약 사용 제도화 연내 이뤄진다",
+  "source": "영농자재신문",
+  "publisher": "https://www.newsfm.kr",
+  "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE93WS1lSTVLZ1VYQV81VUh4NHlJOGs2M25rd1dBRzl1Nm50aUx0TkI0bUk1T2VRWjZWM0Z2Y1VlM2RtMVdTOS1HVmVoTHVmalBjaFNPdVdaREVlNjhF?oc=5",
+  "score": 3,
+  "hidden": false
+ },
+ {
   "date": "2026-08-22",
   "cat": "농약·작물보호",
   "title": "벼 작물을 보호하기 위해 병해충을 사전에 예방하고 방제해야 합니다.",
@@ -78,6 +138,16 @@
   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5PcG5PSFFUUGVhSmE3Z21LdXFIemJpQkxxNVNyem9rNWttN0tHZ0xKTm5NWVRjS2E0eko4anFVZEZCWnpIblJMNV9WOUFBeHF0WFh4b3hkbmxyQk01S3ZMdDdKckNfUUU3Zmk2bURn0gFuQVVfeXFMTk9wbk9IUVRQZWFKYTdnbUt1cUh6YmlCTHE1U3J6b2s1a203S0dnTEpObk1ZVGNLYTR6SjhqcVVkRkJaekhuUkw1X1Y5QUF4cXRYWHhveGRubHJCTTVLdkx0N0pyQ19RRTdmaTZtRGc?oc=5",
   "score": 3,
   "hidden": false
+ },
+ {
+  "date": "2026-08-19",
+  "cat": "병해충 발생",
+  "title": "폭염에 농작물 3317㏊·가축 119만마리 피해…추석 수급은 ‘이상무’",
+  "source": "supple.kr",
+  "publisher": "https://supple.kr",
+  "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5FU08wVGRCb19iUU9YXzVKd2k2aXlLZzVubzdBdGM0U01XUk5fZDRiTzhXdWRyX0YwU2dMdXNibVFlTlVKWjdPR3BmR293Z2lSTXk0NmFQVXg3RE04?oc=5",
+  "score": 0,
+  "hidden": true
  },
  {
   "date": "2026-08-18",

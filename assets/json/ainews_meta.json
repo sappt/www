@@ -1,12 +1,12 @@
 {
- "updated": "2026-08-24 06:27 KST",
+ "updated": "2026-08-25 06:35 KST",
  "stats": {
-  "total": 190,
-  "visible": 75,
-  "hidden": 115,
-  "sources": 109,
+  "total": 197,
+  "visible": 79,
+  "hidden": 118,
+  "sources": 113,
   "oldest": "2026-02-10",
-  "newest": "2026-08-22"
+  "newest": "2026-08-24"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 34,
+   "count": 38,
    "type": "주제"
   },
   {
@@ -82,7 +82,7 @@
   },
   {
    "word": "농진청",
-   "count": 6,
+   "count": 7,
    "type": "기관·기업"
   },
   {
@@ -613,7 +613,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 34
+    "count": 38
    },
    {
     "word": "방제",
@@ -679,7 +679,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 6
+    "count": 7
    },
    {
     "word": "작물보호협회",
