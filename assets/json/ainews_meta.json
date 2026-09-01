@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-01 09:30 KST",
+ "updated": "2026-09-02 08:13 KST",
  "stats": {
-  "total": 233,
-  "visible": 85,
+  "total": 235,
+  "visible": 87,
   "hidden": 148,
   "sources": 127,
   "oldest": "2026-02-10",
-  "newest": "2026-08-31"
+  "newest": "2026-09-01"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 31,
+   "count": 32,
    "type": "주제"
   },
   {
@@ -617,7 +617,7 @@
    },
    {
     "word": "방제",
-    "count": 31
+    "count": 32
    },
    {
     "word": "작물보호제",
@@ -652,6 +652,10 @@
     "count": 1
    },
    {
+    "word": "예찰",
+    "count": 1
+   },
+   {
     "word": "잔류농약",
     "count": 1
    },
@@ -669,10 +673,6 @@
    },
    {
     "word": "약제저항성",
-    "count": 0
-   },
-   {
-    "word": "예찰",
     "count": 0
    }
   ],
