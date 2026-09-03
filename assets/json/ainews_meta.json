@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-03 08:13 KST",
+ "updated": "2026-09-04 08:10 KST",
  "stats": {
-  "total": 249,
-  "visible": 92,
-  "hidden": 157,
-  "sources": 134,
+  "total": 266,
+  "visible": 97,
+  "hidden": 169,
+  "sources": 143,
   "oldest": "2026-02-10",
-  "newest": "2026-09-02"
+  "newest": "2026-09-03"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 42,
+   "count": 43,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 33,
+   "count": 36,
    "type": "주제"
   },
   {
@@ -77,12 +77,12 @@
   },
   {
    "word": "병해충",
-   "count": 9,
+   "count": 10,
    "type": "주제"
   },
   {
    "word": "농진청",
-   "count": 7,
+   "count": 8,
    "type": "기관·기업"
   },
   {
@@ -116,6 +116,11 @@
    "type": "주제"
   },
   {
+   "word": "콩",
+   "count": 2,
+   "type": "작물"
+  },
+  {
    "word": "진딧물",
    "count": 2,
    "type": "병해충"
@@ -128,6 +133,10 @@
     "count": 4
    },
    {
+    "word": "콩",
+    "count": 2
+   },
+   {
     "word": "배추",
     "count": 1
    },
@@ -137,10 +146,6 @@
    },
    {
     "word": "참깨",
-    "count": 1
-   },
-   {
-    "word": "콩",
     "count": 1
    },
    {
@@ -514,6 +519,10 @@
     "count": 1
    },
    {
+    "word": "노린재",
+    "count": 1
+   },
+   {
     "word": "선충",
     "count": 1
    },
@@ -535,10 +544,6 @@
    },
    {
     "word": "노균병",
-    "count": 0
-   },
-   {
-    "word": "노린재",
     "count": 0
    },
    {
@@ -613,11 +618,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 42
+    "count": 43
    },
    {
     "word": "방제",
-    "count": 33
+    "count": 36
    },
    {
     "word": "작물보호제",
@@ -625,7 +630,7 @@
    },
    {
     "word": "병해충",
-    "count": 9
+    "count": 10
    },
    {
     "word": "제초제",
@@ -679,7 +684,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 7
+    "count": 8
    },
    {
     "word": "작물보호협회",
@@ -694,12 +699,12 @@
     "count": 3
    },
    {
-    "word": "팜한농",
+    "word": "경농",
     "count": 2
    },
    {
-    "word": "경농",
-    "count": 1
+    "word": "팜한농",
+    "count": 2
    },
    {
     "word": "농관원",
