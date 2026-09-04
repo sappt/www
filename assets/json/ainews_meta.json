@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-04 08:10 KST",
+ "updated": "2026-09-05 07:56 KST",
  "stats": {
-  "total": 266,
-  "visible": 97,
-  "hidden": 169,
-  "sources": 143,
+  "total": 276,
+  "visible": 102,
+  "hidden": 174,
+  "sources": 148,
   "oldest": "2026-02-10",
-  "newest": "2026-09-03"
+  "newest": "2026-09-04"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 43,
+   "count": 46,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 36,
+   "count": 39,
    "type": "주제"
   },
   {
@@ -77,13 +77,18 @@
   },
   {
    "word": "병해충",
-   "count": 10,
+   "count": 11,
    "type": "주제"
   },
   {
    "word": "농진청",
-   "count": 8,
+   "count": 9,
    "type": "기관·기업"
+  },
+  {
+   "word": "벼",
+   "count": 6,
+   "type": "작물"
   },
   {
    "word": "작물보호협회",
@@ -96,14 +101,14 @@
    "type": "주제"
   },
   {
-   "word": "벼",
-   "count": 4,
-   "type": "작물"
-  },
-  {
    "word": "농촌진흥청",
    "count": 4,
    "type": "기관·기업"
+  },
+  {
+   "word": "콩",
+   "count": 3,
+   "type": "작물"
   },
   {
    "word": "화상병",
@@ -116,7 +121,7 @@
    "type": "주제"
   },
   {
-   "word": "콩",
+   "word": "배추",
    "count": 2,
    "type": "작물"
   },
@@ -130,14 +135,22 @@
   "작물": [
    {
     "word": "벼",
-    "count": 4
+    "count": 6
    },
    {
     "word": "콩",
-    "count": 2
+    "count": 3
    },
    {
     "word": "배추",
+    "count": 2
+   },
+   {
+    "word": "마늘",
+    "count": 1
+   },
+   {
+    "word": "양파",
     "count": 1
    },
    {
@@ -234,10 +247,6 @@
    },
    {
     "word": "딸기",
-    "count": 0
-   },
-   {
-    "word": "마늘",
     "count": 0
    },
    {
@@ -362,10 +371,6 @@
    },
    {
     "word": "양송이",
-    "count": 0
-   },
-   {
-    "word": "양파",
     "count": 0
    },
    {
@@ -618,11 +623,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 43
+    "count": 46
    },
    {
     "word": "방제",
-    "count": 36
+    "count": 39
    },
    {
     "word": "작물보호제",
@@ -630,7 +635,7 @@
    },
    {
     "word": "병해충",
-    "count": 10
+    "count": 11
    },
    {
     "word": "제초제",
@@ -684,7 +689,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 8
+    "count": 9
    },
    {
     "word": "작물보호협회",
@@ -695,12 +700,12 @@
     "count": 4
    },
    {
-    "word": "식약처",
+    "word": "경농",
     "count": 3
    },
    {
-    "word": "경농",
-    "count": 2
+    "word": "식약처",
+    "count": 3
    },
    {
     "word": "팜한농",
