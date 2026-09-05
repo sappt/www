@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-05 07:56 KST",
+ "updated": "2026-09-06 07:44 KST",
  "stats": {
-  "total": 276,
-  "visible": 102,
-  "hidden": 174,
-  "sources": 148,
+  "total": 284,
+  "visible": 106,
+  "hidden": 178,
+  "sources": 151,
   "oldest": "2026-02-10",
-  "newest": "2026-09-04"
+  "newest": "2026-09-05"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 46,
+   "count": 50,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 39,
+   "count": 42,
    "type": "주제"
   },
   {
@@ -71,18 +71,18 @@
    "type": "주제"
   },
   {
+   "word": "병해충",
+   "count": 12,
+   "type": "주제"
+  },
+  {
    "word": "지침서",
    "count": 12,
    "type": "제도"
   },
   {
-   "word": "병해충",
-   "count": 11,
-   "type": "주제"
-  },
-  {
    "word": "농진청",
-   "count": 9,
+   "count": 10,
    "type": "기관·기업"
   },
   {
@@ -147,6 +147,10 @@
    },
    {
     "word": "마늘",
+    "count": 1
+   },
+   {
+    "word": "밀",
     "count": 1
    },
    {
@@ -267,10 +271,6 @@
    },
    {
     "word": "목화진딧물",
-    "count": 0
-   },
-   {
-    "word": "밀",
     "count": 0
    },
    {
@@ -623,11 +623,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 46
+    "count": 50
    },
    {
     "word": "방제",
-    "count": 39
+    "count": 42
    },
    {
     "word": "작물보호제",
@@ -635,7 +635,7 @@
    },
    {
     "word": "병해충",
-    "count": 11
+    "count": 12
    },
    {
     "word": "제초제",
@@ -689,7 +689,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 9
+    "count": 10
    },
    {
     "word": "작물보호협회",
