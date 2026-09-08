@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-08 08:23 KST",
+ "updated": "2026-09-09 08:17 KST",
  "stats": {
-  "total": 294,
-  "visible": 112,
-  "hidden": 182,
-  "sources": 155,
+  "total": 304,
+  "visible": 115,
+  "hidden": 189,
+  "sources": 160,
   "oldest": "2026-02-10",
-  "newest": "2026-09-07"
+  "newest": "2026-09-08"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 53,
+   "count": 55,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 47,
+   "count": 50,
    "type": "주제"
   },
   {
@@ -87,7 +87,7 @@
   },
   {
    "word": "벼",
-   "count": 9,
+   "count": 10,
    "type": "작물"
   },
   {
@@ -140,7 +140,7 @@
   "작물": [
    {
     "word": "벼",
-    "count": 9
+    "count": 10
    },
    {
     "word": "콩",
@@ -628,11 +628,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 53
+    "count": 55
    },
    {
     "word": "방제",
-    "count": 47
+    "count": 50
    },
    {
     "word": "작물보호제",
@@ -648,6 +648,10 @@
    },
    {
     "word": "생물농약",
+    "count": 3
+   },
+   {
+    "word": "약제저항성",
     "count": 3
    },
    {
@@ -668,10 +672,6 @@
    },
    {
     "word": "안전사용",
-    "count": 1
-   },
-   {
-    "word": "약제저항성",
     "count": 1
    },
    {
