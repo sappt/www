@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-11 08:02 KST",
+ "updated": "2026-09-12 08:08 KST",
  "stats": {
-  "total": 319,
-  "visible": 117,
-  "hidden": 202,
-  "sources": 167,
+  "total": 325,
+  "visible": 118,
+  "hidden": 207,
+  "sources": 169,
   "oldest": "2026-02-10",
-  "newest": "2026-09-10"
+  "newest": "2026-09-11"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 50,
+   "count": 51,
    "type": "주제"
   },
   {
@@ -632,7 +632,7 @@
    },
    {
     "word": "방제",
-    "count": 50
+    "count": 51
    },
    {
     "word": "병해충",
