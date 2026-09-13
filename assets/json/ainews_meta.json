@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-13 07:55 KST",
+ "updated": "2026-09-14 08:03 KST",
  "stats": {
-  "total": 326,
-  "visible": 118,
+  "total": 327,
+  "visible": 119,
   "hidden": 208,
-  "sources": 170,
+  "sources": 171,
   "oldest": "2026-02-10",
-  "newest": "2026-09-11"
+  "newest": "2026-09-13"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 56,
+   "count": 57,
    "type": "주제"
   },
   {
@@ -628,7 +628,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 56
+    "count": 57
    },
    {
     "word": "방제",
