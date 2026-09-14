@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-14 08:03 KST",
+ "updated": "2026-09-15 08:48 KST",
  "stats": {
-  "total": 327,
-  "visible": 119,
-  "hidden": 208,
+  "total": 330,
+  "visible": 120,
+  "hidden": 210,
   "sources": 171,
   "oldest": "2026-02-10",
-  "newest": "2026-09-13"
+  "newest": "2026-09-14"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 51,
+   "count": 52,
    "type": "주제"
   },
   {
@@ -127,6 +127,11 @@
   },
   {
    "word": "노린재",
+   "count": 2,
+   "type": "병해충"
+  },
+  {
+   "word": "선충",
    "count": 2,
    "type": "병해충"
   },
@@ -525,15 +530,15 @@
     "count": 2
    },
    {
+    "word": "선충",
+    "count": 2
+   },
+   {
     "word": "진딧물",
     "count": 2
    },
    {
     "word": "나방",
-    "count": 1
-   },
-   {
-    "word": "선충",
     "count": 1
    },
    {
@@ -632,7 +637,7 @@
    },
    {
     "word": "방제",
-    "count": 51
+    "count": 52
    },
    {
     "word": "병해충",
