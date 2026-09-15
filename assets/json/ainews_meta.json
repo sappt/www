@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-15 08:48 KST",
+ "updated": "2026-09-16 08:28 KST",
  "stats": {
-  "total": 330,
-  "visible": 120,
-  "hidden": 210,
-  "sources": 171,
+  "total": 333,
+  "visible": 122,
+  "hidden": 211,
+  "sources": 172,
   "oldest": "2026-02-10",
-  "newest": "2026-09-14"
+  "newest": "2026-09-15"
  },
  "settings": {
   "recent_days": 180,
@@ -67,7 +67,7 @@
   },
   {
    "word": "작물보호제",
-   "count": 14,
+   "count": 15,
    "type": "주제"
   },
   {
@@ -116,6 +116,11 @@
    "type": "기관·기업"
   },
   {
+   "word": "노린재",
+   "count": 3,
+   "type": "병해충"
+  },
+  {
    "word": "화상병",
    "count": 3,
    "type": "병해충"
@@ -126,17 +131,12 @@
    "type": "작물"
   },
   {
-   "word": "노린재",
-   "count": 2,
-   "type": "병해충"
-  },
-  {
    "word": "선충",
    "count": 2,
    "type": "병해충"
   },
   {
-   "word": "진딧물",
+   "word": "응애",
    "count": 2,
    "type": "병해충"
   }
@@ -522,15 +522,19 @@
   ],
   "병해충": [
    {
+    "word": "노린재",
+    "count": 3
+   },
+   {
     "word": "화상병",
     "count": 3
    },
    {
-    "word": "노린재",
+    "word": "선충",
     "count": 2
    },
    {
-    "word": "선충",
+    "word": "응애",
     "count": 2
    },
    {
@@ -542,7 +546,7 @@
     "count": 1
    },
    {
-    "word": "응애",
+    "word": "총채벌레",
     "count": 1
    },
    {
@@ -610,10 +614,6 @@
     "count": 0
    },
    {
-    "word": "총채벌레",
-    "count": 0
-   },
-   {
     "word": "탄저병",
     "count": 0
    },
@@ -640,11 +640,11 @@
     "count": 52
    },
    {
-    "word": "병해충",
-    "count": 14
+    "word": "작물보호제",
+    "count": 15
    },
    {
-    "word": "작물보호제",
+    "word": "병해충",
     "count": 14
    },
    {
