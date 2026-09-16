@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-16 08:28 KST",
+ "updated": "2026-09-17 08:36 KST",
  "stats": {
-  "total": 333,
-  "visible": 122,
-  "hidden": 211,
-  "sources": 172,
+  "total": 335,
+  "visible": 123,
+  "hidden": 212,
+  "sources": 173,
   "oldest": "2026-02-10",
   "newest": "2026-09-15"
  },
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 52,
+   "count": 53,
    "type": "주제"
   },
   {
@@ -637,7 +637,7 @@
    },
    {
     "word": "방제",
-    "count": 52
+    "count": 53
    },
    {
     "word": "작물보호제",
@@ -718,12 +718,12 @@
     "count": 3
    },
    {
-    "word": "팜한농",
+    "word": "농관원",
     "count": 2
    },
    {
-    "word": "농관원",
-    "count": 1
+    "word": "팜한농",
+    "count": 2
    },
    {
     "word": "인바이오",
