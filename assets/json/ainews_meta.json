@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-17 08:36 KST",
+ "updated": "2026-09-18 08:29 KST",
  "stats": {
-  "total": 335,
-  "visible": 123,
+  "total": 336,
+  "visible": 124,
   "hidden": 212,
   "sources": 173,
   "oldest": "2026-02-10",
-  "newest": "2026-09-15"
+  "newest": "2026-09-17"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 57,
+   "count": 58,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 53,
+   "count": 54,
    "type": "주제"
   },
   {
@@ -76,19 +76,19 @@
    "type": "주제"
   },
   {
-   "word": "지침서",
-   "count": 12,
-   "type": "제도"
-  },
-  {
    "word": "벼",
-   "count": 11,
+   "count": 12,
    "type": "작물"
   },
   {
    "word": "농진청",
-   "count": 11,
+   "count": 12,
    "type": "기관·기업"
+  },
+  {
+   "word": "지침서",
+   "count": 12,
+   "type": "제도"
   },
   {
    "word": "작물보호협회",
@@ -145,7 +145,7 @@
   "작물": [
    {
     "word": "벼",
-    "count": 11
+    "count": 12
    },
    {
     "word": "콩",
@@ -633,11 +633,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 57
+    "count": 58
    },
    {
     "word": "방제",
-    "count": 53
+    "count": 54
    },
    {
     "word": "작물보호제",
@@ -699,7 +699,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 11
+    "count": 12
    },
    {
     "word": "작물보호협회",
