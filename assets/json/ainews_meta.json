@@ -1,10 +1,10 @@
 {
- "updated": "2026-09-22 08:59 KST",
+ "updated": "2026-09-23 08:33 KST",
  "stats": {
-  "total": 340,
-  "visible": 124,
-  "hidden": 216,
-  "sources": 173,
+  "total": 342,
+  "visible": 125,
+  "hidden": 217,
+  "sources": 175,
   "oldest": "2026-02-10",
   "newest": "2026-09-20"
  },
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 58,
+   "count": 59,
    "type": "주제"
   },
   {
@@ -106,14 +106,14 @@
    "type": "주제"
   },
   {
+   "word": "농촌진흥청",
+   "count": 5,
+   "type": "기관·기업"
+  },
+  {
    "word": "약제저항성",
    "count": 4,
    "type": "주제"
-  },
-  {
-   "word": "농촌진흥청",
-   "count": 4,
-   "type": "기관·기업"
   },
   {
    "word": "노린재",
@@ -633,7 +633,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 58
+    "count": 59
    },
    {
     "word": "방제",
@@ -707,7 +707,7 @@
    },
    {
     "word": "농촌진흥청",
-    "count": 4
+    "count": 5
    },
    {
     "word": "경농",
