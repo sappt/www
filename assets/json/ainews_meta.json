@@ -1,8 +1,8 @@
 {
- "updated": "2026-09-25 08:49 KST",
+ "updated": "2026-09-26 08:55 KST",
  "stats": {
-  "total": 342,
-  "visible": 125,
+  "total": 343,
+  "visible": 126,
   "hidden": 217,
   "sources": 175,
   "oldest": "2026-02-10",
@@ -76,14 +76,14 @@
    "type": "주제"
   },
   {
+   "word": "농진청",
+   "count": 13,
+   "type": "기관·기업"
+  },
+  {
    "word": "벼",
    "count": 12,
    "type": "작물"
-  },
-  {
-   "word": "농진청",
-   "count": 12,
-   "type": "기관·기업"
   },
   {
    "word": "지침서",
@@ -699,7 +699,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 12
+    "count": 13
    },
    {
     "word": "작물보호협회",
