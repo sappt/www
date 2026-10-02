@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-30 09:16 KST",
+ "updated": "2026-10-02 09:38 KST",
  "stats": {
-  "total": 349,
-  "visible": 129,
-  "hidden": 220,
+  "total": 353,
+  "visible": 131,
+  "hidden": 222,
   "sources": 178,
   "oldest": "2026-02-10",
-  "newest": "2026-09-27"
+  "newest": "2026-09-30"
  },
  "settings": {
   "recent_days": 180,
@@ -57,21 +57,21 @@
  "chips": [
   {
    "word": "농약",
-   "count": 60,
+   "count": 61,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 54,
-   "type": "주제"
-  },
-  {
-   "word": "작물보호제",
-   "count": 15,
+   "count": 55,
    "type": "주제"
   },
   {
    "word": "병해충",
+   "count": 16,
+   "type": "주제"
+  },
+  {
+   "word": "작물보호제",
    "count": 15,
    "type": "주제"
   },
@@ -161,6 +161,10 @@
    },
    {
     "word": "밀",
+    "count": 1
+   },
+   {
+    "word": "상추",
     "count": 1
    },
    {
@@ -345,10 +349,6 @@
    },
    {
     "word": "살구",
-    "count": 0
-   },
-   {
-    "word": "상추",
     "count": 0
    },
    {
@@ -633,15 +633,15 @@
   "주제": [
    {
     "word": "농약",
-    "count": 60
+    "count": 61
    },
    {
     "word": "방제",
-    "count": 54
+    "count": 55
    },
    {
     "word": "병해충",
-    "count": 15
+    "count": 16
    },
    {
     "word": "작물보호제",
@@ -664,11 +664,11 @@
     "count": 3
    },
    {
-    "word": "살충제",
-    "count": 2
+    "word": "잔류농약",
+    "count": 3
    },
    {
-    "word": "잔류농약",
+    "word": "살충제",
     "count": 2
    },
    {

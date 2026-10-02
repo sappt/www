@@ -1,5 +1,25 @@
 [
  {
+  "date": "2026-09-30",
+  "cat": "농약·작물보호",
+  "title": "병해충 걱정 덜고 방제효율 높인다",
+  "source": "영농자재신문",
+  "publisher": "https://www.newsfm.kr",
+  "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE82UmMtWGFMSkNOZHdtS2pINXlLUHlYN3BCLWFpbmZkeE92a1VTY3FFV0d2M2tGamo4RjhpUzF3UlRoTnJ0NE95d0lSdFo1bHZjclhMclFzNkFmcnVh?oc=5",
+  "score": 3,
+  "hidden": false
+ },
+ {
+  "date": "2026-09-29",
+  "cat": "시험·연구",
+  "title": "깻잎·쑥갓·상추 등 소면적 재배농산물-잔류농약 검출로 ‘몸살’",
+  "source": "한국농어민신문",
+  "publisher": "https://www.agrinet.co.kr",
+  "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5HOVJSYWhHMEg1WUxyUG9PMllwV3NIQ3dsbEo4VVFKeWtoaUJ4Y3pmYURwS05CXzRpRVVJSU8yc2ZuWEhMRG5TUEczazRJMTN0VnVleGpPRHZYa0x4Z182UFktZFpacnB3RGlN?oc=5",
+  "score": 7,
+  "hidden": false
+ },
+ {
   "date": "2026-09-27",
   "cat": "병해충 발생",
   "title": "[김포시] 친환경 벼 재배농가, 병해충 예찰·방제 철저 당부",
@@ -817,6 +837,16 @@
   "publisher": "https://tk.newdaily.co.kr",
   "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1QdkFHWHI2Y1ZGekQ0TTFweS1GanloNjV0UmRhZV9yYk4xbzlmdXF3WHVnZ0FpcnVxTUM4LVdzYkk1dDlRSWs1MWxoRlQ5akRvWWJvNjNNQmNwdjlNTVNUMThDcWhlekdzcVRHaEhYVHEtLWpzZUV4X2xWb2xkTWvSAX9BVV95cUxNUHZBR1hyNmNWRnpENE0xcHktRmp5aDY1dFJkYWVfcmJOMW85ZnVxd1h1Z2dBaXJ1cU1DOC1Xc2JJNXQ5UUlrNTFsaEZUOWpEb1libzYzTUJjcHY5TU1TVDE4Q3FoZXpHc3FUR2hIWFRxLS1qc2VFeF9sVm9sZE1r?oc=5",
   "score": -3,
+  "hidden": true
+ },
+ {
+  "date": "2026-08-31",
+  "cat": "농약·작물보호",
+  "title": "벼멸구·혹명나방 등 ‘비래해충’ 증가세…농진청 “예찰·긴급방제 총력”",
+  "source": "영농자재신문",
+  "publisher": "https://www.newsfm.kr",
+  "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5Scklwa0lGY3Z1dUtOY19QdlAta3JzcXFqdm9XYTNYbmM0dlk4dzhHQmNvLVlDUWRtUjBOZUM2UFJaZlZnQUx1Z2pTZ3BNYURmUjA4NE5MT1JfeUtT?oc=5",
+  "score": -2,
   "hidden": true
  },
  {
@@ -1677,6 +1707,16 @@
   "publisher": "https://www.gukjenews.com",
   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBlQlYzU1lLQ2NtUHEyd09LVk0wOFp3UHE1WUgyeWhIakluNUIxamxTUTNwT0M4RThobVozdEN5MHFIWUh4czBQN0RGalRyTC1zcHVOQ3BEYnB1RzdaWTFfUE9VNGl5R1FQcTliSVlR?oc=5",
   "score": 0,
+  "hidden": true
+ },
+ {
+  "date": "2026-08-09",
+  "cat": "병해충 발생",
+  "title": "충남도, 벼 병해충 합동예찰 추진 | 프린트 | CC 뉴데일리",
+  "source": "뉴데일리 충청세종",
+  "publisher": "https://cc.newdaily.co.kr",
+  "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ZbmpkUS1vSEZIczQxZ2pWMTlKM2tTWXNWWmhOeWZHZ1pLN1pvNGt5VWFQTTZsMTJfdERlWG5ud2J3YWlONmtBb2MwREw4S3Z5eFBKMnpoWmt3Q0dGcDlJeGJLbTZ6cFZOTk85aGxvT19UaVU?oc=5",
+  "score": -3,
   "hidden": true
  },
  {
