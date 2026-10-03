@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-02 09:38 KST",
+ "updated": "2026-10-03 09:20 KST",
  "stats": {
-  "total": 353,
-  "visible": 131,
-  "hidden": 222,
-  "sources": 178,
+  "total": 356,
+  "visible": 132,
+  "hidden": 224,
+  "sources": 179,
   "oldest": "2026-02-10",
-  "newest": "2026-09-30"
+  "newest": "2026-10-02"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 61,
+   "count": 62,
    "type": "주제"
   },
   {
@@ -76,14 +76,14 @@
    "type": "주제"
   },
   {
+   "word": "농진청",
+   "count": 14,
+   "type": "기관·기업"
+  },
+  {
    "word": "벼",
    "count": 13,
    "type": "작물"
-  },
-  {
-   "word": "농진청",
-   "count": 13,
-   "type": "기관·기업"
   },
   {
    "word": "지침서",
@@ -633,7 +633,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 61
+    "count": 62
    },
    {
     "word": "방제",
@@ -699,7 +699,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 13
+    "count": 14
    },
    {
     "word": "농촌진흥청",
