@@ -154,7 +154,7 @@
     </div>
   </div>
 
-  <div class="footer">Last Update: 2026-10-12 15:54:01 (KST)</div>
+  <div class="footer">Last Update: 2026-10-12 16:00:01 (KST)</div>
 </div>
 
 <script>
@@ -171,7 +171,7 @@
       type: 'pie', radius: ['42%', '68%'], center: ['38%', '50%'],
       label: { show: true, formatter: '{b}\n{c}건 ({d}%)', color: textColor, fontSize: 11 },
       labelLine: { lineStyle: { color: gridColor } },
-      data: [{ value: 163, name: '조사완료', itemStyle: { color: '#f59e0b' } }, { value: 44, name: '시작전', itemStyle: { color: '#94a3b8' } }, { value: 35, name: '발급완료', itemStyle: { color: '#0ea5e9' } }, { value: 30, name: '성적서작성중', itemStyle: { color: '#94a3b8' } }, { value: 25, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 9, name: '성적서완료', itemStyle: { color: '#10b981' } }, { value: 1, name: '최종종료', itemStyle: { color: '#64748b' } }],
+      data: [{ value: 168, name: '조사완료', itemStyle: { color: '#f59e0b' } }, { value: 44, name: '시작전', itemStyle: { color: '#94a3b8' } }, { value: 38, name: '발급완료', itemStyle: { color: '#0ea5e9' } }, { value: 26, name: '성적서작성중', itemStyle: { color: '#94a3b8' } }, { value: 21, name: '처리완료', itemStyle: { color: '#3b82f6' } }, { value: 9, name: '성적서완료', itemStyle: { color: '#10b981' } }, { value: 1, name: '최종종료', itemStyle: { color: '#64748b' } }],
     }],
   });
 
@@ -184,10 +184,10 @@
     yAxis: { type: 'category', data: ['살충', '살균', '제초제', '기초시험', '품목등록-위탁'], axisLabel: { color: textColor, fontSize: 12 } },
     legend: { textStyle: { color: textColor, fontSize: 11 }, bottom: 0 },
     series: [{ name: '시작전', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#94a3b8' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [17, 22, 1, 2, 2] },
-      { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [14, 6, 2, 3, 0] },
-      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [102, 57, 0, 3, 0] },
+      { name: '처리완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#3b82f6' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [14, 2, 2, 3, 0] },
+      { name: '조사완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#f59e0b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [102, 62, 0, 3, 0] },
       { name: '성적서완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#10b981' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [3, 6, 0, 0, 0] },
-      { name: '발급완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#0ea5e9' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [14, 21, 0, 0, 0] },
+      { name: '발급완료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#0ea5e9' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [14, 24, 0, 0, 0] },
       { name: '최종종료', type: 'bar', stack: 'total', barMaxWidth: 36, itemStyle: { color: '#64748b' }, label: { show: true, position: 'inside', color: '#fff', fontSize: 10, formatter: (p) => p.value > 0 ? p.value : '' }, data: [0, 1, 0, 0, 0] }],
   });
 
