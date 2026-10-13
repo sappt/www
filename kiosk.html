@@ -162,6 +162,37 @@
             }
         });
 
+        // ===== kiosk.html 자체 갱신 =====
+        // iframe 페이지는 매번 ?t= 로 새로 받지만 kiosk.html 은 한 번 열리면
+        // 다시 불러오지 않아, 배포된 수정(예: 순환 목록 변경)이 단말에 반영되지 않는다.
+        // 주기적으로 서버 사본을 캐시 없이 받아 지금 실행 중인 것과 다르면 새로 연다.
+        const SELF_CHECK_MS  = 5 * 60 * 1000;        // 버전 확인 주기
+        const FORCE_RELOAD_MS = 6 * 60 * 60 * 1000;  // 변경이 없어도 6시간마다 새로 연다
+        const bootedAt = Date.now();
+        let bootedSource = null;
+
+        function fetchSelf() {
+            return fetch('kiosk.html?t=' + Date.now(), { cache: 'no-store' })
+                .then(r => r.ok ? r.text() : null)
+                .catch(() => null); // 네트워크 실패 시 현재 화면 유지
+        }
+
+        function reloadSelf() {
+            location.replace('kiosk.html?t=' + Date.now());
+        }
+
+        fetchSelf().then(src => { bootedSource = src; });
+
+        setInterval(() => {
+            if (isInteractionMode) return; // s1 1분 표시 중에는 끊지 않는다
+            if (Date.now() - bootedAt >= FORCE_RELOAD_MS) { reloadSelf(); return; }
+            fetchSelf().then(src => {
+                if (!src) return;
+                if (bootedSource === null) { bootedSource = src; return; }
+                if (src !== bootedSource) reloadSelf();
+            });
+        }, SELF_CHECK_MS);
+
         // 초기 페이지 로드 및 순환 시작
         isTransitioning = true;
         loadFirstPage(currentIndex);
