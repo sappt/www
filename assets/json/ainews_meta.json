@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-20 09:11 KST",
+ "updated": "2026-10-21 08:44 KST",
  "stats": {
-  "total": 379,
-  "visible": 140,
-  "hidden": 239,
-  "sources": 187,
+  "total": 383,
+  "visible": 141,
+  "hidden": 242,
+  "sources": 188,
   "oldest": "2026-02-10",
-  "newest": "2026-10-19"
+  "newest": "2026-10-20"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 55,
+   "count": 56,
    "type": "주제"
   },
   {
@@ -637,7 +637,7 @@
    },
    {
     "word": "방제",
-    "count": 55
+    "count": 56
    },
    {
     "word": "작물보호제",
