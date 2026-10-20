@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-19 07:56 KST",
+ "updated": "2026-10-20 09:11 KST",
  "stats": {
-  "total": 378,
-  "visible": 139,
+  "total": 379,
+  "visible": 140,
   "hidden": 239,
   "sources": 187,
   "oldest": "2026-02-10",
-  "newest": "2026-10-15"
+  "newest": "2026-10-19"
  },
  "settings": {
   "recent_days": 180,
@@ -77,7 +77,7 @@
   },
   {
    "word": "농진청",
-   "count": 14,
+   "count": 15,
    "type": "기관·기업"
   },
   {
@@ -699,7 +699,7 @@
   "기관·기업": [
    {
     "word": "농진청",
-    "count": 14
+    "count": 15
    },
    {
     "word": "농촌진흥청",
