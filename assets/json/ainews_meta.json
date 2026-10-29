@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28 09:22 KST",
+ "updated": "2026-10-29 09:43 KST",
  "stats": {
-  "total": 400,
-  "visible": 146,
-  "hidden": 254,
-  "sources": 196,
+  "total": 404,
+  "visible": 149,
+  "hidden": 255,
+  "sources": 199,
   "oldest": "2026-02-10",
-  "newest": "2026-10-26"
+  "newest": "2026-10-28"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 68,
+   "count": 69,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 60,
+   "count": 62,
    "type": "주제"
   },
   {
@@ -116,6 +116,11 @@
    "type": "주제"
   },
   {
+   "word": "선충",
+   "count": 4,
+   "type": "병해충"
+  },
+  {
    "word": "약제저항성",
    "count": 4,
    "type": "주제"
@@ -129,11 +134,6 @@
    "word": "배추",
    "count": 2,
    "type": "작물"
-  },
-  {
-   "word": "선충",
-   "count": 2,
-   "type": "병해충"
   },
   {
    "word": "응애",
@@ -526,12 +526,12 @@
     "count": 6
    },
    {
-    "word": "노린재",
-    "count": 3
+    "word": "선충",
+    "count": 4
    },
    {
-    "word": "선충",
-    "count": 2
+    "word": "노린재",
+    "count": 3
    },
    {
     "word": "응애",
@@ -633,11 +633,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 68
+    "count": 69
    },
    {
     "word": "방제",
-    "count": 60
+    "count": 62
    },
    {
     "word": "병해충",
