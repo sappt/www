@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-29 09:43 KST",
+ "updated": "2026-10-30 09:43 KST",
  "stats": {
-  "total": 404,
-  "visible": 149,
-  "hidden": 255,
-  "sources": 199,
+  "total": 407,
+  "visible": 151,
+  "hidden": 256,
+  "sources": 200,
   "oldest": "2026-02-10",
-  "newest": "2026-10-28"
+  "newest": "2026-10-30"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 69,
+   "count": 71,
    "type": "주제"
   },
   {
@@ -121,7 +121,7 @@
    "type": "병해충"
   },
   {
-   "word": "약제저항성",
+   "word": "잔류농약",
    "count": 4,
    "type": "주제"
   },
@@ -633,7 +633,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 69
+    "count": 71
    },
    {
     "word": "방제",
@@ -656,15 +656,15 @@
     "count": 4
    },
    {
+    "word": "잔류농약",
+    "count": 4
+   },
+   {
     "word": "생물농약",
     "count": 3
    },
    {
     "word": "예찰",
-    "count": 3
-   },
-   {
-    "word": "잔류농약",
     "count": 3
    },
    {
