@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-01 08:59 KST",
+ "updated": "2026-11-02 09:29 KST",
  "stats": {
-  "total": 408,
-  "visible": 152,
+  "total": 409,
+  "visible": 153,
   "hidden": 256,
-  "sources": 201,
+  "sources": 202,
   "oldest": "2026-02-10",
-  "newest": "2026-10-30"
+  "newest": "2026-11-01"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 72,
+   "count": 73,
    "type": "주제"
   },
   {
@@ -96,6 +96,11 @@
    "type": "병해충"
   },
   {
+   "word": "잔류농약",
+   "count": 6,
+   "type": "주제"
+  },
+  {
    "word": "농촌진흥청",
    "count": 6,
    "type": "기관·기업"
@@ -109,11 +114,6 @@
    "word": "콩",
    "count": 5,
    "type": "작물"
-  },
-  {
-   "word": "잔류농약",
-   "count": 5,
-   "type": "주제"
   },
   {
    "word": "제초제",
@@ -633,7 +633,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 72
+    "count": 73
    },
    {
     "word": "방제",
@@ -649,7 +649,7 @@
    },
    {
     "word": "잔류농약",
-    "count": 5
+    "count": 6
    },
    {
     "word": "제초제",
