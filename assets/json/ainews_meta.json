@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-11 10:09 KST",
+ "updated": "2026-11-12 11:10 KST",
  "stats": {
-  "total": 415,
-  "visible": 156,
-  "hidden": 259,
-  "sources": 204,
+  "total": 418,
+  "visible": 158,
+  "hidden": 260,
+  "sources": 205,
   "oldest": "2026-02-10",
-  "newest": "2026-11-06"
+  "newest": "2026-11-12"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 64,
+   "count": 66,
    "type": "주제"
   },
   {
@@ -136,6 +136,11 @@
    "type": "작물"
   },
   {
+   "word": "토마토",
+   "count": 2,
+   "type": "작물"
+  },
+  {
    "word": "응애",
    "count": 2,
    "type": "병해충"
@@ -153,6 +158,10 @@
    },
    {
     "word": "배추",
+    "count": 2
+   },
+   {
+    "word": "토마토",
     "count": 2
    },
    {
@@ -476,10 +485,6 @@
     "count": 0
    },
    {
-    "word": "토마토",
-    "count": 0
-   },
-   {
     "word": "파굴파리",
     "count": 0
    },
@@ -546,6 +551,10 @@
     "count": 1
    },
    {
+    "word": "바이러스병",
+    "count": 1
+   },
+   {
     "word": "총채벌레",
     "count": 1
    },
@@ -575,10 +584,6 @@
    },
    {
     "word": "무름병",
-    "count": 0
-   },
-   {
-    "word": "바이러스병",
     "count": 0
    },
    {
@@ -637,7 +642,7 @@
    },
    {
     "word": "방제",
-    "count": 64
+    "count": 66
    },
    {
     "word": "병해충",
