@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-13 10:44 KST",
+ "updated": "2026-11-14 10:22 KST",
  "stats": {
-  "total": 418,
-  "visible": 158,
+  "total": 420,
+  "visible": 160,
   "hidden": 260,
   "sources": 205,
   "oldest": "2026-02-10",
-  "newest": "2026-11-12"
+  "newest": "2026-11-13"
  },
  "settings": {
   "recent_days": 180,
@@ -116,14 +116,14 @@
    "type": "작물"
   },
   {
+   "word": "선충",
+   "count": 5,
+   "type": "병해충"
+  },
+  {
    "word": "제초제",
    "count": 5,
    "type": "주제"
-  },
-  {
-   "word": "선충",
-   "count": 4,
-   "type": "병해충"
   },
   {
    "word": "노린재",
@@ -532,7 +532,7 @@
    },
    {
     "word": "선충",
-    "count": 4
+    "count": 5
    },
    {
     "word": "노린재",
