@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-15 09:55 KST",
+ "updated": "2026-11-16 09:53 KST",
  "stats": {
-  "total": 420,
-  "visible": 160,
-  "hidden": 260,
-  "sources": 205,
+  "total": 422,
+  "visible": 161,
+  "hidden": 261,
+  "sources": 206,
   "oldest": "2026-02-10",
-  "newest": "2026-11-13"
+  "newest": "2026-11-15"
  },
  "settings": {
   "recent_days": 180,
@@ -67,7 +67,7 @@
   },
   {
    "word": "작물보호제",
-   "count": 17,
+   "count": 18,
    "type": "주제"
   },
   {
@@ -645,11 +645,11 @@
     "count": 66
    },
    {
-    "word": "병해충",
-    "count": 17
+    "word": "작물보호제",
+    "count": 18
    },
    {
-    "word": "작물보호제",
+    "word": "병해충",
     "count": 17
    },
    {
