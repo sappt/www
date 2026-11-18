@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-17 12:37 KST",
+ "updated": "2026-11-18 11:49 KST",
  "stats": {
-  "total": 422,
-  "visible": 161,
-  "hidden": 261,
-  "sources": 206,
+  "total": 425,
+  "visible": 163,
+  "hidden": 262,
+  "sources": 207,
   "oldest": "2026-02-10",
-  "newest": "2026-11-15"
+  "newest": "2026-11-17"
  },
  "settings": {
   "recent_days": 180,
@@ -57,7 +57,7 @@
  "chips": [
   {
    "word": "농약",
-   "count": 75,
+   "count": 77,
    "type": "주제"
   },
   {
@@ -96,17 +96,17 @@
    "type": "병해충"
   },
   {
+   "word": "작물보호협회",
+   "count": 7,
+   "type": "기관·기업"
+  },
+  {
    "word": "잔류농약",
    "count": 6,
    "type": "주제"
   },
   {
    "word": "농촌진흥청",
-   "count": 6,
-   "type": "기관·기업"
-  },
-  {
-   "word": "작물보호협회",
    "count": 6,
    "type": "기관·기업"
   },
@@ -638,7 +638,7 @@
   "주제": [
    {
     "word": "농약",
-    "count": 75
+    "count": 77
    },
    {
     "word": "방제",
@@ -707,11 +707,11 @@
     "count": 15
    },
    {
-    "word": "농촌진흥청",
-    "count": 6
+    "word": "작물보호협회",
+    "count": 7
    },
    {
-    "word": "작물보호협회",
+    "word": "농촌진흥청",
     "count": 6
    },
    {
