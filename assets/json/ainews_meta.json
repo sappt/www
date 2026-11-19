@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-18 11:49 KST",
+ "updated": "2026-11-19 11:26 KST",
  "stats": {
-  "total": 425,
-  "visible": 163,
-  "hidden": 262,
-  "sources": 207,
+  "total": 430,
+  "visible": 165,
+  "hidden": 265,
+  "sources": 208,
   "oldest": "2026-02-10",
-  "newest": "2026-11-17"
+  "newest": "2026-11-19"
  },
  "settings": {
   "recent_days": 180,
@@ -57,17 +57,17 @@
  "chips": [
   {
    "word": "농약",
-   "count": 77,
+   "count": 78,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 66,
+   "count": 67,
    "type": "주제"
   },
   {
    "word": "작물보호제",
-   "count": 18,
+   "count": 19,
    "type": "주제"
   },
   {
@@ -87,7 +87,7 @@
   },
   {
    "word": "지침서",
-   "count": 12,
+   "count": 13,
    "type": "제도"
   },
   {
@@ -131,12 +131,12 @@
    "type": "병해충"
   },
   {
-   "word": "배추",
+   "word": "밀",
    "count": 2,
    "type": "작물"
   },
   {
-   "word": "토마토",
+   "word": "배추",
    "count": 2,
    "type": "작물"
   },
@@ -157,6 +157,10 @@
     "count": 5
    },
    {
+    "word": "밀",
+    "count": 2
+   },
+   {
     "word": "배추",
     "count": 2
    },
@@ -166,10 +170,6 @@
    },
    {
     "word": "마늘",
-    "count": 1
-   },
-   {
-    "word": "밀",
     "count": 1
    },
    {
@@ -638,15 +638,15 @@
   "주제": [
    {
     "word": "농약",
-    "count": 77
+    "count": 78
    },
    {
     "word": "방제",
-    "count": 66
+    "count": 67
    },
    {
     "word": "작물보호제",
-    "count": 18
+    "count": 19
    },
    {
     "word": "병해충",
@@ -754,7 +754,7 @@
   "제도": [
    {
     "word": "지침서",
-    "count": 12
+    "count": 13
    },
    {
     "word": "PLS",
