@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-20 11:10 KST",
+ "updated": "2026-11-21 11:03 KST",
  "stats": {
-  "total": 432,
-  "visible": 165,
+  "total": 435,
+  "visible": 168,
   "hidden": 267,
   "sources": 209,
   "oldest": "2026-02-10",
-  "newest": "2026-11-19"
+  "newest": "2026-11-20"
  },
  "settings": {
   "recent_days": 180,
@@ -57,22 +57,22 @@
  "chips": [
   {
    "word": "농약",
-   "count": 78,
+   "count": 79,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 67,
+   "count": 69,
    "type": "주제"
   },
   {
    "word": "작물보호제",
-   "count": 19,
+   "count": 20,
    "type": "주제"
   },
   {
    "word": "병해충",
-   "count": 17,
+   "count": 18,
    "type": "주제"
   },
   {
@@ -81,24 +81,24 @@
    "type": "기관·기업"
   },
   {
+   "word": "지침서",
+   "count": 14,
+   "type": "제도"
+  },
+  {
    "word": "벼",
    "count": 13,
    "type": "작물"
   },
   {
-   "word": "지침서",
-   "count": 13,
-   "type": "제도"
+   "word": "작물보호협회",
+   "count": 8,
+   "type": "기관·기업"
   },
   {
    "word": "화상병",
    "count": 7,
    "type": "병해충"
-  },
-  {
-   "word": "작물보호협회",
-   "count": 7,
-   "type": "기관·기업"
   },
   {
    "word": "잔류농약",
@@ -638,19 +638,19 @@
   "주제": [
    {
     "word": "농약",
-    "count": 78
+    "count": 79
    },
    {
     "word": "방제",
-    "count": 67
+    "count": 69
    },
    {
     "word": "작물보호제",
-    "count": 19
+    "count": 20
    },
    {
     "word": "병해충",
-    "count": 17
+    "count": 18
    },
    {
     "word": "잔류농약",
@@ -708,7 +708,7 @@
    },
    {
     "word": "작물보호협회",
-    "count": 7
+    "count": 8
    },
    {
     "word": "농촌진흥청",
@@ -754,7 +754,7 @@
   "제도": [
    {
     "word": "지침서",
-    "count": 13
+    "count": 14
    },
    {
     "word": "PLS",
