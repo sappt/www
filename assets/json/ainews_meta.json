@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-24 14:12 KST",
+ "updated": "2026-11-25 13:02 KST",
  "stats": {
-  "total": 441,
-  "visible": 172,
-  "hidden": 269,
-  "sources": 210,
+  "total": 443,
+  "visible": 173,
+  "hidden": 270,
+  "sources": 211,
   "oldest": "2026-02-10",
-  "newest": "2026-11-22"
+  "newest": "2026-11-24"
  },
  "settings": {
   "recent_days": 180,
@@ -57,12 +57,12 @@
  "chips": [
   {
    "word": "농약",
-   "count": 81,
+   "count": 82,
    "type": "주제"
   },
   {
    "word": "방제",
-   "count": 72,
+   "count": 73,
    "type": "주제"
   },
   {
@@ -127,7 +127,7 @@
   },
   {
    "word": "밀",
-   "count": 3,
+   "count": 4,
    "type": "작물"
   },
   {
@@ -158,7 +158,7 @@
    },
    {
     "word": "밀",
-    "count": 3
+    "count": 4
    },
    {
     "word": "토마토",
@@ -638,11 +638,11 @@
   "주제": [
    {
     "word": "농약",
-    "count": 81
+    "count": 82
    },
    {
     "word": "방제",
-    "count": 72
+    "count": 73
    },
    {
     "word": "작물보호제",
