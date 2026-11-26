@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-25 13:02 KST",
+ "updated": "2026-11-26 12:27 KST",
  "stats": {
-  "total": 443,
-  "visible": 173,
-  "hidden": 270,
+  "total": 446,
+  "visible": 175,
+  "hidden": 271,
   "sources": 211,
   "oldest": "2026-02-10",
-  "newest": "2026-11-24"
+  "newest": "2026-11-25"
  },
  "settings": {
   "recent_days": 180,
@@ -62,7 +62,7 @@
   },
   {
    "word": "방제",
-   "count": 73,
+   "count": 75,
    "type": "주제"
   },
   {
@@ -91,14 +91,14 @@
    "type": "제도"
   },
   {
+   "word": "화상병",
+   "count": 8,
+   "type": "병해충"
+  },
+  {
    "word": "작물보호협회",
    "count": 8,
    "type": "기관·기업"
-  },
-  {
-   "word": "화상병",
-   "count": 7,
-   "type": "병해충"
   },
   {
    "word": "잔류농약",
@@ -132,7 +132,7 @@
   },
   {
    "word": "토마토",
-   "count": 3,
+   "count": 4,
    "type": "작물"
   },
   {
@@ -162,7 +162,7 @@
    },
    {
     "word": "토마토",
-    "count": 3
+    "count": 4
    },
    {
     "word": "배추",
@@ -528,7 +528,7 @@
   "병해충": [
    {
     "word": "화상병",
-    "count": 7
+    "count": 8
    },
    {
     "word": "선충",
@@ -642,7 +642,7 @@
    },
    {
     "word": "방제",
-    "count": 73
+    "count": 75
    },
    {
     "word": "작물보호제",
