@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-26 12:27 KST",
+ "updated": "2026-11-27 12:34 KST",
  "stats": {
-  "total": 446,
-  "visible": 175,
+  "total": 448,
+  "visible": 177,
   "hidden": 271,
   "sources": 211,
   "oldest": "2026-02-10",
-  "newest": "2026-11-25"
+  "newest": "2026-11-26"
  },
  "settings": {
   "recent_days": 180,
@@ -62,12 +62,12 @@
   },
   {
    "word": "방제",
-   "count": 75,
+   "count": 76,
    "type": "주제"
   },
   {
    "word": "작물보호제",
-   "count": 20,
+   "count": 21,
    "type": "주제"
   },
   {
@@ -81,18 +81,18 @@
    "type": "기관·기업"
   },
   {
+   "word": "지침서",
+   "count": 15,
+   "type": "제도"
+  },
+  {
    "word": "벼",
    "count": 14,
    "type": "작물"
   },
   {
-   "word": "지침서",
-   "count": 14,
-   "type": "제도"
-  },
-  {
    "word": "화상병",
-   "count": 8,
+   "count": 9,
    "type": "병해충"
   },
   {
@@ -528,7 +528,7 @@
   "병해충": [
    {
     "word": "화상병",
-    "count": 8
+    "count": 9
    },
    {
     "word": "선충",
@@ -642,11 +642,11 @@
    },
    {
     "word": "방제",
-    "count": 75
+    "count": 76
    },
    {
     "word": "작물보호제",
-    "count": 20
+    "count": 21
    },
    {
     "word": "병해충",
@@ -754,7 +754,7 @@
   "제도": [
    {
     "word": "지침서",
-    "count": 14
+    "count": 15
    },
    {
     "word": "PLS",
